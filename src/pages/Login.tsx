@@ -7,7 +7,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex min-h-screen bg-white">
+    <div className="flex h-[90vh] bg-white">
       {/* Left Side */}
       <div className="flex flex-col  items-start w-1/2 px-16 ">
         {/* Logo and Tagline */}
@@ -16,13 +16,14 @@ const Login = () => {
             askwhy<span className="text-[#D22B8A]">?</span>
           </h1> */}
           <img src="/logo.svg"/>
-          <p className="text-[#5E2B9D] text-lg mt-1">
-            Bridging minds, one question at a time.
-          </p>
+          <p className="text-[#5E2B9D] text-[20px] font-normal leading-[100%] mt-1 font-gabarito">
+  Bridging minds, one question at a time.
+</p>
+
         </div>
 
         {/* Welcome Section */}
-        <div className="w-full max-w-sm space-y-6">
+        <div className="w-full max-w-sm py-32 space-y-6">
 
           {/* Email */}
           <div className="space-y-2">
@@ -58,7 +59,7 @@ const Login = () => {
 
           {/* Login Button */}
           <Button
-            className="w-full bg-[#FF8C42] hover:bg-[#ff9f66] text-white text-base py-3 rounded-md"
+            className="w-[50%] bg-[#FF8C42] hover:bg-[#ff9f66] text-white text-base py-3 rounded-md"
             onClick={() => navigate("/dashboard")}
           >
             Login →

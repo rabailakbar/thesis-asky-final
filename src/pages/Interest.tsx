@@ -1,10 +1,10 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useSearchParams} from "react-router-dom";
+import { useNavigate, useSearchParams} from "react-router-dom";
 import { useState } from "react";
 import OpeningModal from "@/components/OpeningModal";
-import { ClosingModal } from "@/components/ClosingModal";
-import ModuleHeader from "@/components/ModuleHeader";
+import { Clock } from "lucide-react";
+
 
 
 
@@ -71,7 +71,7 @@ const Interest = () => {
         : `/module?id=${nextModule}&name=${nextModuleName}&phase=Phase ii`;
 
     return (
-      <ClosingModal nextPath={nextPath} moduleId={moduleId} />
+      <ClosingModal  />
     );
   }
 
@@ -79,25 +79,25 @@ const Interest = () => {
 
   // Module 1: Topic Voting - UPDATED UI
   return (
-    <div className="min-h-screen p-6 rounded-[24px]" style={{ backgroundColor: '#F8F1E7' }}>
+    <div className="h-[90vh] px-24 rounded-[24px]" style={{ backgroundColor: '#F8F1E7' }}>
       <OpeningModal showIntroModal={showIntroModal} moduleId={moduleId} setShowIntroModal={setShowIntroModal} />
       <div className={` px-4 transition-all duration-300 ${showIntroModal ? "blur-sm pointer-events-none" : ""}`}>
 
         {/* Header - Horizontal Layout */}
-        <ModuleHeader src={"/m1.2.svg"} selectedCount={selectedCount} />
+        <ModuleHeader  />
 
 
-        {/* Topics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div><h1 className="text-[black] text-center text-[24px]">Click to narrow down your interests</h1></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
           {topics.map((topic) => (
             <Card
               key={topic.id}
-              className="p-5 bg-white border-gray-200 hover:shadow-md transition-shadow flex flex-col items-center justify-center text-center"
+              className="p-4 bg-white border-gray-200 hover:shadow-md transition-shadow flex flex-col items-center justify-center text-center"
             >
               {/* Category Tag */}
-              <div className="mb-3">
+              <div >
                 <span
-                  className="inline-block px-1 py-1 text-xs font-medium rounded-[21px]"
+                  className="inline-block p-1 text-xs font-normal rounded-[21px]"
                   style={{
                     backgroundColor: '#E9D5FF',
                     color: 'black',
@@ -109,27 +109,27 @@ const Interest = () => {
 
               {/* Title */}
               <h3
-                className="font-normal text-[20px] leading-[100%] text-center text-gray-900 mt-4 min-h-[2.5rem]"
+                className="font-normal text-[16px] leading-[100%] text-center text-gray-900 my-2 "
               >
                 {topic.title}
               </h3>
 
 
               {/* Buttons */}
-              <div className="flex gap-2 w-full">
+              <div className="flex gap-8 w-full items-center justify-center">
                 <Button
                   variant={topic.voted === "interested" ? "default" : "outline"}
                   size="sm"
-                  className="flex-1  font-normal text-[17px] leading-[100%] tracking-[0] text-center bg-[#F1F5F9] text-[#1E1E2F] gap-2"
+                  className="px-10 font-normal text-[12px] leading-[100%] tracking-[0] text-center bg-[#F1F5F9] text-[#1E1E2F] gap-2"
                   onClick={() => handleVote(topic.id, "interested")}
                 >
-                  <img src={"/like.svg"} className="w-3.5 h-3.5 mr-1.5" />
+                  <img src={"/like.svg"} className="w-1.75 h-1.75 mr-1.5" />
                   Interested
                 </Button>
                 <Button
                   variant={topic.voted === "not-interested" ? "default" : "outline"}
                   size="sm"
-                  className="flex-1 font-normal text-[17px] leading-[100%] tracking-[0] text-center bg-[#F1F5F9] text-[#1E1E2F] gap-2"
+                  className=" px-10 font-normal text-[12px] leading-[100%] tracking-[0] text-center bg-[#F1F5F9] text-[#1E1E2F] gap-2"
                   onClick={() => handleVote(topic.id, 'not-interested')}
                 >
                   <img src="/dislike.svg" alt="dislike" />
@@ -147,3 +147,111 @@ const Interest = () => {
 };
 
 export default Interest;
+
+const ModuleHeader = () => {
+  return (
+      <>
+          <div className="  pt-12 mb-4">
+              <div className="flex items-center justify-between">
+                  {/* Left side: Icon + Module Info */}
+                  <div className="flex items-center gap-8">
+                      {/* Puzzle Icon */}
+                      <div className="w-24 h-24 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+                          <img
+                              src={"/m3.svg"}
+                              alt="Module 1"
+                              className="w-24 h-24 object-contain"
+                          />
+                      </div>
+
+                      {/* Module Info */}
+                      <div>
+                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+Fake or fact</h1>
+
+<p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+Is everything not real?!
+</p>
+
+
+                          <div className="flex items-center gap-4 text-[#201E1C]">
+                              <Clock className="w-[33px] h-[33px]" />
+                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
+02:00
+</span>
+
+                          </div>
+
+                      </div>
+                  </div>
+
+                  {/* Right side: Counter */}
+                  <div className="text-right">
+                      <div className="text-3xl font-bold text-gray-900">/7</div>
+                  </div>
+              </div>
+          </div>
+
+          {/* Instructions */}
+          
+      </>)
+}
+
+const ClosingModal = () => {
+
+  const navigate = useNavigate();
+
+
+  return (
+<div className="h-[90vh] flex items-start justify-center rounded-[24px] pt-24" style={{ backgroundColor: '#F8F1E7' }}>
+              <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl shadow-sm  text-center">
+
+              {/* Module Completion Header */}
+              <div className="flex items-center justify-center gap-4 mb-6">
+                  
+                  <div className="text-left">
+                  <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
+  Module 4: Complete
+</h1>
+
+
+<p className="text-black font-normal text-[18px] leading-[100%] mt-1">
+✓ 7/7 Score interests narrowed!
+</p>
+
+                  </div>
+              </div>
+
+              {/* Score Circle */}
+              <div className="mt-10 mb-10">
+              <p className="text-center text-[black] font-normal text-[18px] leading-[100%] mb-8">
+Your new score is
+</p>
+
+                  {/* Gradient border circle */}
+                  <div className="mx-auto w-48 h-48 rounded-full  p-[24px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
+<div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
+  –
+</div>
+</div>
+
+
+<p className="mt-16 text-center text-black font-normal text-[24px] leading-[100%]">
+We’ll start calculating from the next module…
+</p>
+
+              </div>
+
+
+              {/* Next Module Button */}
+              <Button
+                  size="lg"
+                  onClick={() => navigate(`/M5`)}
+                  className="mt-6 px-8 py-2 rounded-md bg-[#FF9348] hover:bg-[#6D28D9] text-white text-base"
+              >
+                  Next Module →
+              </Button>
+          </div>
+      </div>
+  );
+} 
