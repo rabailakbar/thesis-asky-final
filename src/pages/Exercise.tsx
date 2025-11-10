@@ -309,7 +309,7 @@ const CustomPhotoOverlay = (
     <div className="min-h-screen bg-[#F8F1E7] flex items-center justify-center p-16  rounded-[24px] shadow-sm">
       <OpeningModal showIntroModal={showIntroModal} moduleId={moduleId} setShowIntroModal={setShowIntroModal} />
       <div className="max-w-7xl w-full ">
-        {/* <ModuleHeader  /> */}
+       <ModuleHeader  /> 
 
         <div className="flex justify-end gap-2 mb-8 text-gray-700">
           <span>
@@ -324,9 +324,8 @@ const CustomPhotoOverlay = (
         <h2 className="text-center text-lg font-medium text-gray-700 mb-8">Click to like and save!</h2>
 
         <ColumnsPhotoAlbum
-        spacing={8}
+        spacing={10}
   photos={photos}
-  defaultContainerWidth={600}
   render={{ photo: CustomPhotoOverlay }}
   columns={(containerWidth) => {
     if (containerWidth < 500) return 2;
@@ -344,30 +343,53 @@ const CustomPhotoOverlay = (
 }
 
 
-{/* <ColumnsPhotoAlbum
-spacing={8}
-photos={photos}
-columns={(containerWidth) => {
-if (containerWidth < 500) return 2;
-if (containerWidth < 900) return 3;
-if (containerWidth < 1200) return 4;
-return 4;
+const ModuleHeader = () => {
+    return (
+        <>
+            <div className="  pt-6 mb-2">
+                <div className="flex items-center justify-between">
+                    {/* Left side: Icon + Module Info */}
+                    <div className="flex items-center gap-8">
+                        {/* Puzzle Icon */}
+                        <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+                            <img
+                                src={"/characterm.svg"}
+                                alt="Module 1"
+                                className="w-25  object-contain"
+                            />
+                        </div>
+  
+                        {/* Module Info */}
+                        <div>
+                        <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+  Fake or fact</h1>
+  
+  <p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+  Is everything not real?!
+  </p>
+  
+  
+                            <div className="flex items-center gap-4 text-[#201E1C]">
+<img src={"/clocl.svg"} />
 
-}} */}
-{/* <ColumnsPhotoAlbum
-spacing={8}
-photos={photos}
-columns={(containerWidth) => {
-if (containerWidth < 500) return 2;
-if (containerWidth < 900) return 3;
-if (containerWidth < 1200) return 4;
-return 4;
+                                <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
+  02:00
+  </span>
+  
+                            </div>
+  
+                        </div>
+                    </div>
+  
+                    {/* Right side: Counter */}
+                    <div className="text-right">
+                        <div className="text-3xl font-bold text-gray-900">/7</div>
+                    </div>
+                </div>
+            </div>
+  
+            {/* Instructions */}
+            
+        </>)
+  }
 
-}}
-
-
-
-render={{ photo: CustomPhotoOverlay }}
-
-
-/> */}

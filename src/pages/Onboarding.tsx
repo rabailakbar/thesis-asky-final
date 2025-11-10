@@ -1,7 +1,8 @@
-"use client";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SplitText from "@/components/animations/SplitText";
+
 export default function Onboarding() {
   const [step, setStep] = useState(0);
   const navigate = useNavigate();
@@ -26,10 +27,10 @@ export default function Onboarding() {
   };
 
   return (
-    <>
+    <div className="h-[100vh]">
       {/* STEP 0 */}
       {step === 0 && (
-        <div className="flex justify-center items-center bg-[#F8F1E7] h-[90vh]">
+        <div className="h-[100vh] flex justify-center items-center bg-[#F8F1E7] ">
           <SplitText
             text="hello, you!"
             className="text-[84px] font-bold text-black text-center"
@@ -39,52 +40,91 @@ export default function Onboarding() {
             splitType="chars"
             from={{ opacity: 0, y: 40 }}
             to={{ opacity: 1, y: 0 }}
-            threshold={0.1}
-            rootMargin="-100px"
-            textAlign="center"
             onLetterAnimationComplete={handleAnimationComplete}
           />
         </div>
       )}
 
       {/* STEP 1 */}
-      {step === 1 && (
-        <div className="flex">
-          <div className="flex justify-center items-center bg-[#F8F1E7] h-[90vh] w-1/2">
+      {/* {step === 1 && (
+        <div className="h-[100vh] flex">
+          <div className="flex justify-center items-center bg-[#F8F1E7] w-1/2">
             <h1 className="text-[84px] font-bold text-black">Is your world</h1>
           </div>
-          <div className="flex justify-center items-center bg-white h-[90vh] w-1/2"></div>
+          <div className="flex justify-center items-center bg-white w-1/2"></div>
         </div>
-      )}
+      )} */}
 
       {/* STEP 2 */}
-      {step === 2 && (
-        <div className="flex">
-          <div className="flex justify-center items-center bg-[#F8F1E7] h-[90vh] w-1/2">
-            <h1 className="text-[84px] font-bold text-black">Is your world</h1>
-          </div>
-          <div className="flex justify-center items-center bg-black h-[90vh] w-1/2">
-            <h1 className="text-[84px] text-[#F8F1E7] font-bold">
-              divided in two
-            </h1>
-          </div>
-        </div>
-      )}
+      {/* STEP 2 */}
+{step === 2 && (
+  <div className="h-[100vh] flex overflow-hidden">
+    {/* Left Column (slides up first) */}
+    <motion.div
+      className="h-[100vh] flex justify-center items-center bg-[#F8F1E7] w-1/2"
+      initial={{ y: "100%", opacity: 0 }}
+      animate={{ y: "0%", opacity: 1 }}
+      transition={{ duration: 1.5, ease: "easeOut" }}
+    >
+      <motion.h1
+        className="text-[84px] font-bold text-black"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.6 }}
+      >
+        Is your world
+      </motion.h1>
+    </motion.div>
+
+    {/* Right Column (slides down after left finishes) */}
+    <motion.div
+      className="h-[100vh] flex justify-center items-center bg-black w-1/2"
+      initial={{ y: "-100%", opacity: 0 }}
+      animate={{ y: "0%", opacity: 1 }}
+      transition={{ delay: 1.0, duration: 0.8, ease: "easeOut" }}
+    >
+      <motion.h1
+        className="text-[84px] text-[#F8F1E7] font-bold"
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.6, duration: 0.6 }}
+      >
+        divided in two
+      </motion.h1>
+    </motion.div>
+  </div>
+)}
+
 
       {/* STEP 3 */}
       {step === 3 && (
-        <div className="relative flex items-center justify-start h-[90vh] overflow-hidden">
-          {/* Background stripes */}
+        <div className="h-[100vh] relative flex items-center justify-start overflow-hidden bg-white">
+          {/* Background stripes with animation */}
           <div className="absolute inset-0 flex">
-            <div className="w-1/9 bg-[#FEFCFA]" />
-            <div className="w-1/9 bg-[#FCF9F5]" />
-            <div className="w-1/9 bg-[#FBF7F1]" />
-            <div className="w-1/9 bg-[#F9F4EC]" />
-            <div className="w-1/9 bg-[#F8F1E7]" />
-            <div className="w-1/9 bg-[#C6C1B9]" />
-            <div className="w-1/9 bg-[#95918B]" />
-            <div className="w-1/9 bg-[#63605C]" />
-            <div className="w-1/9 bg-[#32302E]" />
+            {[
+              "#FEFCFA",
+              "#FCF9F5",
+              "#FBF7F1",
+              "#F9F4EC",
+              "#F8F1E7",
+              "#C6C1B9",
+              "#95918B",
+              "#63605C",
+              "#32302E",
+            ].map((color, index) => (
+              <motion.div
+                key={color}
+                className="flex-1 h-full"
+                style={{ backgroundColor: color }}
+                initial={{ y: "-100%" }}            
+                animate={{ y: "0%" }}               
+                transition={{
+                  duration: 0.8,
+                  ease: "easeOut",
+                  delay: index * 0.1,               
+                }}
+              />
+            ))}
           </div>
 
           {/* Text content */}
@@ -101,6 +141,6 @@ export default function Onboarding() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

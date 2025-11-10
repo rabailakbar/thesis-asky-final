@@ -295,17 +295,22 @@ const InTheirShoes = () => {
 
         {/* Scenario Title */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-semibold text-gray-900">Scenario #1</h2>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Scenario 1</h3>
         </div>
 
       
-        <div className="flex justify-center items-center bg-[#F9F4EC]">
-  <div className="flex flex-col justify-center items-center max-w-4xl w-full px-6 text-center">
+        <div className="flex justify-center items-center ">
+  <div className="flex flex-col justify-center items-center max-w-4xl w-full px-6 ">
     {/* Question Section */}
-    <h3 className="text-xl font-semibold text-gray-900 mb-4">Question 1</h3>
-    <p className="text-gray-800 mb-8 leading-relaxed">
+    <div className="flex justify-center items-center gap-2">
+      <p className="text-[#FF9348] text-[60px]">
+        Q1
+      </p>
+    <p className="  leading-relaxed">
+<span className="">Approach </span><br/>
       What's the most mindful next move that helps you engage with nuance rather than fuel the divide?
     </p>
+    </div>
 
     {/* Image */}
     <img
@@ -327,7 +332,7 @@ const InTheirShoes = () => {
         }`}
       >
         <div className="flex flex-col items-start gap-3">
-          <span className="flex items-center justify-center w-8 h-8 bg-[white] text-black rounded-2xl font-normal">
+          <span className="flex items-center justify-center text-[1.25vw] w-8 h-8 bg-[white] text-black rounded-2xl font-normal">
             A
           </span>
           <p className="text-sm text-gray-800 text-left leading-relaxed">

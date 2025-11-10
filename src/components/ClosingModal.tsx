@@ -26,7 +26,7 @@ export const ClosingModal = (props: any) => {
                     <div className="text-left">
                     <h1 className="font-normal text-[67px] leading-none text-black whitespace-nowrap text-center mb-2"
 >
-  {`Module ${props.moduleId.replace("M", "")}: Complete`}
+  {`Module M1: Complete`}
 </h1>
 
 <p className="text-black font-normal text-[25px] leading-[100%] mt-1">
@@ -60,7 +60,7 @@ export const ClosingModal = (props: any) => {
                 {/* Next Module Button */}
                 <Button
                     size="lg"
-                    onClick={() => navigate(props.nextPath)}
+                    onClick={() => navigate("/new")}
                     className="mt-6 px-8 py-3 rounded-md bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-base"
                 >
                     Next Module →

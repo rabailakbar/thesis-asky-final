@@ -21,19 +21,19 @@ const OpeningModal = (props:any)=>{
                     {/* Header with Icon */}
                     <div className="flex items-start gap-4 mb-6">
                       {/* Puzzle Icon */}
-                      <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 bg-cyan-400/10">
+                      <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
           <img
-            src="/m1.png"
+            src="/opening1.svg"
             alt="Module 1"
-            className="w-16 h-16 object-contain"
+            className="w-18 h-18 object-contain"
           />
         </div>
         
                       
                       {/* Title */}
                       <div>
-                      <div className="text-[#D0193E] text-[33px] font-bold ">Phase I</div>
-                      <h2 className="text-[33px] font-bold text-black">Module {props.moduleId.split()[0]}: Find your vibe</h2>
+                      <div className="text-[#5F237B] text-[24px] font-semibold ">Phase I</div>
+                      <h2 className="text-[24px] font-bold text-black">Module {props.moduleId.split()[0]}: Find your vibe</h2>
                       </div>
                     </div>
         
@@ -46,7 +46,7 @@ const OpeningModal = (props:any)=>{
                     </div>
         
                     {/* Description */}
-                    <p className="text-[#1E1E2F] font-lato font-normal text-[20px] leading-[150%] tracking-[0] mb-6">
+                    <p className="text-[#1E1E2F] font-lato font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
                         In this module, students will filter out content for themselves. From a pool of 50 topics, 
                         they are supposed to narrow down 15 by simply clicking on the 
                   <span className="font-semibold"> ‘Interested’ </span>
@@ -58,15 +58,18 @@ const OpeningModal = (props:any)=>{
         
                     {/* Info Badges */}
                     <div className="flex items-center gap-4 mb-6 text-sm">
+                   
                     <div className="flex items-center gap-2 text-[#1E1E2F] px-3 py-1.5 rounded-full font-[400] text-[18px] leading-[100%] tracking-[0]">
+  <img src={"/I_1b.svg"} />
   Beginner Level
 </div>
 
                       <div className="flex items-center gap-2 text-[#1E1E2F]-600">
-                        <Clock className="w-4 h-4 " />
+                        <img src={"/clocl.svg"} className="w-4 h-4 " />
                         <span>02:00</span>
                       </div>
-                      <div className="text-[#1E1E2F]-500 ">
+                      <div className=" flex justify-center items-center gap-2 text-[#1E1E2F]-500 ">
+          <img src={"/star.svg"}/>
                         Score is not being calculated in this module
                       </div>
                     </div>

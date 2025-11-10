@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Star, ThumbsUp, Clock, Play, CheckCircle, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import ModuleHeader from "./ModuleHeader";
+import TargetCursor from "./animations/TargetCursor";
 interface BiasQuizProps {
   imageUrl: string;
   headline: string;
@@ -362,8 +363,8 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete }: BiasQuizPr
     );
   }
 
-  return (
-<div className="h-[90vh] p-8 bg-[#F8F1E7]">
+  return (<div className="p-6">
+<div className="h-[90vh] px-24 p-8 bg-[#F8F1E7]">
 <ModuleHeader/>
 
       
@@ -400,7 +401,7 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete }: BiasQuizPr
             </p>
           
           {/* Headline text box - Exact match to image */}
-          <Card className="p-4 w-[80%] mx-auto bg-[#FFFEF2] flex flex-col items-center border border-[#C6C1B9] border-dashed rounded-[13px]">
+          <Card className="p-4 w-[80%] mx-auto bg-[#EDE1D0] flex flex-col items-center border border-[#C6C1B9] border-dashed rounded-[13px]">
             
            
             
@@ -467,58 +468,13 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete }: BiasQuizPr
         </div>
       </div>
     </div>
+    </div>
   );
 };
 
 export default BiasQuiz;
 
-const ModuleHeader = () => {
-  return (
-      <>
-          <div className=" px-24 pt-6 mb-4">
-              <div className="flex items-center justify-between">
-                  {/* Left side: Icon + Module Info */}
-                  <div className="flex items-center gap-8">
-                      {/* Puzzle Icon */}
-                      <div className="w-28 h-28 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-                          <img
-                              src={"/m3.svg"}
-                              alt="Module 1"
-                              className="w-28 h-28 object-contain"
-                          />
-                      </div>
 
-                      {/* Module Info */}
-                      <div>
-                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-                      Spot the Bias</h1>
-
-<p className="font-normal text-[18px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-What is words echo louder than actions?</p>
-
-
-                          <div className="flex items-center gap-4 text-[#201E1C]">
-                              <Clock className="w-[33px] h-[33px]" />
-                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
-02:00
-</span>
-
-                          </div>
-
-                      </div>
-                  </div>
-
-                  {/* Right side: Counter */}
-                  <div className="text-right">
-                      <div className="text-3xl font-bold text-gray-900">/7</div>
-                  </div>
-              </div>
-          </div>
-
-          {/* Instructions */}
-          
-      </>)
-}
 
 
  

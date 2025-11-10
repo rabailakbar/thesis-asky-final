@@ -7,7 +7,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex h-[100vh] bg-white">
+    <div className="flex h-[100vh] bg-white overflow-hidden">
       {/* Left Side */}
       <div className="flex flex-col  items-start w-1/2 p-24 ">
         {/* Logo and Tagline */}

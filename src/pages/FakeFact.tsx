@@ -183,11 +183,12 @@ console.log(currentQuestionIndex===3)
 
     
   return (
-    <div className="bg-[#F8F1E7] h-[90vh] overflow-hidden flex flex-col">
+    <div className="p-6 ">
+    <div className="bg-[#F8F1E7] px-24 h-[90vh] overflow-hidden flex flex-col">
       <ModuleHeader />
   
       {currentQuestionIndex < totalQuestions && (
-        <h2 className="text-2xl text-center mb-6 font-medium">Click to identify which one is fake</h2>
+        <h2 className="text-2xl text-center mb-6  font-medium">Click to identify which one is fake</h2>
       )}
   
       <div className="flex-1 flex items-start justify-center">
@@ -434,34 +435,36 @@ console.log(currentQuestionIndex===3)
   
         {/* Completion screen */}
         {currentQuestionIndex >= totalQuestions && !isM4Module && (
-          <div className="h-screen flex items-center justify-center">
-            <Card className="w-[80vw] h-[80vh] flex flex-col items-center justify-center bg-[#F8F1E7] shadow-lg rounded-3xl">
-              <div className="flex items-center gap-6 mb-8">
-                <img src="/m1end.png" alt="Module 3 Complete" className="w-24 h-24 object-contain" />
-                <div>
-                  <h1 className="text-3xl font-bold">Module 3 : Complete</h1>
-                  <p className="text-sm text-muted-foreground">4/4 Likes · 2/2 Saves</p>
-                </div>
-              </div>
+          // <div className="h-screen flex items-center justify-center">
+          //   <Card className="w-[80vw] h-[80vh] flex flex-col items-center justify-center bg-[#F8F1E7] shadow-lg rounded-3xl">
+          //     <div className="flex items-center gap-6 mb-8">
+          //       <img src="/m1end.png" alt="Module 3 Complete" className="w-24 h-24 object-contain" />
+          //       <div>
+          //         <h1 className="text-3xl font-bold">Module 3 : Complete</h1>
+          //         <p className="text-sm text-muted-foreground">4/4 Likes · 2/2 Saves</p>
+          //       </div>
+          //     </div>
   
-              <div className="text-center">
-                <p className="text-lg mb-4">Your new score is</p>
-                <CircularProgress percentage={95} size={220} strokeWidth={16} />
-                <p className="mt-4 text-gray-700">
-                  Yikes, <span className="font-bold text-[hsl(var(--success))]">{95 + 3}% polarization</span>!  
-                  Lower the score, lower the polarization — and that’s how you win!
-                </p>
-              </div>
+          //     <div className="text-center">
+          //       <p className="text-lg mb-4">Your new score is</p>
+          //       <CircularProgress percentage={95} size={220} strokeWidth={16} />
+          //       <p className="mt-4 text-gray-700">
+          //         Yikes, <span className="font-bold text-[hsl(var(--success))]">{95 + 3}% polarization</span>!  
+          //         Lower the score, lower the polarization — and that’s how you win!
+          //       </p>
+          //     </div>
   
-              <div className="mt-8">
-                <Button size="lg" onClick={() => navigate(`/module/M4`)} className="px-14 text-lg shadow-md">
-                  Next Module →
-                </Button>
-              </div>
-            </Card>
-          </div>
+          //     <div className="mt-8">
+          //       <Button size="lg" onClick={() => navigate(`/module/M4`)} className="px-14 text-lg shadow-md">
+          //         Next Module →
+          //       </Button>
+          //     </div>
+          //   </Card>
+          // </div>
+          <ClosingModal/>
         )}
       </div>
+    </div>
     </div>
   )
   
@@ -476,52 +479,53 @@ import { TooltipMarker } from "@/components/TooltipMarker";
 
 
 const ModuleHeader = () => {
-    return (
-        <>
-            <div className=" px-24 pt-16 mb-4">
-                <div className="flex items-center justify-between">
-                    {/* Left side: Icon + Module Info */}
-                    <div className="flex items-center gap-8">
-                        {/* Puzzle Icon */}
-                        <div className="w-32 h-32 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-                            <img
-                                src={"/m3.svg"}
-                                alt="Module 1"
-                                className="w-32 h-32 object-contain"
-                            />
-                        </div>
+  return (
+      <>
+          <div className="  pt-6 mb-2">
+              <div className="flex items-center justify-between">
+                  {/* Left side: Icon + Module Info */}
+                  <div className="flex items-center gap-8">
+                      {/* Puzzle Icon */}
+                      <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+                          <img
+                              src={"/characterm.svg"}
+                              alt="Module 1"
+                              className="w-25  object-contain"
+                          />
+                      </div>
 
-                        {/* Module Info */}
-                        <div>
-                        <h1 className="font-semibold text-[42px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+                      {/* Module Info */}
+                      <div>
+                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
 Fake or fact</h1>
 
-<p className="font-normal text-[24px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-  Is everything not real?!
+<p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+Is everything not real?!
 </p>
 
 
-                            <div className="flex items-center gap-4 text-[#201E1C]">
-                                <Clock className="w-[33px] h-[33px]" />
-                                <span className="font-normal text-[32px] leading-[100%] tracking-[0]">
-  02:00
+                          <div className="flex items-center gap-4 text-[#201E1C]">
+<img src={"/clocl.svg"} />
+
+                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
+02:00
 </span>
 
-                            </div>
+                          </div>
 
-                        </div>
-                    </div>
+                      </div>
+                  </div>
 
-                    {/* Right side: Counter */}
-                    <div className="text-right">
-                        <div className="text-3xl font-bold text-gray-900">/7</div>
-                    </div>
-                </div>
-            </div>
+                  {/* Right side: Counter */}
+                  <div className="text-right">
+                      <div className="text-3xl font-bold text-gray-900">/7</div>
+                  </div>
+              </div>
+          </div>
 
-            {/* Instructions */}
-            
-        </>)
+          {/* Instructions */}
+          
+      </>)
 }
 
 
@@ -535,6 +539,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import {  MessageCircle, Share2,  } from "lucide-react"
+import { ClosingModal } from "@/components/ClosingModal";
 
  function Question3Carousel({
   showResult,
