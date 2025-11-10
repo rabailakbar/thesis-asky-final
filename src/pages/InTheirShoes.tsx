@@ -167,7 +167,7 @@ const InTheirShoes = () => {
           {[...Array(6)].map((_, i) => (
             <CarouselItem
               key={i}
-              className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
+              className="cursor-pointer basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
               onClick={()=>setCurrentScreen("scenario")}
             >
               <RoleCard />
@@ -222,24 +222,32 @@ const InTheirShoes = () => {
           </div>
   
           {/* Scenario Section */}
-          <div className="flex items-center justify-between bg-[#FFF9F4] rounded-2xl shadow-sm p-10">
+          <div className="flex  justify-between rounded-2xl shadow-sm p-10">
             {/* Left: Character Image (using RoleCard) */}
             <div className="w-1/3 flex justify-center">
-              <RoleCard />
+            <img
+          src="/character1.svg" // Replace with your teacher image URL
+          alt="Teacher"
+         
+         
+          className="rounded-md w-[80%] h-full"
+        />
             </div>
   
             {/* Right: Scenario Text */}
-            <div className="w-2/3 flex flex-col items-center text-center px-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-3">
-                Scenario #1
-              </h2>
-              <p className="text-lg text-gray-800 leading-relaxed mb-8 max-w-lg">
+            <div className="w-2/3 flex flex-col   px-8">
+            <h2 className="text-[1.25vw] bg-white font-normal text-gray-900 mb-8 w-fit px-[16px] py-[4px] rounded-[40px]">
+  Scenario #1
+</h2>
+
+              <p className="text-[1.25vw] text-gray-800 leading-relaxed mb-8 max-w-lg">
                 You post a reel about gender equality. Overnight, your DMs explode
                 — some praise you as a feminist hero, others call you a
                 “man-hater.” Brand sponsors email, saying “keep it less
                 political.”
               </p>
-              <button className="bg-[#FF9348] text-white font-medium px-6 py-2 rounded-lg hover:opacity-90 transition">
+              <button onClick={()=>{setCurrentScreen("question")}}
+               className="bg-[#FF9348] w-[10vw] text-white font-medium px-6 py-2 rounded-lg hover:opacity-90 transition">
                 Next →
               </button>
             </div>
@@ -401,7 +409,7 @@ function RoleCard() {
       {/* Image */}
       <div className="flex justify-center mb-2">
         <img
-          src="/Teacher.svg" // Replace with your teacher image URL
+          src="/character1.svg" // Replace with your teacher image URL
           alt="Teacher"
           width={120}
           height={120}
