@@ -539,7 +539,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import {  MessageCircle, Share2,  } from "lucide-react"
-import { ClosingModal } from "@/components/ClosingModal";
+import  ClosingModal  from "@/components/ClosingModal";
 
  function Question3Carousel({
   showResult,

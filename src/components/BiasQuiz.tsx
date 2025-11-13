@@ -4,25 +4,26 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Star, ThumbsUp, Clock, Play, CheckCircle, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import ModuleHeader from "./ModuleHeader";
 import TargetCursor from "./animations/TargetCursor";
 interface BiasQuizProps {
   imageUrl: string;
   headline: string;
   questionNumber: number;
   onComplete?: () => void;
+  question?: any;
 }
 
-// Define biased words/phrases with difficulty levels
-const biasedPhrases = {
-  "lucky guesses": { difficulty: "medium", color: "#E9D5FF" },
-  "just the truth": { difficulty: "hard", color: "#E9D5FF" },
-  "hiding": { difficulty: "hard", color: "#E9D5FF" },
-  "plain sight": { difficulty: "hard", color: "#E9D5FF" },
-  "it's": { difficulty: "medium", color: "#E9D5FF" }
-};
 
-const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete }: BiasQuizProps) => {
+// Define biased words/phrases with difficulty levels
+
+const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question }: BiasQuizProps) => {
+  const biasedPhrases = {
+    [question.Keyword1]: { difficulty: "medium", color: "#E9D5FF" },
+    [question.Keyword2]: { difficulty: "hard", color: "#E9D5FF" },
+    [question.Keyword3]: { difficulty: "hard", color: "#E9D5FF" },
+  };
+  
+  console.log(question)
   const [selections, setSelections] = useState<{ indices: number[], phrase: string, color: string | null }[]>([]);
   const [currentSelection, setCurrentSelection] = useState<number[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -32,21 +33,26 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete }: BiasQuizPr
   const [quizComplete, setQuizComplete] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const headlineRef = useRef<HTMLDivElement>(null);
-
   // Split headline into words while preserving spaces and punctuation
-  const words = headline.split(/(\s+)/);
-
+  const words = question.Image_Text.split(/(\s+)/);
   // Timer effect
   useEffect(() => {
-    if (gameStarted && timeLeft > 0) {
-      const timer = setInterval(() => {
-        setTimeLeft(prev => prev - 1);
-      }, 1000);
-      return () => clearInterval(timer);
-    } else if (timeLeft === 0) {
-      setQuizComplete(true);
-    }
-  }, [gameStarted, timeLeft]);
+    if (!gameStarted) return;
+  
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setQuizComplete(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  
+    return () => clearInterval(timer);
+  }, [gameStarted]);
+
 
   const checkAndCommitPhrase = (indices: number[]) => {
     const sortedIndices = [...indices].sort((a, b) => a - b);
@@ -220,6 +226,9 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete }: BiasQuizPr
     }
   }, [selections.length, onComplete]);
 
+
+  
+
   if (showIntro) {
     return (
       <div className="min-h-screen flex items-center justify-center p-6" style={{ backgroundColor: '#F8F1E7' }}>
@@ -365,7 +374,7 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete }: BiasQuizPr
 
   return (<div className="p-6">
 <div className="h-[90vh] px-24 p-8 bg-[#F8F1E7]">
-<ModuleHeader/>
+<ModuleHeader time={timeLeft}/>
 
       
       <div className="max-w-6xl mx-auto">
@@ -388,7 +397,7 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete }: BiasQuizPr
     {/* Thumbnail */}
     <div className="rounded-lg overflow-hidden">
       <img
-        src={imageUrl}
+        src={`https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Module/${question?.Image_Code}`}
         alt={`Question ${questionNumber}`}
         className="w-[60%] h-[60%] object-cover mx-auto"
         />
@@ -473,6 +482,69 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete }: BiasQuizPr
 };
 
 export default BiasQuiz;
+
+
+
+
+
+
+
+
+
+const ModuleHeader = (props:any) => {
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+  return (
+      <>
+          <div className="  pt-6 mb-2">
+              <div className="flex items-center justify-between">
+                  {/* Left side: Icon + Module Info */}
+                  <div className="flex items-center gap-8">
+                      {/* Puzzle Icon */}
+                      <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+                          <img
+                              src={"/characterm.svg"}
+                              alt="Module 1"
+                              className="w-25  object-contain"
+                          />
+                      </div>
+
+                      {/* Module Info */}
+                      <div>
+                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+Fake or fact</h1>
+
+<p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+Is everything not real?!
+</p>
+
+
+                          <div className="flex items-center gap-4 text-[#201E1C]">
+<img src={"/clocl.svg"} />
+
+                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
+{formatTime(props.time)}
+</span>
+
+                          </div>
+
+                      </div>
+                  </div>
+
+                  {/* Right side: Counter */}
+                  <div className="text-right">
+                      <div className="text-3xl font-bold text-gray-900">/7</div>
+                  </div>
+              </div>
+          </div>
+
+          {/* Instructions */}
+          
+      </>)
+}
 
 
 

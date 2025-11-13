@@ -3,9 +3,12 @@ import { Button } from "@/components/ui/button";
 import { useNavigate, useSearchParams} from "react-router-dom";
 import { useState } from "react";
 import OpeningModal from "@/components/OpeningModal";
-import { Clock } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../store";
+import { addTopic, removeTopic, clearTopics } from "../store/topicsSlice";
 import ModuleHeader from "@/components/ModuleHeader";
 
+import { motion } from "framer-motion";
 
 interface Topic {
   id: number;
@@ -26,27 +29,35 @@ const Interest = () => {
 
   // Module 1 state
   const [topics, setTopics] = useState<Topic[]>([
-    { id: 1, category: "Entertainment", title: "Celebrity Influence & Drama", voted: null },
-    { id: 2, category: "Pop Culture", title: "Trends & Culture", voted: null },
-    { id: 3, category: "Health", title: "Health & Diseases", voted: null },
-    { id: 4, category: "Education", title: "Science & Research", voted: null },
-    { id: 5, category: "Politics", title: "Political News & Debates", voted: null },
-    { id: 6, category: "Sports", title: "Esports & Games", voted: null },
-    { id: 7, category: "Technology", title: "AI & Innovations", voted: null },
-    { id: 8, category: "Pop Culture", title: "Movie & Song Reviews", voted: null },
-    { id: 9, category: "Lifestyle", title: "Fashion & Trends", voted: null },
+    { id: 1, category: "Entertainment", title: "Blake Lively 'It Ends With Us' Controversy", voted: null },
+    { id: 2, category: "Pop Culture", title: "Gen z Vs Millennial's mental health", voted: null },
+    { id: 3, category: "Health", title: "Barbie Movie Oscar Nominations", voted: null },
+    { id: 4, category: "Education", title: "ChatGPT’s Ghibli Art Trend", voted: null },
+    { id: 5, category: "Politics", title: "AI & Job Displacement", voted: null },
+    { id: 6, category: "Sports", title: "Covid-19 Vaccine & Billgate’s Predictions", voted: null },
+    { id: 7, category: "Technology", title: "Simpson’s Predictions of the real world ", voted: null },
+    { id: 8, category: "Pop Culture", title: "Space Technology: 31/Atlas", voted: null },
+    { id: 9, category: "Lifestyle", title: "College Degrees: Yes or No?", voted: null },
   ]);
 
   // Module 2 state - Static grid items
-
-
+  const dispatch = useDispatch<AppDispatch>();
+const topic = useSelector((state:RootState)=>state.topics.topics)
   const selectedCount = topics.filter(t => t.voted === "interested").length;
-
-  const handleVote = (id: number, vote: "interested" | "not-interested") => {
+console.log("checkk",topic)
+  const handleVote = (id: number, vote: "interested" | "not-interested",title:string) => {
+    
+    if(vote=="interested"){
+      dispatch(addTopic(id))
+    } else if (vote==="not-interested"){
+      dispatch(removeTopic(id))
+    }
     setTopics(prev => {
       const updated = prev.map(topic =>
         topic.id === id ? { ...topic, voted: vote } : topic
       );
+     
+
       const newCount = updated.filter(t => t.voted === "interested").length;
       if (newCount >= 7) {
         setTimeout(() => setIsComplete(true), 500);
@@ -58,18 +69,20 @@ const Interest = () => {
 
   const [showIntroModal, setShowIntroModal] = useState(true);
 
-  if (isComplete) {
-    const nextModule = moduleId === "M1" ? "M2" : "M3";
-    const nextModuleName = moduleId === "M1" ? "myworld" : "Next Module";
-    const nextPath =
-      moduleId === "M1"
-        ? `/exercise`
-        : `/module?id=${nextModule}&name=${nextModuleName}&phase=Phase ii`;
 
+  if (isComplete) {
     return (
-      <ClosingModal  />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 40 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+      >
+        <ClosingModal />
+      </motion.div>
     );
   }
+  
 
 
 
@@ -112,7 +125,7 @@ const Interest = () => {
             {/* Interested Button */}
             <Button
               size="sm"
-              onClick={() => handleVote(topic.id, "interested")}
+              onClick={() => handleVote(topic.id, "interested",topic.title)}
               className={`px-10 font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 
                 ${
                   topic.voted === "interested"
@@ -127,7 +140,7 @@ const Interest = () => {
             {/* Not Interested Button */}
             <Button
               size="sm"
-              onClick={() => handleVote(topic.id, "not-interested")}
+              onClick={() => handleVote(topic.id, "not-interested",topic.title)}
               className={`px-10 font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 
                 ${
                   topic.voted === "not-interested"
@@ -160,7 +173,8 @@ const ClosingModal = () => {
 
 
   return (
-<div className="h-[90vh] flex items-start justify-center rounded-[24px] pt-24" style={{ backgroundColor: '#F8F1E7' }}>
+    <div className="p-8">
+<div className="h-[90vh] flex items-start justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
               <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl shadow-sm  text-center">
 
               {/* Module Completion Header */}
@@ -184,31 +198,24 @@ const ClosingModal = () => {
               </div>
 
               {/* Score Circle */}
-              <div className="mt-10 mb-10">
-              <p className="text-center text-[black] font-normal text-[18px] leading-[100%] mb-8">
-Your new score is
-</p>
-
-                  {/* Gradient border circle */}
-      
-
-
-<p className="mt-16 text-center text-black font-normal text-[24px] leading-[100%]">
-We’ll start calculating from the next module…
-</p>
+              <div className="mt-10 mb-10 flex justify-center items-center">
+<img src={"/closingg.svg"} className="h-[35vh]" />
 
               </div>
 
-
+<div>
+Yikes, 98% polarization! But that’s what we’re here for — to unpack it, learn, and bring the number down together. Lower the score, lower the polarization.... and that's how you win!
+</div>
               {/* Next Module Button */}
               <Button
                   size="lg"
                   onClick={() => navigate(`/exercise`)}
-                  className="mt-6 px-8 py-2 rounded-md bg-[#FF9348] hover:bg-[#6D28D9] text-white text-base"
+                  className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
               >
                   Next Module →
               </Button>
           </div>
+      </div>
       </div>
   );
 } 

@@ -179,7 +179,8 @@ const DebateSwitch = () => {
   }
 
   return (
-    <main className="h-[90vh] bg-[#F8F1E7] flex flex-col">
+   <div className="p-8">
+    <main className="h-[90vh] px-24 bg-[#F8F1E7] flex flex-col">
       {/* Header Section */}
       <ModuleHeader />
   
@@ -194,12 +195,12 @@ const DebateSwitch = () => {
       </div>
   
       {/* Red Banner */}
-      <div className="bg-[#5F237B] rounded-tl-3xl text-white text-center py-2 px-6 mb-6 ml-16">
+      <div className="bg-[#5F237B] rounded-tl-3xl text-white text-center py-2 px-6 mb-6 ">
         <p className="text-xl font-medium">{DEBATE_TOPIC}</p>
       </div>
   
       {/* Debate Row — this now fills all remaining vertical space */}
-      <div className="flex justify-between flex-grow px-12 items-stretch">
+      <div className="flex justify-between flex-grow gap-18 px-8 items-stretch">
   {/* Opponent Side */}
   <div className="flex items-stretch gap-6 text-center">
     <div className="flex flex-col justify-end">
@@ -212,7 +213,7 @@ const DebateSwitch = () => {
     </div>
 
     {/* Opponent Argument */}
-    <div className="bg-[#EDE1D0] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[280px] flex items-center justify-center shadow-sm p-4 h-[70%]">
+    <div className="bg-[#EDE1D0] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[200px] flex items-center justify-center shadow-sm p-4 h-[80%]">
       <p className="text-gray-900 text-center text-base break-words overflow-hidden">
         {isLoading ? "Thinking..." : llmArgument}
       </p>
@@ -227,7 +228,7 @@ const DebateSwitch = () => {
           <button
             key={index}
             onClick={() => handlePromptClick(index + 1)}
-            className={`w-full bg-[#EDE1D0] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] p-2.5 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
+            className={`w-full bg-[#EDE1D0] h-[70%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] p-2.5 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
               selectedPrompt === index + 1
                 ? "ring-2 ring-purple-500 shadow-md scale-[1.02]"
                 : "hover:bg-gray-50 hover:shadow-md"
@@ -259,6 +260,7 @@ const DebateSwitch = () => {
 </div>
 
     </main>
+    </div> 
   );
   
 };
@@ -269,53 +271,9 @@ export default DebateSwitch;
 
 
 import { Clock } from "lucide-react"
+import ModuleHeader from "@/components/ModuleHeader";
 
 
 
-const ModuleHeader = () => {
-    return (
-        <>
-            <div className=" pt-8 px-16 mb-8">
-                <div className="flex items-center justify-between">
-                    {/* Left side: Icon + Module Info */}
-                    <div className="flex items-center gap-8">
-                        {/* Puzzle Icon */}
-                        <div className="w-32 h-32 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-                            <img
-                                src={"/m6.png"}
-                                alt="Module 1"
-                                className="w-32 h-32 object-contain"
-                            />
-                        </div>
 
-                        {/* Module Info */}
-                        <div>
-                        <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#1E1E2F] mb-1">
-                        Debate Switch
-</h1>
-
-<p className=" font-normal text-[24px] leading-[100%] tracking-[0] text-[#1E1E2F] mb-2">
-One debate, two sides, endless perspectives</p>
-
-                            <div className="flex items-center gap-2 text-[#1E1E2F]">
-                                <Clock className="w-[33px] h-[33px]" />
-                                <span className="font-normal text-[33px] leading-[100%] tracking-[0]">
-                                    02:00
-                                </span>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    {/* Right side: Counter */}
-                    <div className="text-right">
-                        <div className="text-3xl font-bold text-gray-900">/7</div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Instructions */}
-            
-        </>)
-}
 

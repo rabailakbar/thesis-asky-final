@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
+import ModuleHeader from "./ModuleHeader";
 
 interface Answer {
   id: string;
@@ -152,13 +153,14 @@ const navigate = useNavigate()
   }
 
   return (
-    <div className="h-[100vh] bg-[#F8F1E7] p-16 flex flex-col items-center">
-      <div className=" w-full rounded-3xl shadow-sm  relative bg-[#F8F1E7] ">
+    <div className="p-8">
+    <div className="h-[90vh] bg-[#F8F1E7]  flex flex-col items-center">
+      <div className=" w-full px-24 rounded-3xl shadow-sm  relative bg-[#F8F1E7] ">
        
       
 
         {/* Header */}
-        <div className="flex justify-between items-start">
+        {/* <div className="flex justify-between items-start">
           <div className="flex gap-4 items-center">
             <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center font-bold text-pink-600 text-2xl">
               M5
@@ -188,7 +190,8 @@ const navigate = useNavigate()
               {questionsLeft}/{questions.length} Left
             </div>
           </div>
-        </div>
+        </div> */}
+        <ModuleHeader/>
 
         {/* Question Section */}
         <div>
@@ -241,7 +244,7 @@ const navigate = useNavigate()
 
               {/* Answer Buttons */}
               <div >
-                <p className="font-semibold text-gray-800 py-12 text-center">
+                <p className="font-semibold text-gray-800 py-8 text-center">
                 What might have made the creator post something that got so much attention?   
                              </p>
 
@@ -285,6 +288,7 @@ const navigate = useNavigate()
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

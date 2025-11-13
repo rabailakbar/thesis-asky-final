@@ -8,7 +8,7 @@ export default function Onboarding() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const sequence = [0, 1, 2, 3];
+    const sequence = [0, 1, 2];
     let i = 0;
     const interval = setInterval(() => {
       i++;
@@ -18,7 +18,7 @@ export default function Onboarding() {
       } else {
         setStep(sequence[i]);
       }
-    }, 2000);
+    }, 2500);
     return () => clearInterval(interval);
   }, []);
 
@@ -57,7 +57,7 @@ export default function Onboarding() {
 
       {/* STEP 2 */}
       {/* STEP 2 */}
-{step === 2 && (
+{step === 1 && (
   <div className="h-[100vh] flex overflow-hidden">
     {/* Left Column (slides up first) */}
     <motion.div
@@ -97,7 +97,7 @@ export default function Onboarding() {
 
 
       {/* STEP 3 */}
-      {step === 3 && (
+      {step === 2 && (
         <div className="h-[100vh] relative flex items-center justify-start overflow-hidden bg-white">
           {/* Background stripes with animation */}
           <div className="absolute inset-0 flex">
