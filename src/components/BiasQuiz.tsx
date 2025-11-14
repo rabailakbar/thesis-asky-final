@@ -12,12 +12,14 @@ interface BiasQuizProps {
   questionNumber: number;
   onComplete?: () => void;
   question?: any;
+  setCount:any;
+  count:any;
 }
 
 
 // Define biased words/phrases with difficulty levels
 
-const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question }: BiasQuizProps) => {
+const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,setCount,count }: BiasQuizProps) => {
   const biasedPhrases: any = {};
 
 if (question.Keyword1) {
@@ -228,14 +230,21 @@ if (question.Keyword3!="") {
 
   // Call onComplete callback when quiz is complete
   useEffect(() => {
-    if (selections.length >= 3 && onComplete) {
+    if (selections.length >= Object.keys(biasedPhrases).length && onComplete) {
+      if(count>=5){
       const timer = setTimeout(() => {
         onComplete();
       }, 2000);
-      return () => clearTimeout(timer);
+      return () => clearTimeout(timer);}
+      else {
+        setCount(count++);
+        console.log(count)
+
+      }
+
     }
   }, [selections.length, onComplete]);
-
+console.log(Object.keys(biasedPhrases).length)
 
   
         
@@ -343,7 +352,7 @@ src={"/opening14.svg"}
 
             
             {/* Success message - Exact match to image */}
-            {selections.length >= biasedPhrases.length && (
+            {selections.length >= Object.keys(biasedPhrases).length && (
               <div className="flex items-center justify-center gap-2 mt-4">
                 <Star className="w-5 h-5" fill="#FFEB01" stroke="#FFEB01" />
                 <span className="font-medium text-foreground">Good Job</span>
