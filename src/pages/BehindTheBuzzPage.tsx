@@ -1,19 +1,23 @@
 import BehindTheBuzz from "@/components/BehindTheBuzz";
 import ConnectDotsQuiz from "@/components/ConnectDotsQuiz";
 import { supabase } from "@/integrations/supabase/client";
+import { RootState } from "@/store";
 import { useEffect, useState, useMemo } from "react";
+import { useSelector } from "react-redux";
 
 const BehindTheBuzzPage = () => {
   const [behindqs, setBehindQs] = useState<any>(null);
   const [keywords, setKeywords] = useState<any>(null);
   const [answer, setAnswer] = useState<any>(null);
+  const topic = useSelector((state:RootState)=>state.topics.topics)
+  const randomTopic:number = topic[Math.floor(Math.random() * topic.length)];
 
   const fetchbehind = async () => {
     const { data, error } = await supabase.from("behind").select("*");
     console.log(data)
     if (error) return console.error(error);
 
-    setBehindQs(data[0]);
+    setBehindQs(data[randomTopic]);
 
     const { data: kwData, error: kwError } = await supabase.from("keywords").select("*");
     if (kwError) return console.error(kwError);

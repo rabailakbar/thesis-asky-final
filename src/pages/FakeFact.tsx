@@ -77,8 +77,8 @@ function buildFromTopic(topic, type) {
     else if (prefix === "CAR") car.push(code);
     else last.push(code); // TT, TR, IGR, etc
   }
-
-  const toUrl = (code) =>{
+  const toUrl = (code:any) =>{
+    
     console.log("check",code)
     if(code.split("_")[0].toUpperCase()=="CAR"){
       return supabase.storage
@@ -87,7 +87,12 @@ function buildFromTopic(topic, type) {
     }
    return supabase.storage
       .from("Thesis")
-      .getPublicUrl(`Modules/${code.split(" ")[0]}.png`).data.publicUrl;}
+      .getPublicUrl(`Modules/${code.split(" ")[0]}.png`).data.publicUrl;
+    
+    }
+
+
+
 
   // Decide which set to extract
   let selectedSet;
@@ -95,9 +100,11 @@ function buildFromTopic(topic, type) {
   if (type === "IG") selectedSet = ig;
   if (type === "CAR") selectedSet = car;
   if (type === "LAST") selectedSet = last;
-
+console.log(selectedSet)
   // Map into renderable structure
-  return selectedSet.map(code => ({
+  return selectedSet
+  .filter((code: any) => code)        // removes null, undefined, "", 0, false
+  .map((code: any) => ({
     src: toUrl(code),
     correct: !code.toLowerCase().includes("(fake)")
   }));
@@ -105,7 +112,9 @@ function buildFromTopic(topic, type) {
 
 
 const FakeFact = ()=> {
-  const topics = [3,4,7,2]
+  const topic = useSelector((state:RootState)=>state.topics.topics)
+  const topics = [...topic].sort(() => Math.random() - 0.5).slice(0, 4);
+
   const[game,setGames] = useState<any>([]);
   const [gamesets,setGamesSet] = useState<any>([]);
   const fetchfact = async () => {
@@ -494,6 +503,8 @@ import {  MessageCircle, Share2,  } from "lucide-react"
 import  ClosingModal  from "@/components/ClosingModal";
 import OpeningModal from "@/components/OpeningModal";
 import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 function Question3Carousel({
   showResult,

@@ -12,6 +12,7 @@ const Dashboard = () => {
       level: "🟣 Beginner Level",
       duration: "🕒 2 min",
       path: "/interest",
+      src:"/framee.svg"
     },
     {
       title: "Pick & Flick",
@@ -21,6 +22,7 @@ const Dashboard = () => {
       duration: "🕒 2 min",
       path: "/exercise",
       custom: true,
+      src:"/1.png"
     },
     {
       title: "Bias Detection",
@@ -29,6 +31,7 @@ const Dashboard = () => {
       level: "🟡 Intermediate Level",
       duration: "🕒 5 min",
       path: "/spotthebias",
+      src:"6.svg"
     },
     {
       title: "Social Analysis",
@@ -37,6 +40,7 @@ const Dashboard = () => {
       level: "🟢 Advanced Level",
       duration: "🕒 3 min",
       path: "/debate/switch",
+      src:"3.svg"
     },
     {
       title: "Fake or Fact?",
@@ -45,6 +49,7 @@ const Dashboard = () => {
       level: "🟢 Advanced Level",
       duration: "🕒 5 min",
       path: "/fakefact",
+      src:"4.svg"
     },
     {
       title: "Behind the Buzz",
@@ -53,6 +58,7 @@ const Dashboard = () => {
       level: "🟡 Intermediate Level",
       duration: "🕒 2 min",
       path: "/behind-the-buzz",
+      src:"5.png"
     },
    
   ];
@@ -176,33 +182,38 @@ User 1
           <h2 className="text-[1.5vw] pb-2 font-semibold text-[#FF5A5F]">All Modules</h2>
           
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 ">
-  {modules.map((mod, index) => (
-    <Card
-      key={index}
-      className=" w-[12vw] px-2 pt-2  rounded-xl shadow-sm cursor-pointer hover:shadow-md transition bg-white"
-      onClick={() => navigate(mod.path)}
-    >
-      <div className="w-[100%] flex justify-center items-center  bg-[#F1F5F9] rounded-md mb-1 overflow-hidden  ">
-        <img
-          src="/framee.svg"
-          alt={mod.title}
-          className="w-[100%]  object-cover"
-        />
-      </div>
+          {modules.map((mod, index) => (
+  <Card
+    key={index}
+    className={`
+      w-[12vw] px-2 pt-2 rounded-xl shadow-sm cursor-pointer 
+      hover:shadow-md transition bg-white
+      ${index !== 0 ? "filter blur-[1px] pointer-events-none" : ""}
+    `}
+    onClick={() => index === 0 && navigate(mod.path)} // only clickable if first
+  >
+    <div className="w-[100%] flex justify-center items-center bg-[#F1F5F9] rounded-md mb-1 overflow-hidden">
+      <img
+        src={mod.src}
+        alt={mod.title}
+        className="w-[100%] object-cover"
+      />
+    </div>
 
-      <h4 className="font-semibold text-[1vw] mb-1 text-gray-800 ">
-        {mod.title}
-      </h4>
-      <p className="text-[0.75vw] text-gray-600 mb-1 leading-snug ">
-        {mod.description}
-      </p>
+    <h4 className="font-semibold text-[1vw] mb-1 text-gray-800">
+      {mod.title}
+    </h4>
+    <p className="text-[0.75vw] text-gray-600 mb-1 leading-snug">
+      {mod.description}
+    </p>
 
-      <div className="flex items-center justify-between text-[0.5vw] text-gray-500">
-        <span>{mod.level}</span>
-        <span>{mod.duration}</span>
-      </div>
-    </Card>
-  ))}
+    <div className="flex items-center justify-between text-[0.5vw] text-gray-500">
+      <span>{mod.level}</span>
+      <span>{mod.duration}</span>
+    </div>
+  </Card>
+))}
+
 </div>
 
 

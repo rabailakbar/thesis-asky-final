@@ -4,15 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import ModuleHeader from "@/components/ModuleHeader";
 import OpeningModal from "@/components/OpeningModal";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
 
 const DebateModule = () => {
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
   const [imageUrl, setImageUrl] = useState<string>("");
   const [debate,setDebate] = useState<any>({});
-
+  const topic = useSelector((state:RootState)=>state.topics.topics)
+  const randomTopic:number = topic[Math.floor(Math.random() * topic.length)];
   useEffect(() => {
 
     const fetchImage = async (code) => {
@@ -34,8 +36,9 @@ const DebateModule = () => {
 console.log("let me check",data)
 const { data:link } = supabase.storage
         .from('Thesis')
-        .getPublicUrl(`Modules/${data[0].Image}.png`);
-setDebate(data[0])
+        .getPublicUrl(`Modules/${data[randomTopic].Image}.png`);
+setDebate(data[randomTopic])
+console.log("let me check",link.publicUrl)
 setImageUrl(link.publicUrl)
 
       if (error) {
@@ -105,7 +108,7 @@ setShowIntroModal={setShowIntroModal}
       alt="AI is an insult to life itself - Miyazaki's predictions come true"
       className="h-full max-h-[60vh] w-auto object-contain"
     />
-    {imageUrl}
+  
   </div>
 
  
@@ -121,3 +124,53 @@ setShowIntroModal={setShowIntroModal}
 };
 
 export default DebateModule;
+
+
+const ModuleHeader = () => {
+  return (
+      <>
+          <div className="  pt-6 mb-2">
+              <div className="flex items-center justify-between">
+                  {/* Left side: Icon + Module Info */}
+                  <div className="flex items-center gap-8">
+                      {/* Puzzle Icon */}
+                      <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+                          <img
+                              src={"/opening16.png"}
+                              alt="Module 1"
+                              className="w-25  object-contain"
+                          />
+                      </div>
+
+                      {/* Module Info */}
+                      <div>
+                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+                      Debate Switch</h1>
+
+<p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+One debate, two sides, endless perspectives</p>
+
+
+                          <div className="flex items-center gap-4 text-[#201E1C]">
+<img src={"/clocl.svg"} />
+
+                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
+02:00
+</span>
+
+                          </div>
+
+                      </div>
+                  </div>
+
+                  {/* Right side: Counter */}
+                  <div className="text-right">
+                      <div className="text-3xl font-bold text-gray-900">/7</div>
+                  </div>
+              </div>
+          </div>
+
+          {/* Instructions */}
+          
+      </>)
+}

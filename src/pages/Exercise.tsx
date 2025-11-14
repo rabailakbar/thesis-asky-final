@@ -385,48 +385,6 @@ export default function Exercise() {
   )}
 </AnimatePresence>)
 
-
-  
-  
-  
-
-
-  // Main gallery
-  // return (
-  //   <div className="min-h-screen bg-[#F8F1E7] flex items-center justify-center p-16  rounded-[24px] shadow-sm">
-  //     <OpeningModal showIntroModal={showIntroModal} moduleId={moduleId} setShowIntroModal={setShowIntroModal} />
-  //     <div className="max-w-7xl w-full ">
-  //      <ModuleHeader  /> 
-
-  //       <div className="flex justify-end gap-2 mb-8 text-gray-700">
-  //         <span>
-  //           {likesCount}/{MAX_LIKES} Likes
-  //         </span>
-  //         <span>|</span>
-  //         <span>
-  //           {savesCount}/{MAX_SAVES} Saves
-  //         </span>
-  //       </div>
-
-  //       <h2 className="text-center text-lg font-medium text-gray-700 mb-8">Click to like and save!</h2>
-
-  //       <ColumnsPhotoAlbum
-  //       spacing={10}
-  // photos={photos}
-  // render={{ photo: CustomPhotoOverlay }}
-  // columns={(containerWidth) => {
-  //   if (containerWidth < 500) return 2;
-  //   if (containerWidth < 900) return 3;
-  //   if (containerWidth < 1200) return 4;
-  //   return 4;
-    
-  //   }}
-  // />
-
-
-  //     </div>
-  //   </div>
-  // );
 }
 
 

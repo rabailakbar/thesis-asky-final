@@ -172,6 +172,7 @@ return (
 
           {/* Question Section */}
           <div>
+          <ModuleHeader/>
             <h2 className="text-2xl font-normal text-black mb-6 text-center">
               Reel #{currentQuestionIndex + 1}
             </h2>

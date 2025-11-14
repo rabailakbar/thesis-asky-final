@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import BiasQuiz from "@/components/BiasQuiz";
 import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 // ✅ Moved out so it's not recreated each render
 function ClosingModal() {
@@ -54,6 +56,8 @@ function ClosingModal() {
 }
 
 const SpotTheBias = () => {
+  const topic = useSelector((state:RootState)=>state.topics.topics)
+
   const [question, setQuestion] = useState<any>(null);
   const [showResult, setShowResult] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -83,8 +87,10 @@ const SpotTheBias = () => {
       console.error("Error fetching spotthebias:", error);
       return;
     }
+    const randomTopic:number = topic[Math.floor(Math.random() * topic.length)];
+
     if (data?.[0] && JSON.stringify(data[0]) !== JSON.stringify(question)) {
-      setQuestion(data[0]);
+      setQuestion(data[randomTopic]);
     }
    
 

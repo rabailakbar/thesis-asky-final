@@ -9,7 +9,7 @@ const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
 
 const DebateSwitch = () => {
   const navigate = useNavigate();
-  const [timeLeft, setTimeLeft] = useState(10);
+  const [timeLeft, setTimeLeft] = useState(100);
   const [figureImageUrl, setFigureImageUrl] = useState<string>("");
   const [llmArgument, setLlmArgument] = useState<string>("Thinking...");
   const [userPrompts, setUserPrompts] = useState<string[]>([]);

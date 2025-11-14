@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import ModuleHeader from "@/components/ModuleHeader";
 import OpeningModal from "@/components/OpeningModal";
 import { ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -168,7 +167,7 @@ const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
   if (currentScreen === "roleSelection") {
     return (
       <div className="p-8">
-      <main className="h-[90vh] bg-[#F8F1E7] p-8">
+      <main className="h-[90vh] bg-[#F8F1E7] ">
       <OpeningModal
           showIntroModal={showIntroModal}
           moduleId={"M7"}
@@ -369,4 +368,53 @@ function RoleCard(props:any) {
       <p className="text-gray-900 font-medium text-md">Role: {props.role}</p>
     </div>
   );
+}
+
+const ModuleHeader = () => {
+  return (
+      <>
+          <div className="  pt-6 mb-2">
+              <div className="flex items-center justify-between">
+                  {/* Left side: Icon + Module Info */}
+                  <div className="flex items-center gap-8">
+                      {/* Puzzle Icon */}
+                      <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+                          <img
+                              src={"/opening17.png"}
+                              alt="Module 1"
+                              className="w-25  object-contain"
+                          />
+                      </div>
+
+                      {/* Module Info */}
+                      <div>
+                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+                      In their shoes 👟</h1>
+
+<p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+Step into another role, and make their world make sense.</p>
+
+
+                          <div className="flex items-center gap-4 text-[#201E1C]">
+<img src={"/clocl.svg"} />
+
+                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
+02:00
+</span>
+
+                          </div>
+
+                      </div>
+                  </div>
+
+                  {/* Right side: Counter */}
+                  <div className="text-right">
+                      <div className="text-3xl font-bold text-gray-900">/7</div>
+                  </div>
+              </div>
+          </div>
+
+          {/* Instructions */}
+          
+      </>)
 }
