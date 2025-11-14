@@ -10,6 +10,7 @@ const BehindTheBuzzPage = () => {
 
   const fetchbehind = async () => {
     const { data, error } = await supabase.from("behind").select("*");
+    console.log(data)
     if (error) return console.error(error);
 
     setBehindQs(data[0]);

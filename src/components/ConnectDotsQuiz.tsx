@@ -46,14 +46,17 @@ const ConnectDotsQuiz = (props:any) => {
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
   const [polarizationScore] = useState(98);
   const [isComplete, setIsComplete] = useState(false);
-  
+  console.log("behindqs",props.behindqs)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (questions.length > 0 && questions[currentQuestionIndex]) {
-      loadImage(questions[currentQuestionIndex].tiktok_image_filename);
-    }
-  }, [currentQuestionIndex, questions]);
+  // useEffect(() => {
+  //   if (questions.length > 0 && questions[currentQuestionIndex]) {
+  //     loadImage(questions[currentQuestionIndex].tiktok_image_filename);
+  //   }
+  // }, [currentQuestionIndex, questions]);
+  useEffect(()=>{
+loadImage(`${props.behindqs.Image}.png`)
+  },[])
 
   
 
@@ -87,9 +90,12 @@ const ConnectDotsQuiz = (props:any) => {
   };
 
   const loadImage = async (filename: string) => {
+    const cleanFilename = filename.replace(/\u200B/g, ""); // remove zero-width spaces
     const { data } = supabase.storage
       .from("Thesis")
-      .getPublicUrl(`Modules/${filename}`);
+      .getPublicUrl(`Modules/${cleanFilename}`);
+  
+    console.log(data);
     if (data?.publicUrl) setImageUrl(data.publicUrl);
   };
 
@@ -153,8 +159,8 @@ const ConnectDotsQuiz = (props:any) => {
 const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
   return (
     <div className="p-8">
-    <div className="h-[90vh] bg-[#F8F1E7]  flex flex-col items-center">
-      <div className=" w-full px-24 rounded-3xl shadow-sm  relative bg-[#F8F1E7] ">
+<div className=" bg-[#F8F1E7] p-4 overflow-auto flex flex-col items-center">
+<div className=" w-full px-24 rounded-3xl shadow-sm  relative bg-[#F8F1E7] ">
       <OpeningModal
       src={"/opening15.png"}
           showIntroModal={showIntroModal}
@@ -202,19 +208,18 @@ const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
           <h2 className="text-2xl font-normal text-black mb-6 text-center">
             Reel #{currentQuestionIndex + 1}
           </h2>
-
-          <div className="grid grid-cols-[320px_1fr] gap-10">
-            {/* TikTok Image */}
-            <div className=" rounded-2xl overflow-hidden">
-              {imageUrl && (
+          <div className="flex items-center justify-center rounded-2xl overflow-hidden mb-4">
+              {props.behindqs.Image && (
                 <img
-                  src={imageUrl}
+                src={imageUrl}
                   alt="TikTok Post"
-                  className="h-[60vh] w-auto object-contain"
+                  className="h-[35vh] w-auto object-contain "
                 />
               )}
             </div>
-
+          <div className=" gap-10">
+            {/* TikTok Image */}
+           
             {/* Right Side Content */}
             <div className="flex flex-col ">
               <div  >
