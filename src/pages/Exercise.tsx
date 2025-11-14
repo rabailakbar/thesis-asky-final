@@ -53,7 +53,7 @@ export default function Exercise() {
   const topic = useSelector((state:RootState)=>state.topics.topics)
   useEffect(() => {
     const fetchImages = async () => {
-      const { data, error } = await supabase.storage.from("Thesis").list("Modules", { limit: 100 });
+      const { data, error } = await supabase.storage.from("Thesis").list("Modules", { limit: 50 });
       console.log("data", data);
       console.log("topic", topic);
       if (error) {
