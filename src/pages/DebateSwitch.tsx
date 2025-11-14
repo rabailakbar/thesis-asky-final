@@ -7,7 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
 
 
-const DebateSwitch = () => {
+const DebateSwitch = (props) => {
+  console.log(props)
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState(100);
   const [figureImageUrl, setFigureImageUrl] = useState<string>("");
@@ -18,7 +19,8 @@ const DebateSwitch = () => {
   const [round, setRound] = useState(1);
   const [showUserOptions, setShowUserOptions] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
-  const DEBATE_TOPIC = `"Are Millennials the forgotten generation in the mental health conversation, overshadowed by Gen Z’s
+
+  const DEBATE_TOPIC =props.debate.Debate_Question || `"Are Millennials the forgotten generation in the mental health conversation, overshadowed by Gen Z’s
   louder struggles?"`;
   // Timer
   useEffect(() => {
@@ -31,7 +33,6 @@ const DebateSwitch = () => {
   }, [timeLeft]);
 
   // Load image
-  console.log(timeLeft)
  
 
   // Initialize
@@ -91,7 +92,7 @@ const DebateSwitch = () => {
           messages: [
             {
               role: "system",
-              content: `Return ONLY a JSON array of 3 short strings of maximum 10 words arguing IN FAVOR of ${DEBATE_TOPIC}.`,
+              content: `Return ONLY a JSON array of 3 short strings of maximum 15 words arguing IN FAVOR of ${DEBATE_TOPIC}.`,
             },
           ],
           temperature: 0.8,
@@ -169,12 +170,12 @@ const DebateSwitch = () => {
   return (
     isCompleted)?(<ClosingModal/>):(<div className="p-8">
     <main className="h-[90vh] px-24 bg-[#F8F1E7] flex flex-col">
-    <OpeningModal
+    {/* <OpeningModal
           showIntroModal={showIntroModal}
           moduleId={"M3"}
           setShowIntroModal={setShowIntroModal}
           src={"/opening16.png"}
-        />      {/* Header Section */}
+        />      Header Section */}
       <ModuleHeader />
   
       {/* Headline */}

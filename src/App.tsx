@@ -24,6 +24,7 @@ import DebateSwitchPage from "./pages/DebateSwitchPage";
 import FakeFact from "./pages/FakeFact";
 import SpotTheBias from "./pages/SpotTheBias";
 import Onboarding from "./pages/Onboarding";
+import Debate from "./pages/Debate";
 
 
 
@@ -64,7 +65,7 @@ const App = () => (
           <Route path="/spotthebias" element={<SpotTheBias />} />
           <Route path="/M4" element={<Indexx />} />
           <Route path= "/M5" element = {<Indexx/>}/>
-          <Route path="/debate" element={<DebateModule />} />
+          <Route path="/debate" element={<Debate />} />
           <Route path="/debate/switch" element={<DebateSwitch />} />
           <Route path="/debate/final" element={<InTheirShoes />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

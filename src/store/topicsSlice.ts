@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface TopicsState {
-  topics: Number[];
+  topics: number[];
 }
 
 // Load topics from localStorage
@@ -14,11 +14,11 @@ const topicsSlice = createSlice({
   name: "topics",
   initialState,
   reducers: {
-    addTopic: (state, action: PayloadAction<Number>) => {
+    addTopic: (state, action: PayloadAction<number>) => {
       state.topics.push(action.payload);
       localStorage.setItem("topics", JSON.stringify(state.topics));
     },
-    removeTopic: (state, action: PayloadAction<Number>) => {
+    removeTopic: (state, action: PayloadAction<number>) => {
       state.topics = state.topics.filter((topic) => topic !== action.payload);
       localStorage.setItem("topics", JSON.stringify(state.topics));
     },

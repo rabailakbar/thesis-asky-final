@@ -4,49 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import OpeningModal from "@/components/OpeningModal";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 
-const DebateModule = () => {
+const DebateModule = (props) => {
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [debate,setDebate] = useState<any>({});
-  const topic = useSelector((state:RootState)=>state.topics.topics)
-  const randomTopic:number = topic[Math.floor(Math.random() * topic.length)];
-  useEffect(() => {
-
-    const fetchImage = async (code) => {
-      const { data } = supabase.storage
-        .from('Thesis')
-        .getPublicUrl(`Modules/${code}.png`);
-      
-      if (data?.publicUrl) {
-        setImageUrl(data.publicUrl);
-      }
-    };
-    
-    fetchSpotTheBias()
-  }, []);
-
-  const fetchSpotTheBias = async () => {
-
-      const { data, error } = await supabase.from("debate").select("*");
-console.log("let me check",data)
-const { data:link } = supabase.storage
-        .from('Thesis')
-        .getPublicUrl(`Modules/${data[randomTopic].Image}.png`);
-setDebate(data[randomTopic])
-console.log("let me check",link.publicUrl)
-setImageUrl(link.publicUrl)
-
-      if (error) {
-        console.error("Error fetching spotthebias:", error);
-        return;
-      }
-  
-    }
+  ;
+ 
 
 
   
@@ -56,7 +21,6 @@ setImageUrl(link.publicUrl)
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
-  console.log(debate)
 const[showIntroModal,setShowIntroModal] = useState(true);
   return (
     <div className="p-8">
@@ -77,17 +41,17 @@ setShowIntroModal={setShowIntroModal}
     <div>
       <p className="text-xs font-medium text-gray-500 mb-2">Scenario 1</p>
       <h2 className="text-[16px] font-semibold text-gray-900 mb-3 leading-snug">
-        {debate.Heading}
+        {props.debate.Heading}
       </h2>
       
       <p className="text-gray-800 mb-3 text-sm leading-relaxed">
-    {debate.Scenario}
+    {props.debate.Scenario}
       </p>
       <div className="rounded-md p-3 mb-4">
         <p className="text-xs text-gray-500 mb-1">🧠 The Debate:</p>
         <p className="text-gray-900 font-medium text-sm leading-snug">
 {
-  debate.Debate_Question
+  props.debate.Debate_Question
 }        </p>
       </div>
     </div>
@@ -95,7 +59,7 @@ setShowIntroModal={setShowIntroModal}
       <p className="text-gray-900 font-medium text-sm mb-3">🔥 Ready to take a side?</p>
       <button
         className="w-full py-2.5 rounded-md text-white font-medium text-base bg-[#FF9348] hover:bg-[#7c4ee8] transition-colors"
-        onClick={() => navigate('/debate/switch')}
+        onClick={() => props.setShow(false)}
       >
         Start Now
       </button>
@@ -104,7 +68,7 @@ setShowIntroModal={setShowIntroModal}
   {/* Left Column - Image */}
   <div className="flex justify-end items-center rounded-lg bg-transparent">
     <img
-      src={imageUrl}
+      src={props.imageUrl}
       alt="AI is an insult to life itself - Miyazaki's predictions come true"
       className="h-full max-h-[60vh] w-auto object-contain"
     />
@@ -173,4 +137,88 @@ One debate, two sides, endless perspectives</p>
           {/* Instructions */}
           
       </>)
+}
+
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+
+
+
+
+
+const OpeningModal = (props:any)=>{
+    
+
+    return (
+        <Dialog open={props.showIntroModal } onOpenChange={props.setShowIntroModal}>
+<DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
+<div className="px-32 py-16">
+                    {/* Header with Icon */}
+                    <div className="flex items-start gap-4 mb-6">
+                      {/* Puzzle Icon */}
+                      <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+          <img
+            src={"/opening16.png"}
+            alt="Module 1"
+            className="w-18 h-18 object-contain"
+          />
+        </div>
+        
+                      
+                      {/* Title */}
+                      <div>
+                      <div className="text-[#5F237B] text-[24px] font-semibold ">Phase I</div>
+                      <h2 className="text-[24px] font-bold text-black">Module {props.moduleId.split()[0]}: Find your vibe</h2>
+                      </div>
+                    </div>
+        
+                    {/* Video Placeholder */}
+                    <div className="bg-gray-100 rounded-lg p-12 mb-6 text-center">
+                      <div className="text-gray-500">
+                        <div className="font-medium mb-1">Walkthrough Video</div>
+                        <div className="text-sm">(small screen recording)</div>
+                      </div>
+                    </div>
+        
+                    {/* Description */}
+                    <p className="text-[#1E1E2F] font-lato font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
+                        In this module, students will filter out content for themselves. From a pool of 50 topics, 
+                        they are supposed to narrow down 15 by simply clicking on the 
+                  <span className="font-semibold"> ‘Interested’ </span>
+                                                                  & 
+                    <span className="font-semibold"> ‘Not Interested’ </span>
+                               buttons. These picks will shape their personalized explore feed for the next module.
+                  </p>
+
+        
+                    {/* Info Badges */}
+                    <div className="flex items-center gap-4 mb-6 text-sm">
+                   
+                    <div className="flex items-center gap-2 text-[#1E1E2F] px-3 py-1.5 rounded-full font-[400] text-[18px] leading-[100%] tracking-[0]">
+  <img src={"/I_1b.svg"} />
+  Beginner Level
+</div>
+
+                      <div className="flex items-center gap-2 text-[#1E1E2F]-600">
+                        <img src={"/clocl.svg"} className="w-4 h-4 " />
+                        <span>02:00</span>
+                      </div>
+                      <div className=" flex justify-center items-center gap-2 text-[#1E1E2F]-500 ">
+          <img src={"/star.svg"}/>
+                        Score is not being calculated in this module
+                      </div>
+                    </div>
+        
+                    {/* Begin Button */}
+                    <div className="flex justify-center">
+                    <Button
+  onClick={() => props.setShowIntroModal(false)}
+  className="bg-[#5F237B] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
+>
+            Let's begin →
+          </Button>
+        </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+    )
 }
