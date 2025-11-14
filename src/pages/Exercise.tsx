@@ -53,13 +53,14 @@ export default function Exercise() {
   const topic = useSelector((state:RootState)=>state.topics.topics)
   useEffect(() => {
     const fetchImages = async () => {
-      const { data, error } = await supabase.storage.from("Thesis").list("Modules", { limit: 50 });
-    console.log("data",data)
-    console.log("topic",topic)
+      const { data, error } = await supabase.storage.from("Thesis").list("Modules", { limit: 100 });
+      console.log("data", data);
+      console.log("topic", topic);
       if (error) {
         console.error(error);
         return;
       }
+  
       for (let i = data.length - 1; i >= 0; i--) {
         const match = data[i].name.match(/_(\d+)/);
         const number = match ? parseInt(match[1], 10) : null;
@@ -67,26 +68,30 @@ export default function Exercise() {
           data.splice(i, 1);
         }
       }
-      console.log("data",data)
-      
-
+      console.log("data", data);
+  
       const postsData: Post[] = await Promise.all(
         data.map(async (file, index) => {
           if (file.name === "Group59.png") return null;
-          const { data: urlData } = supabase.storage.from("Thesis").getPublicUrl(`Modules/${file.name}`);
+  
+          // ✅ Corrected getPublicUrl usage
+          const { data: urlData,  } = supabase.storage.from("Thesis").getPublicUrl(`Modules/${file.name}`);
+          
+          const publicUrl = urlData.publicUrl;
+  
           const { number, letter } = extractCodeFromFilename(file.name);
-
+  
           const dim = await new Promise<{ w: number; h: number }>((resolve) => {
             const img = new Image();
-            img.src = urlData.publicUrl;
+            img.src = publicUrl;
             img.onload = () => resolve({ w: img.naturalWidth || 600, h: img.naturalHeight || 400 });
             img.onerror = () => resolve({ w: 600, h: 400 });
           });
-
+  
           return {
             id: index + 1,
             title: file.name,
-            imageUrl: urlData.publicUrl,
+            imageUrl: publicUrl,
             width: dim.w,
             height: dim.h,
             codeNumber: number,
@@ -94,15 +99,16 @@ export default function Exercise() {
           } as Post;
         })
       );
-
+  
       const filtered = postsData.filter(Boolean) as Post[];
       const shuffled = filtered.sort(() => Math.random() - 0.5);
       setAllPosts(shuffled);
       setVisiblePosts(shuffled.slice(0, MAX_VISIBLE));
     };
-
+  
     fetchImages();
   }, []);
+  
 
   const pickRandom = (arr: Post[]) => arr[Math.floor(Math.random() * arr.length)];
 

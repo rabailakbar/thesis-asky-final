@@ -78,10 +78,16 @@ function buildFromTopic(topic, type) {
     else last.push(code); // TT, TR, IGR, etc
   }
 
-  const toUrl = (code) =>
-    supabase.storage
+  const toUrl = (code) =>{
+    console.log("check",code)
+    if(code.split("_")[0].toUpperCase()=="CAR"){
+      return supabase.storage
       .from("Thesis")
-      .getPublicUrl(`Modules/${code.split(" ")[0]}.png`).data.publicUrl;
+      .getPublicUrl(`CAR/${code.split(" ")[0]}.png`).data.publicUrl;
+    }
+   return supabase.storage
+      .from("Thesis")
+      .getPublicUrl(`Modules/${code.split(" ")[0]}.png`).data.publicUrl;}
 
   // Decide which set to extract
   let selectedSet;
@@ -495,6 +501,7 @@ function Question3Carousel({
   carouselImages, // now an array of images
 }) {
   return (
+
     <div className="flex justify-center items-center bg-[#f9f9f9] ">
       <div
         className={cn(
@@ -526,6 +533,7 @@ function Question3Carousel({
           <Carousel className="w-full">
             <CarouselContent>
               {carouselImages.map((src, i) => (
+                
                 src && (
                   <CarouselItem key={i}>
                     <div className="relative flex items-center justify-center">
