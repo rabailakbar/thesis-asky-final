@@ -64,7 +64,7 @@ const SpotTheBias = () => {
   const [showResult, setShowResult] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [biasQuizComplete, setBiasQuizComplete] = useState(false);
-const [count,setCount] = useState(0);
+
   // ✅ All hooks must run unconditionally — no ifs before this line
   const biasQuestions = useMemo(
     () => [
@@ -85,47 +85,18 @@ const [count,setCount] = useState(0);
 
   const fetchSpotTheBias = useCallback(async () => {
     const { data, error } = await supabase.from("spotthebias").select("*");
-  
     if (error) {
       console.error("Error fetching spotthebias:", error);
       return;
     }
-  
-    if (!topic || topic.length === 0) {
-      console.error("Topic array is empty");
-      return;
-    }
-  
-    // ----------------------------
-    // ✅ 1. Randomly extract 5 unique values from topic[]
-    // ----------------------------
-    const uniqueTopics = Array.from(new Set(topic));
-console.log(data)
-// 2. Shuffle
-const shuffled = uniqueTopics.sort(() => Math.random() - 0.5);
+    const randomTopic:number = topic[Math.floor(Math.random() * topic.length)];
 
-// 3. Take first 5
-const selectedTopics = shuffled.slice(0, 5);
-  
-    console.log("Selected 5 topics:", selectedTopics);
-  
-    // ----------------------------
-    // ✅ 2. Filter Supabase data to match selected topics
-    //     Assuming data[x].question_number holds the number
-    // ----------------------------
-    const filtered = data.filter((item: any) =>
-      selectedTopics.includes(item.Topic)
-    );
-  
-    console.log("Filtered Questions:", filtered);
-  
-    // ----------------------------
-    // ✅ 3. Store the filtered result in state
-    // ----------------------------
-    setQuestions(filtered);
-  
-  }, [topic]);
-  
+    if (data?.[0] && JSON.stringify(data[0]) !== JSON.stringify(question)) {
+      setQuestion(data[randomTopic]);
+    }
+   
+
+  }, [question]);
 
   useEffect(() => {
     fetchSpotTheBias();
@@ -134,9 +105,6 @@ const selectedTopics = shuffled.slice(0, 5);
   const handleComplete = useCallback(() => {
     setBiasQuizComplete(true);
   }, []);
-  useEffect(()=>{
-    setQuestion(questions[count])
-  },[count])
 
   useEffect(() => {
     if (!showResult) return;
@@ -167,7 +135,7 @@ const selectedTopics = shuffled.slice(0, 5);
       </div>
     );
 
-  if (!questions[count])
+  if (!question)
     return (
       <div className="flex items-center justify-center min-h-screen">
         <p>Loading...</p>
@@ -176,9 +144,7 @@ const selectedTopics = shuffled.slice(0, 5);
 
   return (
     <BiasQuiz
-    count={count}
-    setCount={setCount}
-    question={questions[count]}
+    question={question}
       imageUrl={imageUrl}
       headline={currentQuestion.headline}
       questionNumber={currentQuestionIndex + 1}
