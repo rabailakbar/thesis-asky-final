@@ -49,7 +49,13 @@ export default function Exercise() {
   const [savedIds, setSavedIds] = useState<Set<number>>(new Set());
   const [isComplete, setIsComplete] = useState(false);
   const [replacingIds, setReplacingIds] = useState<Set<number>>(new Set());
-
+  interface ModuleHeaderProps {
+    polarizationScore: number; // 0-100
+    likesCount?: number;
+    savesCount?: number;
+    MAX_LIKES?: number;
+    MAX_SAVES?: number;
+  }
   // Fetch all Supabase images
   const topic = useSelector((state:RootState)=>state.topics.topics)
   useEffect(() => {
@@ -330,7 +336,7 @@ export default function Exercise() {
           src={"/opening12.png"}
         />
         <div className="max-w-7xl w-full ">
-          <ModuleHeader />
+          <ModuleHeader savesCount={savesCount} likesCount={likesCount} MAX_LIKES={MAX_LIKES} MAX_SAVES={MAX_SAVES} polarizationScore={95} />
           {isLoading?( <motion.div
         key="loading-screen"
         initial={{ opacity: 0 }}
@@ -352,15 +358,7 @@ export default function Exercise() {
           <p className="mt-2">Please wait while we prepare the feed!</p>
         </div>
       </motion.div>):(<div>
-          <div className="flex justify-end gap-2 mb-8 text-gray-700">
-            <span>
-              {likesCount}/{MAX_LIKES} Likes
-            </span>
-            <span>|</span>
-            <span>
-              {savesCount}/{MAX_SAVES} Saves
-            </span>
-          </div>
+          
 
           <h2 className="text-center text-lg font-medium text-gray-700 mb-8">
             Click to like and save!
@@ -387,60 +385,93 @@ export default function Exercise() {
 
 }
 
+interface ModuleHeaderProps {
+  polarizationScore: number; // 0-100
+  likesCount?: number;
+  savesCount?: number;
+  MAX_LIKES?: number;
+  MAX_SAVES?: number;
+}
 
+const ModuleHeader = ({
+  polarizationScore,
+  likesCount = 0,
+  savesCount = 0,
+  MAX_LIKES = 8,
+  MAX_SAVES = 8,
+}: ModuleHeaderProps) => {
+  return (
+    <div className="pt-6 mb-2">
+      <div className="flex items-center justify-between">
+        {/* Left side: Icon + Module Info */}
+        <div className="flex items-center gap-8">
+          {/* Puzzle Icon */}
+          <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0">
+            <img
+              src={"/opening12.png"}
+              alt="Module 1"
+              className="w-25 object-contain"
+            />
+          </div>
 
+          {/* Module Info */}
+          <div>
+            <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+              Pick & Flick
+            </h1>
 
+            <p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+              Let's help you build a feed
+            </p>
 
-
-const ModuleHeader = () => {
-    return (
-        <>
-            <div className="  pt-6 mb-2">
-                <div className="flex items-center justify-between">
-                    {/* Left side: Icon + Module Info */}
-                    <div className="flex items-center gap-8">
-                        {/* Puzzle Icon */}
-                        <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-                            <img
-                                src={"/opening12.png"}
-                                alt="Module 1"
-                                className="w-25  object-contain"
-                            />
-                        </div>
-  
-                        {/* Module Info */}
-                        <div>
-                        <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-                        Pick & Flick</h1>
-  
-  <p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-  Let's help you build a feed
-  </p>
-  
-  
-                            <div className="flex items-center gap-4 text-[#201E1C]">
-<img src={"/clocl.svg"} />
-
-                                <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
-  02:00
-  </span>
-  
-                            </div>
-  
-                        </div>
-                    </div>
-  
-                    {/* Right side: Counter */}
-                    <div className="text-right">
-                        <div className="text-3xl font-bold text-gray-900">/7</div>
-                    </div>
-                </div>
+            <div className="flex items-center gap-4 text-[#201E1C]">
+              <img src={"/clocl.svg"} alt="Clock" />
+              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
+                02:00
+              </span>
             </div>
-  
-            {/* Instructions */}
-            
-        </>)
-  }
+          </div>
+        </div>
+
+        {/* Right side: Polarization bar + counts */}
+        <div className="flex flex-col items-end gap-2">
+          {/* Polarization bar */}
+          <div className="w-[200px] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1">
+  <div
+    className="h-full rounded-full"
+    style={{
+      width: `${polarizationScore}%`,
+      background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
+    }}
+  />
+</div>
+
+          <span className="text-sm text-gray-700"> Polarization Score</span>
+
+          {/* Likes / Saves */}
+          <div className="flex justify-end gap-2 text-gray-700 mt-1">
+            <span>
+              {likesCount}/{MAX_LIKES} Likes
+            </span>
+            <span>|</span>
+            <span>
+              {savesCount}/{MAX_SAVES} Saves
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+
+
+
+
+
+
+
 
 
   
@@ -456,7 +487,7 @@ const ModuleHeader = () => {
     return (
       <div className="p-8">
   <div className="h-[90vh] flex items-center justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
-                <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl shadow-sm  text-center">
+                <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl  text-center">
   
                 {/* Module Completion Header */}
                 <div className="flex items-center justify-center gap-4 mb-6">
@@ -472,7 +503,7 @@ const ModuleHeader = () => {
   
   
   <p className="text-black font-normal text-[18px] leading-[100%] mt-1">
-  ✓ 10/10 Likes  |  5/5 saves 
+  ✓ 4/4 Likes  |  2/2 saves 
   </p>
   
                     </div>

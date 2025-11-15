@@ -233,7 +233,7 @@ console.log(allQuestions)
           setShowIntroModal={setShowIntroModal}
           src={"/opening13.png"}
         />
-      <ModuleHeader />
+      <ModuleHeader currentQuestionIndex={currentQuestionIndex} />
   
       {currentQuestionIndex < totalQuestions && (
         <h2 className="text-2xl text-center mb-6  font-medium">Click to identify which one is fake</h2>
@@ -615,7 +615,7 @@ import { TooltipMarker } from "@/components/TooltipMarker";
 
 
 
-const ModuleHeader = () => {
+const ModuleHeader = (props) => {
   return (
       <>
           <div className="  pt-6 mb-2">
@@ -655,7 +655,7 @@ Is everything not real?!
 
                   {/* Right side: Counter */}
                   <div className="text-right">
-                      <div className="text-3xl font-bold text-gray-900">/7</div>
+                      <div className="text-3xl font-bold text-gray-900">{props.currentQuestionIndex}/7</div>
                   </div>
               </div>
           </div>
@@ -740,17 +740,17 @@ function Question3Carousel({
                           <div
                             className={cn(
                               "rounded-full p-6 animate-scale-in",
-                              src.correct ? "bg-[#4EBD6F]" : "bg-[#B21B1D]"
                             )}
                           >
                             {src.correct ? (
                               <Check
-                                className="w-16 h-16 text-white"
+                              color="#4EBD6F"
+                                className="w-16 bg-[#4EBD6F] h-16 text-white"
                                 strokeWidth={3}
                               />
                             ) : (
                               <X
-                                className="w-16 h-16 text-white"
+                                className="w-16 h-16  bg-[#B21B1D] text-white"
                                 strokeWidth={3}
                               />
                             )}

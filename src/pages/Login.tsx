@@ -50,7 +50,7 @@ console.log(data)
       <div className="flex flex-col items-start w-1/2 p-24">
         <div>
           <img src="/logo.svg" className="w-[60%] object-contain" />
-          <p className="text-[#5E2B9D] text-[20px] font-normal leading-[100%] mt-1 font-gabarito">
+          <p className="text-[black] text-[20px] font-normal leading-[100%] mt-1 font-gabarito">
             Bridging minds, one question at a time.
           </p>
         </div>
@@ -104,16 +104,24 @@ console.log(data)
 
       {/* Right Side */}
       <div className="w-1/2 bg-[#F8F1E7] flex flex-col items-center relative">
-        <img
-          src="/onboarding.svg"
-          alt="illustration"
-          className="w-[90%] object-contain"
-        />
-        <p className="absolute bottom-10 text-black text-lg">
-          Is your algorithm your story?
-        </p>
-      </div>
-    </div>
+  <img
+    src="/onboarding.svg"
+    alt="illustration"
+    className="w-[90%] object-contain relative z-10" 
+  />
+
+  <div className="w-[700px] flex-col items-start relative z-20">
+    <img 
+      src="/loginn.svg" 
+      className="w-[200px] mt-[45%] relative z-30" 
+    />
+    <p className="absolute  text-black text-left text-lg z-40">
+      Is your algorithm your story?
+    </p>
+  </div>
+</div>
+</div>
+
   );
 };
 

@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
 
 
 const Dashboard = () => {
@@ -132,7 +133,7 @@ User 1
   onClick={() => navigate("/interest")}
   className=" bg-[#FF9348]  text-[white]  font-semibold text-[1vw] leading-[100%] rounded-[6px] px-[10px] py-[8px] gap-[10px] opacity-100 flex items-center justify-center transition-all duration-200"
 >
-  Click here to start →
+  Click here to start <ChevronRight/>
 </Button>
 
           </div>
