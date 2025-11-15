@@ -96,7 +96,7 @@ console.log("checkk",topic)
       <div className={` px-4 transition-all duration-300 ${showIntroModal ? "blur-sm pointer-events-none" : ""}`}>
 
         {/* Header - Horizontal Layout */}
-<ModuleHeader/>
+<ModuleHeader count={selectedCount}/>
 
         <div><h1 className="text-[black] text-center text-[24px]">Click to narrow down your interests</h1></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
@@ -170,7 +170,8 @@ export default Interest;
 
 
 
-const ClosingModal = () => {
+const ClosingModal = (
+) => {
 
   const navigate = useNavigate();
 
@@ -221,7 +222,7 @@ GOOOD JOB! We’ll start calculating from the next module....</div>
       </div>
   );
 } 
-const ModuleHeader = () => {
+const ModuleHeader = (props) => {
   return (
       <>
           <div className="  pt-6 mb-2">

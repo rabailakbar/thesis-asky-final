@@ -9,8 +9,8 @@ const Dashboard = () => {
       title: "Find your vibe",
       description: "Let's help you build your feed!",
       image: "/images/find-your-vibe.svg",
-      level: "🟣 Beginner Level",
-      duration: "🕒 2 min",
+      level: " Beginner Level",
+      duration: " 2 min",
       path: "/interest",
       src:"/framee.svg"
     },
@@ -18,8 +18,8 @@ const Dashboard = () => {
       title: "Pick & Flick",
       description: "Like and save social media posts!",
       image: null, // manually rendered (colored blocks)
-      level: "🟣 Beginner Level",
-      duration: "🕒 2 min",
+      level: " Beginner Level",
+      duration: " 2 min",
       path: "/exercise",
       custom: true,
       src:"/1.png"
@@ -28,8 +28,8 @@ const Dashboard = () => {
       title: "Bias Detection",
       description: "Identify biased language x",
       image: "/images/bias-detection.svg",
-      level: "🟡 Intermediate Level",
-      duration: "🕒 5 min",
+      level: " Intermediate Level",
+      duration: " 5 min",
       path: "/spotthebias",
       src:"6.svg"
     },
@@ -37,8 +37,8 @@ const Dashboard = () => {
       title: "Social Analysis",
       description: "Analyze social media credibility",
       image: "/images/social-analysis.svg",
-      level: "🟢 Advanced Level",
-      duration: "🕒 3 min",
+      level: " Advanced Level",
+      duration: "3 min",
       path: "/debate/switch",
       src:"3.svg"
     },
@@ -46,8 +46,8 @@ const Dashboard = () => {
       title: "Fake or Fact?",
       description: "Spot fake images and content!",
       image: "/images/fake-or-fact.svg",
-      level: "🟢 Advanced Level",
-      duration: "🕒 5 min",
+      level: " Advanced Level",
+      duration: "5 min",
       path: "/fakefact",
       src:"4.svg"
     },
@@ -55,8 +55,8 @@ const Dashboard = () => {
       title: "Behind the Buzz",
       description: "Analyze viral content motivations!",
       image: "/images/behind-the-buzz.svg",
-      level: "🟡 Intermediate Level",
-      duration: "🕒 2 min",
+      level: "Intermediate Level",
+      duration: "2 min",
       path: "/behind-the-buzz",
       src:"5.png"
     },
@@ -163,12 +163,12 @@ User 1
      </div>
    </div>
  
-   <div className="flex items-center justify-between text-xs text-gray-600 ">
+   <div className="flex items-center justify-between  ">
      <div className="flex items-center gap-1">
-       <div className="w-4 h-4 bg-gray-300 text-[#1E1E2F] rounded-full" />
-       <span>{phase.difficulty}</span>
+       <div className="w-4 h-4 rounded-full" />
+       <span className="flex justify-center items-center gap-1 text-[12px]" ><img src={"/begin.svg"} className="w-2 h-2"/>{phase.difficulty}</span>
      </div>
-     <span>{phase.done}</span>
+     <span className="flex justify-center items-center gap-1 text-[12px] "> {phase.done}</span>
    </div>
  </Card>
  
@@ -208,8 +208,8 @@ User 1
     </p>
 
     <div className="flex items-center justify-between text-[0.5vw] text-gray-500">
-      <span>{mod.level}</span>
-      <span>{mod.duration}</span>
+      <span className="flex justify-center items-center gap-1 text-[12px]"> <img src={"/begin.svg"} className="w-2 h-2"/>{mod.level}</span>
+      <span className="flex justify-center items-center gap-1 text-[12px]">{mod.duration}</span>
     </div>
   </Card>
 ))}

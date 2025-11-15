@@ -19,7 +19,7 @@ export default function Onboarding() {
       } else {
         setStep(sequence[i]);
       }
-    }, 2500);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -35,8 +35,8 @@ export default function Onboarding() {
           <SplitText
             text="hello, you!"
             className="text-[84px] font-bold text-black text-center"
-            delay={100}
-            duration={0.6}
+            delay={200}
+            duration={0.7}
             ease="power3.out"
             splitType="chars"
             from={{ opacity: 0, y: 40 }}
@@ -120,9 +120,9 @@ export default function Onboarding() {
                 initial={{ y: "-100%" }}            
                 animate={{ y: "0%" }}               
                 transition={{
-                  duration: 0.8,
+                  duration: 0.9,
                   ease: "easeOut",
-                  delay: index * 0.11,               
+                  delay: index * 0.12,               
                 }}
               />
             ))}
