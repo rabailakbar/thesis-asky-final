@@ -132,7 +132,7 @@ console.log("checkk",topic)
               className={`px-10 font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 
                 ${
                   topic.voted === "interested"
-                    ? "bg-[#5F237B] text-white hover:bg-[#5F237B]"
+                    ? "bg-[#9250B7] text-white hover:bg-[#9250B7]"
                     : "bg-[#F1F5F9] text-[#1E1E2F]"
                 }`}
             >
@@ -147,7 +147,7 @@ console.log("checkk",topic)
               className={`px-10 font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 
                 ${
                   topic.voted === "not-interested"
-                    ? "bg-[#5F237B] text-white hover:bg-[#5F237B]"
+                    ? "bg-[#9250B7] text-white hover:bg-[#9250B7]"
                     : "bg-[#F1F5F9] text-[#1E1E2F]"
                 }`}
             >
