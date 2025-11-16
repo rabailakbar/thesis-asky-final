@@ -111,7 +111,6 @@ const [done,setDone] = useState(false)
   
     fetchImages();
   }, []);
-  
 
   const pickRandom = (arr: Post[]) => arr[Math.floor(Math.random() * arr.length)];
 
@@ -360,7 +359,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
           src={"/opening12.png"}
         />
         <div className="max-w-7xl w-full ">
-          <ModuleHeader setDone={setDone} savesCount={savesCount} likesCount={likesCount} MAX_LIKES={MAX_LIKES} MAX_SAVES={MAX_SAVES} polarizationScore={100} />
+          <ModuleHeader setDone={setDone} savesCount={savesCount} likesCount={likesCount} MAX_LIKES={MAX_LIKES} MAX_SAVES={MAX_SAVES} polarizationScore={score} />
           {isLoading?( <motion.div
         key="loading-screen"
         initial={{ opacity: 0 }}

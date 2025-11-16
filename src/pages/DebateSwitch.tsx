@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { Timer, ThumbsUp } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 
 const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
 
@@ -20,7 +18,7 @@ const DebateSwitch = (props) => {
   const [showUserOptions, setShowUserOptions] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
 
-  const DEBATE_TOPIC =props.debate.Debate_Question || `"Are Millennials the forgotten generation in the mental health conversation, overshadowed by Gen Z’s
+  const DEBATE_TOPIC =props?.debate?.Debate_Question || `"Are Millennials the forgotten generation in the mental health conversation, overshadowed by Gen Z’s
   louder struggles?"`;
   // Timer
   useEffect(() => {
@@ -32,6 +30,7 @@ const DebateSwitch = (props) => {
     return () => clearInterval(timer);
   }, [timeLeft]);
 
+  console.log(timeLeft)
   // Load image
  
 
@@ -166,8 +165,7 @@ const DebateSwitch = (props) => {
 
  
 
-  return (
-    isCompleted)?(<ClosingModal/>):(<div className="p-8">
+  return ( isCompleted)?(<ClosingModal/>):(<div className="p-8">
     <main className="h-[90vh] px-24 bg-[#F8F1E7] flex flex-col">
     {/* <OpeningModal
           showIntroModal={showIntroModal}
@@ -181,19 +179,19 @@ const DebateSwitch = (props) => {
       <div className="text-center">
         <p className="text-xl font-medium text-gray-900">Headline #1</p>
       </div>
-      <div className="text-center mb-8">
+      <div className="text-center mb-2">
         <p className="text-gray-800">
           Argue in favor of the headline by choosing the best prompt
         </p>
       </div>
   
       {/* Red Banner */}
-      <div className="bg-[#5F237B] rounded-tl-3xl text-white text-center py-2 px-6 mb-6 ">
+      <div className="bg-[#5F237B] rounded-tl-3xl text-white text-center py-2 px-6 mb-4 ">
         <p className="text-xl font-medium">{DEBATE_TOPIC}</p>
       </div>
   
       {/* Debate Row — this now fills all remaining vertical space */}
-      <div className="flex justify-between flex-grow gap-18 px-8 items-stretch">
+      <div className="flex justify-between flex-grow gap-18 px-8 items-stretch mb-4">
   {/* Opponent Side */}
   <div className="flex items-stretch gap-6 text-center">
     <div className="flex flex-col justify-end">
@@ -206,7 +204,7 @@ const DebateSwitch = (props) => {
     </div>
 
     {/* Opponent Argument */}
-    <div className="bg-[#EDE1D0] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[200px] flex items-center justify-center shadow-sm p-4 h-[80%]">
+    <div className="bg-[#EDE1D0] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[200px] flex items-center justify-center shadow-sm p-4 h-[100%]">
       <p className="text-gray-900 text-center text-base break-words overflow-hidden">
         {isLoading ? "Thinking..." : llmArgument}
       </p>
@@ -216,27 +214,33 @@ const DebateSwitch = (props) => {
   {/* User Side */}
   <div className="flex items-stretch gap-6 text-center">
     {showUserOptions && (
-      <div className="space-y-4 w-[340px] flex flex-col ">
+      <div className="space-y-4 w-[300px] flex flex-col ">
         {userPrompts.map((prompt, index) => (
-          <button
-            key={index}
-            onClick={() => handlePromptClick(index + 1)}
-            className={`w-full bg-[#EDE1D0] h-[70%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] p-2.5 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
-              selectedPrompt === index + 1
-                ? "ring-2 ring-purple-500 shadow-md scale-[1.02]"
-                : "hover:bg-gray-50 hover:shadow-md"
-            }`}
-          >
-            <p className="text-xs font-medium text-gray-500 mb-0.5">
-              prompt #{index + 1}
-            </p>
-            <p className="text-sm text-gray-800 leading-snug">{prompt}</p>
-            {selectedPrompt === index + 1 && (
-              <div className="absolute top-2 right-2">
-                <ThumbsUp className="w-4 h-4 text-purple-600" />
-              </div>
-            )}
-          </button>
+        <button
+        key={index}
+        onClick={() => handlePromptClick(index + 1)}
+        className={`w-full bg-[#EDE1D0] h-[30%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
+          selectedPrompt === index + 1
+            ? "ring-2 ring-purple-500 shadow-md scale-[1.02]"
+            : "hover:bg-gray-50 hover:shadow-md"
+        }`}
+      >
+        {/* Main prompt content */}
+        <p className="text-sm text-gray-800 leading-snug">{prompt}</p>
+      
+        {/* Bottom-right "prompt #N" */}
+        <p className="absolute bottom-2 right-2 text-xs font-medium text-[#201E1C] mb-0.5">
+          Prompt #{index + 1}
+        </p>
+      
+        {/* Optional thumbs-up icon */}
+        {selectedPrompt === index + 1 && (
+          <div className="absolute top-2 right-2">
+            <ThumbsUp className="w-4 h-4 text-purple-600" />
+          </div>
+        )}
+      </button>
+      
         ))}
       </div>
     )}
@@ -263,7 +267,6 @@ export default DebateSwitch;
 
 
 
-import { Clock } from "lucide-react"
 
 import { Button } from "@/components/ui/button";
 import OpeningModal from "@/components/OpeningModal";

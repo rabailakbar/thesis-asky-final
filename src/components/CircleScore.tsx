@@ -1,6 +1,6 @@
 import React from "react";
 
-const CircleScore = ({ scoreDrop = 5, size = 120, strokeWidth = 10 }) => {
+const CircleScore = ({ scoreDrop = 5, size = 100, strokeWidth = 10 }) => {
   // Remaining score (e.g., 100 - drop)
   const score = scoreDrop;
 
@@ -9,6 +9,9 @@ const CircleScore = ({ scoreDrop = 5, size = 120, strokeWidth = 10 }) => {
   const radius = center - strokeWidth / 2; // keep stroke fully inside SVG
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (score / 100) * circumference;
+  const offset1 = circumference - 0.90 * circumference;
+
+
 
   // Inner circle diameter that fits exactly inside the stroke
   // available inner area = total size - 2*strokeWidth
@@ -33,6 +36,9 @@ const CircleScore = ({ scoreDrop = 5, size = 120, strokeWidth = 10 }) => {
           stroke="#EDE1D0"
           strokeWidth={strokeWidth}
           fill="none"
+          strokeDasharray={circumference * 0.95}
+          strokeDashoffset={circumference * (1 - 0.95)}
+
         />
 
         {/* Progress circle (gradient) */}
@@ -44,8 +50,8 @@ const CircleScore = ({ scoreDrop = 5, size = 120, strokeWidth = 10 }) => {
           strokeWidth={strokeWidth}
           fill="none"
           strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={offset}
+          strokeDasharray={circumference*0.95}
+          strokeDashoffset={offset*0.95}
         />
 
         {/* Gradient: top->bottom matches linear-gradient(180deg, #D0193E 0%, #5F237B 100%) */}

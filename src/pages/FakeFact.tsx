@@ -237,7 +237,7 @@ console.log(allQuestions)
           setShowIntroModal={setShowIntroModal}
           src={"/opening13.png"}
         />
-      <ModuleHeader polarizationScore={score} currentQuestionIndex={currentQuestionIndex} />
+      <ModuleHeader polarizationScore={score} currentQuestionIndex={8-currentQuestionIndex} />
   
       {currentQuestionIndex < totalQuestions && (
         <h2 className="text-2xl text-center mb-6  font-normal">Click to identify which one is fake</h2>
@@ -669,7 +669,7 @@ Is everything not real?!
   {/* Bottom div */}
   <div>
     <div className="text-3xl font-bold text-gray-900">
-      {props.currentQuestionIndex}/7 Left
+      {props.currentQuestionIndex}/8 Left
     </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Timer, Heart, MessageCircle, Repeat2, Bookmark } from "lucide-react";
+import { Timer, Heart, MessageCircle, Repeat2, Bookmark, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useNavigate } from "react-router-dom";
@@ -166,8 +166,8 @@ const OpeningModal = (props:any)=>{
                       
                       {/* Title */}
                       <div>
-                      <div className="text-[#5F237B] text-[24px] font-semibold ">Phase I</div>
-                      <h2 className="text-[24px] font-bold text-black">Module {props.moduleId.split()[0]}: Find your vibe</h2>
+                      <div className="text-[#FF9348] text-[24px] font-semibold ">Phase III</div>
+                      <h2 className="text-[24px] font-bold text-black">Module 6: Debate Switch</h2>
                       </div>
                     </div>
         
@@ -181,19 +181,19 @@ const OpeningModal = (props:any)=>{
         
                     {/* Description */}
                     <p className="text-[#1E1E2F] font-lato font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
-                        In this module, students will filter out content for themselves. From a pool of 50 topics, 
-                        they are supposed to narrow down 15 by simply clicking on the 
-                  <span className="font-semibold"> ‘Interested’ </span>
-                                                                  & 
-                    <span className="font-semibold"> ‘Not Interested’ </span>
-                               buttons. These picks will shape their personalized explore feed for the next module.
+                    Ready. Set. Debate! 🧠<br/>
+                    You’ve got 90 seconds to bring your best arguments to the table!
+                     Defend your stance like a pro — but wait for it... plot twist! <br/>
+                      You’ll have to switch sides and fight for the opposite view.
+                       Every round flexes your perspective power, builds empathy, and drops that polarization score. 
+                       The more open-minded you get, the closer you are to victory! 
                   </p>
 
         
                     {/* Info Badges */}
                     <div className="flex items-center gap-4 mb-6 text-sm">
                    
-                    <div className="flex items-center gap-2 text-[#1E1E2F] px-3 py-1.5 rounded-full font-[400] text-[18px] leading-[100%] tracking-[0]">
+                    <div className="flex items-center gap-2 text-[#1E1E2F]  py-1.5 rounded-full font-[400] text-[18px] leading-[100%] tracking-[0]">
   <img src={"/I_1b.svg"} />
   Beginner Level
 </div>
@@ -210,12 +210,16 @@ const OpeningModal = (props:any)=>{
         
                     {/* Begin Button */}
                     <div className="flex justify-center">
-                    <Button
+                    <button
   onClick={() => props.setShowIntroModal(false)}
-  className="bg-[#5F237B] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
+  className="
+    bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px]
+    text-base font-medium flex items-center justify-center gap-[10px]
+    focus:outline-none focus:ring-0 active:outline-none
+  "
 >
-            Let's begin →
-          </Button>
+  Let's begin <ChevronRight size={14} />
+</button>
         </div>
                   </div>
                 </DialogContent>

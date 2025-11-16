@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import OpeningModal from "@/components/OpeningModal";
 import { ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 type Screen = "intro" | "roleSelection" | "question" | "scenario" | "closing";
@@ -48,22 +47,30 @@ const InTheirShoes = () => {
   ];
 
   
-
+const dispatch = useDispatch()
   const COLORS = ["#FFC700", "#FF9348", "#5F237B"];
-
-  const handleAnswerSelect = (selectedLabel: string) => {
+const score = useSelector((state:RootState)=>state.topics.score)
+  const handleAnswerSelect = (selectedLabel: string,color:string) => {
     setSelectedAnswer(selectedLabel);
+    if(color=="#FFC700"){
+      dispatch(decreaseScore(2))
+    }
+    if(color =="#FF9348"){
+      dispatch(decreaseScore(4))
+    }
+    if(color =="5F237B"){
+      dispatch(decreaseScore(6))
+    }
+
+
   
     // Shuffle colors randomly
-    const shuffledColors = [...COLORS].sort(() => Math.random() - 0.5);
-    setAnswerColors(shuffledColors);
   
     // Delay before moving to next step
     setTimeout(() => {
       if (questionStep === 1) {
         setQuestionStep(2);
         setSelectedAnswer(null);
-        setAnswerColors(["#EDE1D0", "#EDE1D0", "#EDE1D0"]); // reset
       } else if (questionStep === 2) {
         if (round < 3) {
           setRound(round + 1);
@@ -71,7 +78,6 @@ const InTheirShoes = () => {
           setSelectedAnswer(null);
           setRoleDetails({});
           setSelectedRole("");
-          setAnswerColors(["#EDE1D0", "#EDE1D0", "#EDE1D0"]); // reset
           setCurrentScreen("roleSelection");
         } else {
           setCurrentScreen("closing");
@@ -102,30 +108,36 @@ const InTheirShoes = () => {
   
  const [questionStep, setQuestionStep] = useState<1 | 2>(1);
 
- const [answerColors, setAnswerColors] = useState<string[]>(["#EDE1D0", "#EDE1D0", "#EDE1D0"]);
 
+ const selectColor = (color: string) => {
+  if (color === "yellow") return "#FFC700";
+  if (color === "orange") return "#FF9348";
+  if (color === "purple") return "#5F237B";
+  return "#EDEDED"; // fallback (optional)
+};
 
-    const renderQuestion = () => {
-      if (questionStep === 1) {
-        return {
-          questionText: roleDetails.Q1,
-          answers: [
-            { label: "A", text: roleDetails.Q1a },
-            { label: "B", text: roleDetails.Q1b },
-            { label: "C", text: roleDetails.Q1c },
-          ],
-        };
-      } else {
-        return {
-          questionText: roleDetails.Q2,
-          answers: [
-            { label: "A", text: roleDetails.Q2a },
-            { label: "B", text: roleDetails.Q2b },
-            { label: "C", text: roleDetails.Q2c },
-          ],
-        };
-      }
+const renderQuestion = () => {
+  if (questionStep === 1) {
+    return {
+      questionText: roleDetails.Q1,
+      answers: [
+        { label: "A", text: roleDetails.Q1a, color: selectColor(roleDetails.Q1atype) },
+        { label: "B", text: roleDetails.Q1b, color: selectColor(roleDetails.Q1btype) },
+        { label: "C", text: roleDetails.Q1c, color: selectColor(roleDetails.Q1ctype) },
+      ],
     };
+  } else {
+    return {
+      questionText: roleDetails.Q2,
+      answers: [
+        { label: "A", text: roleDetails.Q2a, color: selectColor(roleDetails.Q2atype) },
+        { label: "B", text: roleDetails.Q2b, color: selectColor(roleDetails.Q2btype) },
+        { label: "C", text: roleDetails.Q2c, color: selectColor(roleDetails.Q2ctype) },
+      ],
+    };
+  }
+};
+
 
     const q = renderQuestion();
     console.log(q)
@@ -206,7 +218,7 @@ const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
           src={"/opening17.png"}
         />        <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <ModuleHeader/>
+          <ModuleHeader  currentQuestionIndex={3-round} polarizationScore={score}/>
 
           {/* Role Selection Heading */}
           <div className="text-center mb-12">
@@ -255,7 +267,7 @@ const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
       <main className="h-[90vh] bg-[#F8F1E7] ">
         <div className="max-w-6xl mx-auto flex flex-col">
           {/* Header */}
-          <ModuleHeader/>
+          <ModuleHeader  currentQuestionIndex={round} polarizationScore={score}/>
           <div className="text-center ">
             <h2 className="text-lg font-semibold text-[#201E1C] ">Choose Your Role:</h2>
             <p className="text-lg text-[#201E1C]">
@@ -278,7 +290,7 @@ const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
             {/* Right: Scenario Text */}
             <div className="w-2/3 flex flex-col   px-8">
             <h2 className="text-[1.25vw] bg-white font-normal text-gray-900 mb-8 w-fit px-[16px] py-[4px] rounded-[40px]">
-  Scenario 
+  Scenario {round}
 </h2>
 
               <p className="text-[1.25vw] text-gray-800 leading-relaxed mb-8 max-w-lg">
@@ -306,12 +318,12 @@ const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
       <div className="p-8">
         <main className="h-[90vh] bg-[#F8F1E7] p-8">
           <div className="max-w-7xl mx-auto">
-            <ModuleHeader />
+          <ModuleHeader  currentQuestionIndex={3-round} polarizationScore={score}/>
 
             {/* Question Header */}
             <div className="text-center mb-2">
               <h3 className="text-xl font-normal text-[#201E1C] ">
-                {questionStep === 1 ? "Scenario 1 — Q1" : "Scenario 1 — Q2"}
+                {questionStep === 1 ? `Scenario ${round} — Q1` : `Scenario ${round} — Q2`}
               </h3>
             </div>
 
@@ -319,8 +331,12 @@ const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
             <div className="flex justify-center items-center ">
               <div className="flex flex-col justify-center items-center max-w-4xl w-full px-6 ">
                 <div className="flex justify-center items-center gap-2 ">
-                  <p className="text-[#FF9348] text-[60px]">
-                   Q{questionStep}
+                <p
+  className="text-[60px]"
+  style={{
+    color: questionStep === 1 ? "#FF9348" : "#5F237B",
+  }}
+>                   Q{questionStep}
                   </p>
                   <p 
                   className="leading-relaxed">
@@ -341,13 +357,13 @@ const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full mb-8">
   {q.answers.map((a, i) => {
     const isColored = selectedAnswer !== null; // true if user has clicked any answer
-    const bgColor = isColored ? answerColors[i] : "#EDE1D0";
+    const bgColor = isColored ? a.color : "#EDE1D0";
     const textColor = isColored ? "text-white" : "text-gray-800";
 
     return (
       <Card
         key={a.label}
-        onClick={() => handleAnswerSelect(a.label)}
+        onClick={() => handleAnswerSelect(a.label,a.color)}
         className={`p-2 cursor-pointer transition-all border-gray-200`}
         style={{ backgroundColor: bgColor }}
       >
@@ -375,7 +391,7 @@ const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
 
   // ✅ Closing screen after both Q1 & Q2 done
   if (currentScreen === "closing") {
-    return <ClosingModal />;
+    return <ClosingModal score={score} />;
   }
 
 };
@@ -415,7 +431,7 @@ function RoleCard({ role, disabled }: any) {
 
 
 
-const ModuleHeader = () => {
+const ModuleHeader = (props) => {
   return (
       <>
           <div className="  pt-6 mb-2">
@@ -423,21 +439,22 @@ const ModuleHeader = () => {
                   {/* Left side: Icon + Module Info */}
                   <div className="flex items-center gap-8">
                       {/* Puzzle Icon */}
-                      <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+                      <div className="w-24 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
                           <img
                               src={"/opening17.png"}
                               alt="Module 1"
-                              className="w-25  object-contain"
+                              className="w-24  object-contain"
                           />
                       </div>
 
                       {/* Module Info */}
                       <div>
                       <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-                      In their shoes 👟</h1>
+In their shoes</h1>
 
 <p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-Step into another role, and make their world make sense.</p>
+Step into another role, and make their world make sense.
+</p>
 
 
                           <div className="flex items-center gap-4 text-[#201E1C]">
@@ -453,9 +470,34 @@ Step into another role, and make their world make sense.</p>
                   </div>
 
                   {/* Right side: Counter */}
-                  <div className="text-right">
-                      <div className="text-3xl font-bold text-gray-900">/7</div>
-                  </div>
+                  <div className="flex flex-col justify-between gap-4 h-full items-end">
+  {/* Top div */}
+  <div>
+    <div className="w-[200px] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1 relative">
+      {/* Gray background track (already present) */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[#EDE1D0] rounded-full"></div>
+
+      {/* Gradient foreground */}
+      <div
+        className="h-full rounded-full relative"
+        style={{
+          width: `${props.polarizationScore || 5}%`,
+          background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
+        }}
+      />
+    </div>
+    <span className="text-sm text-gray-700"> Polarization Score</span>
+  </div>
+
+  {/* Bottom div */}
+  <div>
+    <div className="text-3xl font-semibold text-gray-900">
+      {props.currentQuestionIndex}/3 Left
+    </div>
+  </div>
+</div>
+
+
               </div>
           </div>
 
@@ -464,7 +506,25 @@ Step into another role, and make their world make sense.</p>
       </>)
 }
 
- function ClosingModal () {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ function ClosingModal (props) {
 
   const navigate = useNavigate();
 
@@ -475,14 +535,16 @@ Step into another role, and make their world make sense.</p>
               <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl  text-center">
 
               {/* Module Completion Header */}
-              <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
+              <div className="flex  justify-center gap-4 mb-6">
+              {/* <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
 <div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
   –
 </div>
-</div>
+</div> */}
+  <CircleScore scoreDrop={props.score}/>
+
                   <div className="text-left">
-                  <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
+                  <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-4">
   Module 7: Complete
 </h1>
 
@@ -495,7 +557,7 @@ Step into another role, and make their world make sense.</p>
 
               {/* Score Circle */}
               <div className="mt-10 mb-10 flex justify-center items-center">
-<img src={"/closingg.svg"} className="h-[35vh]" />
+<img src={"/closing22.png"} className="h-[35vh]" />
 
               </div>
 
@@ -514,3 +576,85 @@ You did it! 🎉 Your polarization score is at its <span className="text-[#5F237
       </div>
   );
 } 
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { decreaseScore } from "@/store/topicsSlice";
+import CircleScore from "@/components/CircleScore";
+
+const OpeningModal = (props:any)=>{
+    
+
+  return (
+      <Dialog open={props.showIntroModal } onOpenChange={props.setShowIntroModal}>
+<DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
+<div className="px-32 py-16">
+                  {/* Header with Icon */}
+                  <div className="flex items-start gap-4 mb-6">
+                    {/* Puzzle Icon */}
+                    <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+        <img
+          src={props.src}
+          alt="Module 1"
+          className="w-16 h-16 object-contain"
+        />
+      </div>
+      
+                    
+                    {/* Title */}
+                    <div>
+                    <div className="text-[#FF9348] text-[24px] font-semibold ">Phase III</div>
+                    <h2 className="text-[24px] font-bold text-black">Module {props.moduleId.split()[0].split("")[1]}: In their Shoes</h2>
+                    </div>
+                  </div>
+      
+                  {/* Video Placeholder */}
+                  <div className="bg-gray-100 rounded-lg p-12 mb-6 text-center">
+                    <div className="text-gray-500">
+                      <div className="font-medium mb-1">Walkthrough Video</div>
+                      <div className="text-sm">(small screen recording)</div>
+                    </div>
+                  </div>
+      
+                  {/* Description */}
+                  <p className="text-[#1E1E2F] font-lato font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
+                  Time to see the world from someone else’s point of view! Swipe the cards to get your role, then use your best mix facts and emotions to explain or defend the scenario like it’s your own. The stronger (and more empathetic) your case, the more your polarization score drops. Ready to play your way into someone else’s perspective? 🎭💡
+                </p>
+
+      
+                  {/* Info Badges */}
+                  <div className="flex items-center gap-4 mb-6 text-sm">
+                 
+                  <div className="flex items-center gap-2 text-[#1E1E2F]  py-1.5 rounded-full font-[400] text-[18px] leading-[100%] tracking-[0]">
+<img src={"/I_1b.svg"} />
+Advanced Level
+</div>
+
+                    <div className="flex items-center gap-2 text-[#1E1E2F]-600">
+                      <img src={"/clocl.svg"} className="w-4 h-4 " />
+                      <span>02:00</span>
+                    </div>
+                    <div className=" flex justify-center items-center gap-2 text-[#1E1E2F]-500 ">
+        <img src={"/star.svg"}/>
+                      Score is  being calculated in this module
+                    </div>
+                  </div>
+      
+                  {/* Begin Button */}
+                  <div className="flex justify-center">
+                  <button
+  onClick={() => props.setShowIntroModal(false)}
+  className="
+    bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px]
+    text-base font-medium flex items-center justify-center gap-[10px]
+    focus:outline-none focus:ring-0 active:outline-none
+  "
+>
+  Let's begin <ChevronRight size={14} />
+</button>
+      </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+  )
+}

@@ -60,6 +60,7 @@ const SpotTheBias = () => {
 
   return (
     <BiasQuiz
+    length={questions?.length}
     currentQuestionIndex={currentQuestionIndex}
       question={currentQuestion}
       imageUrl={imageUrl}
