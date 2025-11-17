@@ -16,326 +16,359 @@ type Role = {
 const InTheirShoes = () => {
   const navigate = useNavigate();
   const [currentScreen, setCurrentScreen] = useState<Screen>("roleSelection");
-  const [selectedRole, setSelectedRole] = useState<string >("");
+  const [selectedRole, setSelectedRole] = useState<string>("");
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState(1);
-  const [roleDetails,setRoleDetails] = useState<any>({});
+  const [roleDetails, setRoleDetails] = useState<any>({});
   const [round, setRound] = useState(1); // Round 1 → 3
   const [usedRoles, setUsedRoles] = useState<string[]>([]);
+  const [questionStep, setQuestionStep] = useState<1 | 2>(1);
+  const [showIntroModal, setShowIntroModal] = useState<boolean>(true);
+  
+  // ⭐ NEW STATE: Map answer label (A, B, C) to the tooltip text that should appear
+  const [tooltipMapping, setTooltipMapping] = useState<{ [key: string]: string | null }>({});
 
   const fetchRoleDetails = async (role: string) => {
-    const { data, error } = await supabase.from("Roles").select("*").eq("Role", role); // ✅ Filter where Role == role
-    console.log(data)
-  setRoleDetails(data[0])
-    if (error) {
-      console.error("Error fetching spotthebias:", error);
-      return;
-    }
-  
-    return data; // ✅ Return the fetched rows
+      const { data, error } = await supabase.from("Roles").select("*").eq("Role", role);
+      console.log(data)
+      setRoleDetails(data[0])
+      if (error) {
+          console.error("Error fetching spotthebias:", error);
+          return;
+      }
+      return data;
   };
-  
+
   const roles: Role[] = [
-    { title: "Team Captain", subtitle: "Physical Training" },
-    { title: "School Editor", subtitle: "" },
-    { title: "Parent", subtitle: "" },
-    { title: "Friend", subtitle: "Social Media" },
-    { title: "Family", subtitle: "School" },
-    { title: "Teacher", subtitle: "School Club" },
-    { title: "Influencer", subtitle: "Older Sibling" },
-   
+      { title: "Team Captain", subtitle: "Physical Training" },
+      { title: "School Editor", subtitle: "" },
+      { title: "Parent", subtitle: "" },
+      { title: "Friend", subtitle: "Social Media" },
+      { title: "Family", subtitle: "School" },
+      { title: "Teacher", subtitle: "School Club" },
+      { title: "Influencer", subtitle: "Older Sibling" },
   ];
 
-  
-const dispatch = useDispatch()
-const score = useSelector((state:RootState)=>state.topics.score)
-  const handleAnswerSelect = (selectedLabel: string,color:string) => {
-    setSelectedAnswer(selectedLabel);
-    if(color=="#FFC700"){
-      dispatch(decreaseScore(2))
-    }
-    if(color =="#FF9348"){
-      dispatch(decreaseScore(4))
-    }
-    if(color =="#5F237B"){
-      dispatch(decreaseScore(6))
-    }
+  const dispatch = useDispatch()
+  const score = useSelector((state: any) => state.topics.score)
 
+  const handleAnswerSelect = (selectedLabel: string, color: string) => {
+      setSelectedAnswer(selectedLabel);
 
-  
-    // Shuffle colors randomly
-  
-    // Delay before moving to next step
-    setTimeout(() => {
-      if (questionStep === 1) {
-        setQuestionStep(2);
-        setSelectedAnswer(null);
-      } else if (questionStep === 2) {
-        if (round < 3) {
-          setRound(round + 1);
-          setQuestionStep(1);
-          setSelectedAnswer(null);
-          setRoleDetails({});
-          setSelectedRole("");
-          setCurrentScreen("roleSelection");
-        } else {
-          setCurrentScreen("closing");
-        }
+      // Score update logic
+      if (color === "#FFC700") {
+          dispatch(decreaseScore(2))
       }
-    }, 1000); // 1 second delay
+      if (color === "#FF9348") {
+          dispatch(decreaseScore(4))
+      }
+      if (color === "#5F237B") {
+          dispatch(decreaseScore(6))
+      }
+
+      // ⭐ TOOLTIP LOGIC IMPLEMENTATION
+      const qData = renderQuestion();
+      const newTooltipMapping: { [key: string]: string | null } = {};
+
+      if (color !== "#5F237B") {
+          // Case: Yellow or Orange is selected (Non-Purple)
+          // 1. Selected answer displays the first tooltip (Qx.tooltip1)
+          newTooltipMapping[selectedLabel] = qData.tooltip1;
+
+          // 2. Find the purple answer and assign the second tooltip (Qx.tooltip2) to it
+          const purpleAnswer = qData.answers.find(a => a.color === "#5F237B");
+          if (purpleAnswer) {
+              newTooltipMapping[purpleAnswer.label] = qData.tooltip2;
+          }
+      } else {
+          // Case: Purple (#5F237B) is selected. No tooltip occurs on the selected answer.
+          // As per requirement, if purple is selected, no tooltips will be mapped initially.
+      }
+
+      setTooltipMapping(newTooltipMapping);
+      // ⭐ END TOOLTIP LOGIC
+
+      // Delay before moving to next step
+      setTimeout(() => {
+          // Reset state for next step/round
+          setSelectedAnswer(null);
+          setTooltipMapping({}); // Clear tooltips when moving on
+
+          if (questionStep === 1) {
+              setQuestionStep(2);
+          } else if (questionStep === 2) {
+              if (round < 3) {
+                  setRound(round + 1);
+                  setQuestionStep(1);
+                  setRoleDetails({});
+                  setSelectedRole("");
+                  setCurrentScreen("roleSelection");
+              } else {
+                  setCurrentScreen("closing");
+              }
+          }
+      }, 10000); // 1 second delay
   };
-  
-  
+
 
   const handleNext = () => {
-    if (currentQuestion < 9) {
-      setCurrentQuestion(currentQuestion + 1);
-      setSelectedAnswer(null);
-    }
+      if (currentQuestion < 9) {
+          setCurrentQuestion(currentQuestion + 1);
+          setSelectedAnswer(null);
+      }
   };
 
   const handleRole = async (role: string) => {
-    setSelectedRole(role);
-  
-    // Add role to used list
-    setUsedRoles((prev) => [...prev, role]);
-  
-    await fetchRoleDetails(role);
-  
-    setCurrentScreen("scenario");
+      setSelectedRole(role);
+
+      // Add role to used list
+      setUsedRoles((prev) => [...prev, role]);
+
+      await fetchRoleDetails(role);
+
+      setCurrentScreen("scenario");
   };
-  
- const [questionStep, setQuestionStep] = useState<1 | 2>(1);
 
 
- const selectColor = (color: string) => {
-  if (color === "yellow") return "#FFC700";
-  if (color === "orange") return "#FF9348";
-  if (color === "purple") return "#5F237B";
-  return "#EDEDED"; // fallback (optional)
-};
+  const selectColor = (color: string) => {
+      if (color === "yellow") return "#FFC700";
+      if (color === "orange") return "#FF9348";
+      if (color === "purple") return "#5F237B";
+      return "#EDEDED"; // fallback (optional)
+  };
 
-const renderQuestion = () => {
-  if (questionStep === 1) {
-    return {
-      tooltip1:roleDetails.Q1tooltip1,
-      tooltip2:roleDetails.Q1tooltip2,
-      questionText: roleDetails.Q1,
-      answers: [
-        { label: "A", text: roleDetails.Q1a, color: selectColor(roleDetails.Q1atype) },
-        { label: "B", text: roleDetails.Q1b, color: selectColor(roleDetails.Q1btype) },
-        { label: "C", text: roleDetails.Q1c, color: selectColor(roleDetails.Q1ctype) },
-      ],
-    };
-  } else {
-    return {
-      tooltip1:roleDetails.Q2tooltip1,
-      tooltip2:roleDetails.Q2tooltip2,
-      questionText: roleDetails.Q2,
-      answers: [
-        { label: "A", text: roleDetails.Q2a, color: selectColor(roleDetails.Q2atype) },
-        { label: "B", text: roleDetails.Q2b, color: selectColor(roleDetails.Q2btype) },
-        { label: "C", text: roleDetails.Q2c, color: selectColor(roleDetails.Q2ctype) },
-      ],
-    };
-  }
-};
+  const renderQuestion = () => {
+      if (questionStep === 1) {
+          return {
+              tooltip1: roleDetails.Q1tooltip1,
+              tooltip2: roleDetails.Q1tooltip2,
+              questionText: roleDetails.Q1,
+              answers: [
+                  { label: "A", text: roleDetails.Q1a, color: selectColor(roleDetails.Q1atype) },
+                  { label: "B", text: roleDetails.Q1b, color: selectColor(roleDetails.Q1btype) },
+                  { label: "C", text: roleDetails.Q1c, color: selectColor(roleDetails.Q1ctype) },
+              ],
+          };
+      } else {
+          return {
+              tooltip1: roleDetails.Q2tooltip1,
+              tooltip2: roleDetails.Q2tooltip2,
+              questionText: roleDetails.Q2,
+              answers: [
+                  { label: "A", text: roleDetails.Q2a, color: selectColor(roleDetails.Q2atype) },
+                  { label: "B", text: roleDetails.Q2b, color: selectColor(roleDetails.Q2btype) },
+                  { label: "C", text: roleDetails.Q2c, color: selectColor(roleDetails.Q2ctype) },
+              ],
+          };
+      }
+  };
 
 
-    const q = renderQuestion();
-    
- 
-const [showIntroModal,setShowIntroModal] = useState<boolean>(true);
+  const q = renderQuestion();
+
+
   if (currentScreen === "roleSelection") {
-    return (
-      <div className="p-8">
-      <main className="h-[90vh] bg-[#F8F1E7] ">
-      <OpeningModal
-          showIntroModal={showIntroModal}
-          moduleId={"M7"}
-          setShowIntroModal={setShowIntroModal}
-          src={"/opening17.png"}
-        />        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <ModuleHeader  currentQuestionIndex={3-round} polarizationScore={score}/>
+      return (
+          <div className="p-8">
+              <main className="h-[90vh] bg-[#F8F1E7] ">
+                  <OpeningModal
+                      showIntroModal={showIntroModal}
+                      moduleId={"M7"}
+                      setShowIntroModal={setShowIntroModal}
+                      src={"/opening17.png"}
+                  />        <div className="max-w-7xl mx-auto">
+                      {/* Header */}
+                      <ModuleHeader currentQuestionIndex={3 - round} polarizationScore={score} />
 
-          {/* Role Selection Heading */}
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-normal text-black mb-3">Choose Your Role:</h2>
-            <p className="text-lg text-gray-700">
-              Each scenario puts you in a different position of power and perspective
-            </p>
+                      {/* Role Selection Heading */}
+                      <div className="text-center mb-12">
+                          <h2 className="text-3xl font-normal text-black mb-3">Choose Your Role:</h2>
+                          <p className="text-lg text-gray-700">
+                              Each scenario puts you in a different position of power and perspective
+                          </p>
+                      </div>
+
+                      {/* Role Cards - Organic Layout */}
+                      <div className=" flex items-center justify-center bg-[#F9F4EC] px-12">
+                          <Carousel
+                              opts={{
+                                  align: "start",
+                                  loop: true,
+                              }}
+                              className="w-full max-w-6xl relative"
+                          >
+                              <CarouselContent>
+                                  {roles.map((_, i) => (
+                                      <CarouselItem
+                                          key={i}
+                                          className={`cursor-pointer basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 
+                     ${usedRoles.includes(_.title) ? "opacity-40 pointer-events-none" : ""}`}
+                                          onClick={() => !usedRoles.includes(_.title) && handleRole(_.title)}
+                                      >
+                                          <RoleCard role={_.title} disabled={usedRoles.includes(_.title)} />
+                                      </CarouselItem>
+
+                                  ))}
+                              </CarouselContent>
+
+                              <CarouselPrevious className="bg-white border border-gray-300 shadow-sm hover:scale-105 transition" />
+                              <CarouselNext className="bg-[#FF9348] border border-gray-300 shadow-sm hover:scale-105 transition" />
+                          </Carousel>
+                      </div>
+                  </div>
+              </main>
           </div>
-
-          {/* Role Cards - Organic Layout */}
-          <div className=" flex items-center justify-center bg-[#F9F4EC] px-12">
-      <Carousel
-        opts={{
-          align: "start",
-          loop: true,
-        }}
-        className="w-full max-w-6xl relative"
-      >
-        <CarouselContent>
-          {roles.map((_, i) => (
-           <CarouselItem
-           key={i}
-           className={`cursor-pointer basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 
-                       ${usedRoles.includes(_.title) ? "opacity-40 pointer-events-none" : ""}`}
-           onClick={() => !usedRoles.includes(_.title) && handleRole(_.title)}
-         >
-           <RoleCard role={_.title} disabled={usedRoles.includes(_.title)} />
-         </CarouselItem>
-         
-          ))}
-        </CarouselContent>
-
-        <CarouselPrevious className="bg-white border border-gray-300 shadow-sm hover:scale-105 transition" />
-        <CarouselNext className="bg-[#FF9348] border border-gray-300 shadow-sm hover:scale-105 transition" />
-      </Carousel>
-    </div>
-        </div>
-      </main>
-      </div>
-    );
+      );
   }
   if (currentScreen === "scenario") {
-    return (
+      return (
 
-      <div className="p-8">
-      <main className="h-[90vh] bg-[#F8F1E7] ">
-        <div className="max-w-6xl mx-auto flex flex-col">
-          {/* Header */}
-          <ModuleHeader  currentQuestionIndex={round} polarizationScore={score}/>
-          <div className="text-center ">
-            <h2 className="text-lg font-semibold text-[#201E1C] ">Choose Your Role:</h2>
-            <p className="text-lg text-[#201E1C]">
-              Each scenario puts you in a different position of power and perspective
-            </p>
-          </div>
-          {/* Scenario Section */}
-          <div className="flex  justify-between  p-10">
-            {/* Left: Character Image (using RoleCard) */}
-            <div className="w-1/3 flex justify-center">
-            <img
-          src="/character1.svg" // Replace with your teacher image URL
-          alt="Teacher"
-         
-         
-          className="rounded-md w-[80%] h-full"
-        />
-            </div>
-  
-            {/* Right: Scenario Text */}
-            <div className="w-2/3 flex flex-col   px-8">
-            <h2 className="text-[1.25vw] bg-white font-normal text-gray-900 mb-8 w-fit px-[16px] py-[4px] rounded-[40px]">
-  Scenario {round}
-</h2>
+          <div className="p-8">
+              <main className="h-[90vh] bg-[#F8F1E7] ">
+                  <div className="max-w-6xl mx-auto flex flex-col">
+                      {/* Header */}
+                      <ModuleHeader currentQuestionIndex={round} polarizationScore={score} />
+                      <div className="text-center ">
+                          <h2 className="text-lg font-semibold text-[#201E1C] ">Choose Your Role:</h2>
+                          <p className="text-lg text-[#201E1C]">
+                              Each scenario puts you in a different position of power and perspective
+                          </p>
+                      </div>
+                      {/* Scenario Section */}
+                      <div className="flex  justify-between  p-10">
+                          {/* Left: Character Image (using RoleCard) */}
+                          <div className="w-1/3 flex justify-center">
+                              <img
+                                  src="/character1.svg" // Replace with your teacher image URL
+                                  alt="Teacher"
+                                  className="rounded-md w-[80%] h-full"
+                              />
+                          </div>
 
-              <p className="text-[1.25vw] text-gray-800 leading-relaxed mb-8 max-w-lg">
-             {roleDetails.Scenario}
-              </p>
-              <button onClick={()=>{setCurrentScreen("question")}}
-               className="bg-[#FF9348] flex items-center justify-center
-                w-[10vw] text-white font-medium px-6 py-2 gap-4 rounded-lg hover:opacity-90 transition">
-             <div>   Next  </div> <ChevronRight size={16}/>
-              </button>
-            </div>
+                          {/* Right: Scenario Text */}
+                          <div className="w-2/3 flex flex-col   px-8">
+                              <h2 className="text-[1.25vw] bg-white font-normal text-gray-900 mb-8 w-fit px-[16px] py-[4px] rounded-[40px]">
+                                  Scenario {round}
+                              </h2>
+
+                              <p className="text-[1.25vw] text-gray-800 leading-relaxed mb-8 max-w-lg">
+                                  {roleDetails.Scenario}
+                              </p>
+                              <button onClick={() => { setCurrentScreen("question") }}
+                                  className="bg-[#FF9348] flex items-center justify-center
+              w-[10vw] text-white font-medium px-6 py-2 gap-4 rounded-lg hover:opacity-90 transition">
+                                  <div>   Next  </div> <ChevronRight size={16} />
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </main>
           </div>
-        </div>
-      </main>
-      </div>
-    );
+      );
   }
-  
+
 
   // Question Screen
   if (currentScreen === "question") {
-    
-
-    return (
-      <div className="p-8">
-        <main className="h-[90vh] bg-[#F8F1E7] p-8">
-          <div className="max-w-7xl mx-auto">
-          <ModuleHeader  currentQuestionIndex={3-round} polarizationScore={score}/>
-
-            {/* Question Header */}
-            <div className="text-center mb-2">
-              <h3 className="text-xl font-normal text-[#201E1C] ">
-                {questionStep === 1 ? `Scenario ${round} — Q1` : `Scenario ${round} — Q2`}
-              </h3>
-            </div>
-
-            {/* Question Content */}
-            <div className="flex justify-center items-center ">
-              <div className="flex flex-col justify-center items-center max-w-4xl w-full px-6 ">
-                <div className="flex justify-center items-center gap-2 ">
-                <p
-  className="text-[60px]"
-  style={{
-    color: questionStep === 1 ? "#FF9348" : "#5F237B",
-  }}
->                   Q{questionStep}
-                  </p>
-                  <p 
-                  className="leading-relaxed">
-                    <span>{questionStep==1?"Approach":"Depth"  }</span><br/> 
-                    {q.questionText}</p>
-                </div>
-
-                {/* Image */}
-                <img
-                  src="/Teacher.svg"
-                  alt="Teacher"
-                  width={120}
-                  height={120}
-                  className="rounded-md mb-2"
-                />
-
-                {/* Answers */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full mb-8">
-  {q.answers.map((a, i) => {
-    const isColored = selectedAnswer !== null; // true if user has clicked any answer
-    const bgColor = isColored ? a.color : "#EDE1D0";
-    const textColor = isColored ? "text-white" : "text-gray-800";
-
-    return (
-      <Card
-        key={a.label}
-        onClick={() => handleAnswerSelect(a.label,a.color)}
-        className={`p-2 cursor-pointer transition-all border-gray-200`}
-        style={{ backgroundColor: bgColor }}
-      >
-        <div className="flex flex-col items-start gap-3">
-          <span className={`flex items-center justify-center text-[1.25vw] w-8 h-8 bg-white text-black rounded-2xl font-normal`}>
-            {a.label}
-          </span>
-          <p className={`text-sm text-left leading-relaxed ${textColor}`}>
-            {a.text}
-          </p>
-        </div>
-      </Card>
-    );
-  })}
-</div>
 
 
-              </div>
-            </div>
+      return (
+          <div className="p-8">
+              <main className="h-[90vh] bg-[#F8F1E7] p-8">
+                  <div className="max-w-7xl mx-auto">
+                      <ModuleHeader currentQuestionIndex={3 - round} polarizationScore={score} />
+
+                      {/* Question Header */}
+                      <div className="text-center mb-2">
+                          <h3 className="text-xl font-normal text-[#201E1C] ">
+                              {questionStep === 1 ? `Scenario ${round} — Q1` : `Scenario ${round} — Q2`}
+                          </h3>
+                      </div>
+
+                      {/* Question Content */}
+                      <div className="flex justify-center items-center ">
+                          <div className="flex flex-col justify-center items-center max-w-4xl w-full px-6 ">
+                              <div className="flex justify-center items-center gap-2 ">
+                                  <p
+                                      className="text-[60px]"
+                                      style={{
+                                          color: questionStep === 1 ? "#FF9348" : "#5F237B",
+                                      }}
+                                  >                   Q{questionStep}
+                                  </p>
+                                  <p
+                                      className="leading-relaxed">
+                                      <span>{questionStep == 1 ? "Approach" : "Depth"}</span><br />
+                                      {q.questionText}</p>
+                              </div>
+
+                              {/* Image */}
+                              <img
+                                  src="/Teacher.svg"
+                                  alt="Teacher"
+                                  width={120}
+                                  height={120}
+                                  className="rounded-md mb-2"
+                              />
+
+                              {/* Answers */}
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full mb-8">
+                                  {q.answers.map((a, i) => {
+                                      const isColored = selectedAnswer !== null; // true if user has clicked any answer
+                                      const bgColor = isColored ? a.color : "#EDE1D0";
+                                      const textColor = isColored ? "text-white" : "text-gray-800";
+                                      
+                                      // ⭐ Get the tooltip text from the mapping
+                                      const tooltipText = tooltipMapping[a.label];
+
+
+                                      return (
+                                          // ⭐ Use a container div for relative positioning of the tooltip
+                                          <div key={a.label}  >
+                                              <Card
+                                                  onClick={() => handleAnswerSelect(a.label, a.color)}
+                                                  className={`p-2 cursor-pointer transition-all border-gray-200 h-full`}
+                                                  style={{ backgroundColor: bgColor }}
+                                              >
+                                                  <div className="flex flex-col items-start gap-3">
+                                                      <span className={`flex items-center justify-center text-[1.25vw] w-8 h-8 bg-white text-black rounded-2xl font-normal`}>
+                                                          {a.label}
+                                                      </span>
+                                                      <p className={`text-sm text-left leading-relaxed ${textColor}`}>
+                                                          {a.text}
+                                                      </p>
+                                                  </div>
+                                              </Card>
+
+                                              {/* ⭐ Conditionally render the Tooltip component */}
+                                              {tooltipText && (
+                                                  <div className="absolute top-0 left-[105%] z-10">
+                                                      <Tooltip description={tooltipText} />
+                                                  </div>
+                                              )}
+                                          </div>
+                                      );
+                                  })}
+                              </div>
+
+
+                          </div>
+                      </div>
+                  </div>
+              </main>
           </div>
-        </main>
-      </div>
-    );
+      );
   }
 
   // ✅ Closing screen after both Q1 & Q2 done
   if (currentScreen === "closing") {
-    return <ClosingModal score={score} />;
+      return <ClosingModal score={score} />;
   }
 
 };
 
 export default InTheirShoes;
+
 
 
 // components/RoleCard.tsx

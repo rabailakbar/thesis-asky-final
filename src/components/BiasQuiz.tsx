@@ -101,10 +101,10 @@ const dispatch = useDispatch();
 if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="easy"){
   dispatch(decreaseScore(0.7))
 }
-if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="easy"){
+if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="medium"){
   dispatch(decreaseScore(1))
 }
-if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="easy"){
+if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="difficult"){
   dispatch(decreaseScore(1.5))
 }
 
@@ -277,8 +277,10 @@ src={"/opening14.svg"}
           setShowIntroModal={setShowIntroModal}
         />
       
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto ">
         {/* Header - Exact match to image */}
+        
+    
       
 
         {/* YouTube-style content - Exact match to image */}
@@ -299,7 +301,7 @@ src={"/opening14.svg"}
       <img
         src={`https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Modules/${question?.Image_Code}.png`}
         alt={`Question ${questionNumber}`}
-        className="w-[60%] h-[60%] object-cover mx-auto"
+        className="w-[80%] h-[80%] object-cover mx-auto"
         />
     </div>
   </div>
@@ -309,11 +311,22 @@ src={"/opening14.svg"}
               Click words that help you spot any bias
             </p>
           
+       {/* Floating Tooltip */}
+    
+
           {/* Headline text box - Exact match to image */}
-          <Card className="p-4 w-[80%] mx-auto bg-[#EDE1D0] flex flex-col items-center border border-[#C6C1B9] border-dashed rounded-[13px]">
+          <Card className=" relative p-4 w-[80%] mx-auto bg-[#EDE1D0] flex flex-col items-center border border-[#C6C1B9] border-dashed rounded-[13px]">
             
-           
-            
+          <div className="absolute   z-50" style={{ top: '-100px', left:'-3vh' }}>
+ {selections.length >= Object.keys(biasedPhrases).length &&   <TooltipCarousel
+      slides={[
+        { heading: question?.Bias_Type, description: question?.Tooltip1 },
+        { description: question?.Tooltip2 }
+      ]}
+      onClose={() => false}
+    />}
+  </div>
+         
           <div 
   ref={headlineRef}
   className="text-xl font-medium leading-relaxed text-center select-none"
@@ -389,6 +402,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Root } from "react-dom/client";
 import { RootState } from "@/store";
 import { decreaseScore } from "@/store/topicsSlice";
+import TooltipCarousel from "./TooltipCarousel";
 
 
 const OpeningModal = (props:any)=>{

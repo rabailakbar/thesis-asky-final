@@ -121,6 +121,20 @@ const score = useSelector((state:RootState)=> state.topics.score)
     .sort(() => Math.random() - 0.5)
     .slice(0, 8);
   const[game,setGames] = useState<any>([]);
+
+  const fetchtooltip = async (code:any) => {
+    const { data, error } = await supabase
+    .from("module3tool")
+    .select("*")
+    .eq("ImageCode", code);  
+
+     
+    if (error) {
+      console.error("Error fetching spotthebias:", error);
+      return;
+    }
+    
+  };
   const fetchfact = async () => {
       const { data, error } = await supabase.from("module3").select("*");
       const filterByTopic = (data:any, topics:any) => {
@@ -198,6 +212,8 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
     }
   };
 
+
+
   useEffect(() => {
     if (showResult) {
       const timer = setTimeout(() => {
@@ -220,7 +236,7 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
     }
   }
   const allQuestions = buildAllQuestions([game[0],game[1],game[2],game[3]]);
-  const allQuestions1= buildAllQuestions([game[3],game[0],game[2],game[1]])
+  const allQuestions1= buildAllQuestions([game[3],game[2],game[0],game[1]])
   allQuestions.question0 = pickFactAndFake(allQuestions.question0);
   allQuestions1.question0 = pickFactAndFake(allQuestions1.question0)
 
@@ -230,7 +246,6 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
       return(
          <ClosingModal score={score}/>
     )}
-console.log(allQuestions)
   return (
     <div className="p-6 ">
     <div className="bg-[#F8F1E7] px-24 h-[90vh] overflow-hidden flex flex-col">

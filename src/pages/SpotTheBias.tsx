@@ -24,10 +24,23 @@ const score = useSelector((state:RootState)=>state.topics.score)
     }
 
     if (!data || data.length === 0) return;
-
+console.log("checkkk",data)
     // Pick 5 random questions
     const shuffled = data.sort(() => Math.random() - 0.5);
-    const selectedQuestions = shuffled.slice(0, 5);
+     const selectedQuestions = shuffled.slice(0, 5);
+//     const firstTopicOne = data.find(q => q.Topic === 1);
+
+// // Filter out all other questions (except the one we already picked)
+// const remaining = data.filter(q => q !== firstTopicOne);
+
+// // Shuffle the remaining questions
+// const shuffled = remaining.sort(() => Math.random() - 0.5);
+
+// // Pick 4 random questions from remaining
+// const randomFour = shuffled.slice(0, 4);
+
+// // Final list of 5 questions
+// const selectedQuestions = [firstTopicOne, ...randomFour]
 
     setQuestions(selectedQuestions);
   }, []);
