@@ -25,11 +25,11 @@ const[showIntroModal,setShowIntroModal] = useState(true);
   return (
     <div className="p-8">
     <main className="h-[90vh] bg-[#F8F1E7] p-2">
-    <OpeningModal
+   {props.currentIndex==0 && <OpeningModal
 showIntroModal={showIntroModal}
 moduleId={"M6"}
 setShowIntroModal={setShowIntroModal}
-/>
+/>}
   <div className="max-w-7xl mx-auto">
     {/* Header Section */}
     <ModuleHeader/>
@@ -41,17 +41,17 @@ setShowIntroModal={setShowIntroModal}
     <div>
       <p className="text-xs font-medium text-gray-500 mb-2">Scenario 1</p>
       <h2 className="text-[16px] font-semibold text-gray-900 mb-3 leading-snug">
-        {props.debate.Heading}
+        {props.debate?.Heading}
       </h2>
       
       <p className="text-gray-800 mb-3 text-sm leading-relaxed">
-    {props.debate.Scenario}
+    {props.debate?.Scenario}
       </p>
       <div className="rounded-md p-3 mb-4">
         <p className="text-xs text-gray-500 mb-1">🧠 The Debate:</p>
         <p className="text-gray-900 font-medium text-sm leading-snug">
 {
-  props.debate.Debate_Question
+  props.debate?.Debate_Question
 }        </p>
       </div>
     </div>

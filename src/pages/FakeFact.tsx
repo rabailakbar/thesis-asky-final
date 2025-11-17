@@ -59,7 +59,6 @@ function buildAllQuestions(topics) {
 }
 function buildFromTopic(topic, type) {
   if (!topic) return null;
-
   // 1. Collect all imagecodes
   const codes = Object.keys(topic)
     .filter(k => k.startsWith("imagecode"))
@@ -72,7 +71,7 @@ function buildFromTopic(topic, type) {
 
   for (const code of codes) {
     const prefix = code.split("_")[0].toUpperCase();
-
+    console.log(code)
     if (prefix === "IG") ig.push(code);
     else if (prefix === "CAR") car.push(code);
     else last.push(code); // TT, TR, IGR, etc
@@ -104,7 +103,11 @@ function buildFromTopic(topic, type) {
   .filter((code: any) => code)        // removes null, undefined, "", 0, false
   .map((code: any) => ({
     src: toUrl(code),
-    correct: !code.toLowerCase().includes("(fake)")
+    correct: !code.toLowerCase().includes("(fake)"),
+    heading:topic.heading,
+    caption:topic.caption,
+    reach:topic.reach,
+    source:topic.source
   }));
 }
 
@@ -704,6 +707,15 @@ function Question3Carousel({
   handleCarouselClick,
   carouselImages, // now an array of images
 }) {
+  const introImage = carouselImages.find(img => img.src.includes("z.png"));
+const otherImages = carouselImages.filter(img => !img.src.includes("z.png"));
+
+const orderedImages = [
+  introImage ? { ...introImage, intro: true } : null,
+  ...otherImages.map(img => ({ ...img, intro: false }))
+].filter(Boolean);
+const numbers = carouselImages[0].reach.match(/[\d.]+[KM]?/g);
+
   return (
 
     <div className="flex justify-center items-center bg-[#f9f9f9] ">
@@ -720,7 +732,7 @@ function Question3Carousel({
           </div>
           <div>
             <h2 className="font-semibold text-gray-900 text-[15px]">
-              Entertainment Weekly
+              {carouselImages[0].source}
             </h2>
             <p className="text-xs text-gray-500">14 September 2025</p>
           </div>
@@ -728,15 +740,14 @@ function Question3Carousel({
 
         {/* Caption */}
         <p className="text-sm text-gray-800 px-4 py-3 leading-relaxed">
-          People say it’s just coincidence, but how do you “accidentally” predict major events?
-          Feels less like comedy and more like disclosure.
+          {carouselImages[0].caption}
         </p>
 
         {/* Carousel */}
         <div className="relative">
           <Carousel className="w-full">
             <CarouselContent>
-              {carouselImages.map((src, i) => (
+              {orderedImages.map((src, i) => (
                 
                 src && (
                   <CarouselItem key={i}>
@@ -745,11 +756,14 @@ function Question3Carousel({
                         src={src.src}
                         alt={`Carousel image ${i + 1}`}
                         className={cn(
-                          "object-cover w-full max-h-[400px] cursor-pointer transition-all duration-300",
-                          !showResult && "hover:scale-[1.02]"
+                          "object-cover w-full  cursor-pointer transition-all duration-300",
+                          !showResult && !src.intro && "hover:scale-[1.02]",
+                          src.intro && "cursor-default"
                         )}
-                        onClick={() => handleCarouselClick(i, src.correct)}
-                      />
+                        
+                        onClick={() => {
+                          if (!src.intro) handleCarouselClick(i, src.correct);
+                        }}                      />
 
                       {/* ✅ Overlay result check/cross */}
                       {showResult && selectedCarouselIndex === i && (
@@ -797,15 +811,15 @@ function Question3Carousel({
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
               <Heart className="w-5 h-5" />
-              <span>13.4K</span>
+              <span>{numbers[0]}</span>
             </div>
             <div className="flex items-center gap-1">
               <MessageCircle className="w-5 h-5" />
-              <span>47</span>
+              <span>{numbers[1]}</span>
             </div>
             <div className="flex items-center gap-1">
               <Share2 className="w-5 h-5" />
-              <span>492</span>
+              <span>{numbers[2]}</span>
             </div>
           </div>
           <Bookmark className="w-5 h-5" />

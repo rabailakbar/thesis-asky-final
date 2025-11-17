@@ -104,7 +104,7 @@ console.log(data)
 
       {/* Right Side */}
       <div className="w-1/2 bg-[#F8F1E7] flex flex-col items-center relative">
-  <img
+  {/* <img
     src="/onboarding.svg"
     alt="illustration"
     className="w-[90%] object-contain relative z-10" 
@@ -118,7 +118,8 @@ console.log(data)
     <p className="absolute  text-black text-left text-lg z-40">
       Is your algorithm your story?
     </p>
-  </div>
+  </div> */}
+  <img src="/S.png"/>
 </div>
 </div>
 

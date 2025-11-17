@@ -8,29 +8,54 @@ const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
 const DebateSwitch = (props) => {
   console.log(props)
   const navigate = useNavigate();
-  const [timeLeft, setTimeLeft] = useState(100);
   const [figureImageUrl, setFigureImageUrl] = useState<string>("");
   const [llmArgument, setLlmArgument] = useState<string>("Thinking...");
   const [userPrompts, setUserPrompts] = useState<string[]>([]);
   const [selectedPrompt, setSelectedPrompt] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [round, setRound] = useState(1);
   const [showUserOptions, setShowUserOptions] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
-
+  const [isCompleted, setIsCompleted] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(180);
+  const [stance, setStance] = useState("against");
+  const score= useSelector((state:RootState)=>state.topics.score)
   const DEBATE_TOPIC =props?.debate?.Debate_Question || `"Are Millennials the forgotten generation in the mental health conversation, overshadowed by Gen Z’s
   louder struggles?"`;
   // Timer
+  console.log(timeLeft)
+  console.log(props.round)
   useEffect(() => {
+
+    if(timeLeft<=0 && props.round >=3){
+      console.log(4)
+      setIsCompleted(true)
+    }
     if (timeLeft <= 0) {
-      setIsCompleted(true);
+      // One full round (180s) finished → go next topic
+      props.goNext();
+
       return;
     }
-    const timer = setInterval(() => setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0)), 1000);
+  
+    // Switch stance based on time passed
+    if (timeLeft > 10) {
+      // First half (90 sec)
+      setStance("against");   // LLM = against, Player = for
+    } else {
+      // Last half (90 sec)
+      setStance("for");       // LLM = for, Player = against
+    }
+  
+    const timer = setInterval(() => {
+      setTimeLeft(prev => prev - 1);
+    }, 1000);
+  
     return () => clearInterval(timer);
+  
   }, [timeLeft]);
+  
+ 
 
-  console.log(timeLeft)
+ 
   // Load image
  
 
@@ -77,6 +102,7 @@ const DebateSwitch = (props) => {
       "Used responsibly, AI makes it easier to solve problems and care for others.",
     ];
   };
+  const playerSide = stance === "against" ? "in favor of" : "against";
 
   const generateUserPrompts = async () => {
     try {
@@ -91,7 +117,7 @@ const DebateSwitch = (props) => {
           messages: [
             {
               role: "system",
-              content: `Return ONLY a JSON array of 3 short strings of maximum 15 words arguing IN FAVOR of ${DEBATE_TOPIC}.`,
+              content: `Return ONLY a JSON array of 3 short strings (max 15 words) arguing ${playerSide} the topic: ${DEBATE_TOPIC}.`,
             },
           ],
           temperature: 0.8,
@@ -116,6 +142,12 @@ const DebateSwitch = (props) => {
   // --- LLM Argument (AGAINST topic) ---
   const getLlmArgument = async (messages: any[]) => {
     setIsLoading(true);
+  
+    const SYSTEM_MESSAGE =
+      stance === "against"
+        ? `You are arguing AGAINST the topic: ${DEBATE_TOPIC}. Respond in 1 short, simple sentence.`
+        : `You are arguing IN FAVOR of the topic: ${DEBATE_TOPIC}. Respond in 1 short, simple sentence.`;
+  
     try {
       const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
@@ -128,7 +160,7 @@ const DebateSwitch = (props) => {
           messages: [
             {
               role: "system",
-              content: `You are arguing AGAINST the topic: ${DEBATE_TOPIC}. Respond in 1 short, simple, confident sentence.`,
+              content: SYSTEM_MESSAGE,
             },
             ...messages,
           ],
@@ -136,27 +168,38 @@ const DebateSwitch = (props) => {
           max_tokens: 200,
         }),
       });
+  
       const data = await res.json();
-      setLlmArgument(data?.choices?.[0]?.message?.content || "XXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+      setLlmArgument(
+        data?.choices?.[0]?.message?.content ||
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      );
     } catch {
       setLlmArgument("⚠️ Unable to fetch AI argument.");
     } finally {
       setIsLoading(false);
     }
   };
-
+  
+  console.log(score)
+const dispatch = useDispatch();
   const handlePromptClick = async (i: number) => {
     setSelectedPrompt(i);
     setShowUserOptions(false);
+    dispatch(decreaseScore(1))
     const chosen = userPrompts[i - 1];
+  
     setTimeout(async () => {
-      setLlmArgument("Thinking...");
       await getLlmArgument([{ role: "user", content: chosen }]);
+  
+      // Switch stance or end topic
+     
+  
       await generateUserPrompts();
       setSelectedPrompt(null);
-      setRound((r) => r + 1);
     }, 1200);
   };
+  
 
   const formatTime = (s: number) =>
     `${Math.floor(s / 60)
@@ -165,7 +208,7 @@ const DebateSwitch = (props) => {
 
  
 
-  return ( isCompleted)?(<ClosingModal/>):(<div className="p-8">
+  return ( isCompleted)?(<ClosingModal score={score}/>):(<div className="p-8">
     <main className="h-[90vh] px-24 bg-[#F8F1E7] flex flex-col">
     {/* <OpeningModal
           showIntroModal={showIntroModal}
@@ -173,7 +216,7 @@ const DebateSwitch = (props) => {
           setShowIntroModal={setShowIntroModal}
           src={"/opening16.png"}
         />      Header Section */}
-      <ModuleHeader />
+      <ModuleHeader currentQuestionIndex={props.round} polarizationScore={score} />
   
       {/* Headline */}
       <div className="text-center">
@@ -270,7 +313,11 @@ export default DebateSwitch;
 
 import { Button } from "@/components/ui/button";
 import OpeningModal from "@/components/OpeningModal";
-const ModuleHeader = () => {
+import { RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { decreaseScore } from "@/store/topicsSlice";
+import CircleScore from "@/components/CircleScore";
+const ModuleHeader = (props) => {
   return (
       <>
           <div className="  pt-6 mb-2">
@@ -308,9 +355,32 @@ One debate, two sides, endless perspectives</p>
                   </div>
 
                   {/* Right side: Counter */}
-                  <div className="text-right">
-                      <div className="text-3xl font-bold text-gray-900">/7</div>
-                  </div>
+                  <div className="flex flex-col justify-between gap-4 h-full items-end">
+  {/* Top div */}
+  <div>
+    <div className="w-[200px] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1 relative">
+      {/* Gray background track (already present) */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[#EDE1D0] rounded-full"></div>
+
+      {/* Gradient foreground */}
+      <div
+        className="h-full rounded-full relative"
+        style={{
+          width: `${props.polarizationScore || 5}%`,
+          background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
+        }}
+      />
+    </div>
+    <span className="text-sm text-gray-700"> Polarization Score</span>
+  </div>
+
+  {/* Bottom div */}
+  <div>
+    <div className="text-3xl font-semibold text-gray-900">
+      {4-props.currentQuestionIndex+1}/4 Left
+    </div>
+  </div>
+</div>
               </div>
           </div>
 
@@ -320,7 +390,7 @@ One debate, two sides, endless perspectives</p>
 }
 
 
-const ClosingModal = () => {
+const ClosingModal = (props) => {
   
   const navigate = useNavigate();
 
@@ -332,11 +402,13 @@ const ClosingModal = () => {
 
               {/* Module Completion Header */}
               <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
+              {/* <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
 <div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
   –
 </div>
-</div>
+</div> */}
+  <CircleScore scoreDrop={props.score}/>
+
                   <div className="text-left">
                   <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
   Module 6: Complete

@@ -7,41 +7,66 @@ import { supabase } from "@/integrations/supabase/client";
 
 
 const Debate = () => {
-    const [debate, setDebate] = useState<any>({});
+    const [debateList, setDebateList] = useState<any[]>([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [imageUrl, setImageUrl] = useState("");
-   const [show,setShow] = useState(true)
-    const topic = useSelector((state: RootState) => state.topics.topics)
-    const choose = topic[Math.floor(Math.random() * 7)]
+    const [show, setShow] = useState(true);
+
     useEffect(() => {
-        fetchSpotTheBias()
+        fetchTopics();
     }, []);
 
-    const fetchSpotTheBias = async () => {
-
-        const { data, error } = await supabase.from("debate").select("*");
-        console.log("let me check", data)
-        const { data: link } = supabase.storage
-            .from('Thesis')
-            .getPublicUrl(`Modules/${data[choose].Image}.png`);
-        setDebate(data[choose])
-        console.log("let me check", link.publicUrl)
-        setImageUrl(link.publicUrl)
+    const fetchTopics = async () => {
+        const { data, error } = await supabase
+            .from("debate")
+            .select("*")
+            .limit(4);      // ✅ Fetch 4 topics
 
         if (error) {
-            console.error("Error fetching spotthebias:", error);
+            console.error("Error fetching debate topics:", error);
             return;
         }
+console.log(data)
+        setDebateList(data);
+        
+        await loadImageForTopic(0, data);
+    };
 
-    }
+    const loadImageForTopic = async (index: number, list = debateList) => {
+        if (!list.length) return;
 
-    return (
-        show ? (
-            <DebateModule setShow={setShow}  debate={debate} imageUrl={imageUrl} choose={choose} />
-        ) : (
-            <DebateSwitch debate={debate} />
-        )
+        const { data: link } = supabase.storage
+            .from("Thesis")
+            .getPublicUrl(`Modules/${list[index].Image}.png`);
 
-    )
-}
+        setImageUrl(link.publicUrl);
+    };
 
-export default Debate
+    // Called when a topic finishes both rounds
+    const goToNextTopic = async () => {
+        if (currentIndex + 1 < debateList.length) {
+            await loadImageForTopic(currentIndex + 1);
+            setCurrentIndex(prev => prev + 1);
+            setShow(true);
+        } else {
+            console.log("All topics completed!");
+        }
+    };
+
+    return show ? (
+        <DebateModule
+        currentIndex={currentIndex}
+            setShow={setShow}
+            debate={debateList[currentIndex]}
+            imageUrl={imageUrl}
+        />
+    ) : (
+        <DebateSwitch
+        round={currentIndex}
+            debate={debateList[currentIndex]}
+            goNext={goToNextTopic}     // ✅ Pass next-topic callback
+        />
+    );
+};
+
+export default Debate;
