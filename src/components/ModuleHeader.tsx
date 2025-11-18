@@ -65,8 +65,8 @@ interface ModuleHeaderProps {
           {/* Left side: Icon + Module Info */}
           <div className="flex items-center gap-8">
             {/* Puzzle Icon */}
-            <div className="w-22  rounded-lg flex items-center justify-center relative flex-shrink-0">
-              <img src={src} alt="Module 1" className="w-22 object-contain" />
+            <div className="w-24  rounded-lg flex items-center justify-center relative flex-shrink-0">
+              <img src={src} alt="Module 1" className="w-24 object-contain" />
             </div>
   
             {/* Module Info */}
@@ -90,7 +90,7 @@ interface ModuleHeaderProps {
           {/* Right side: Polarization bar + counts */}
           <div className="flex flex-col items-end gap-2">
             {/* Polarization bar */}
-            <div>
+     {  module!=1 &&     <div>
             <div className="w-[20vw] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1">
               <div
                 className="h-full rounded-full"
@@ -105,12 +105,12 @@ interface ModuleHeaderProps {
                 {polarizationScore}%
               </div>
               <div className="text-[16px] font-medium text-center text-[#130719]">Polarization Score</div>
-              </div>
+              </div> }
   
             
   
             {/* Likes / Saves */}
-            <div className="flex justify-end gap-2 text-[#130719] mt-2">
+            <div className="flex-end justify-end gap-2 text-[#130719] mt-2">
              {module==2 && (
               <>
               <span>
@@ -124,7 +124,7 @@ interface ModuleHeaderProps {
               {module!=2 && (
               <>
               <div className="font-normal text-[32px]">
-  {left}/{total} Left
+  {left} Left
               </div>
               </>)}
             </div>

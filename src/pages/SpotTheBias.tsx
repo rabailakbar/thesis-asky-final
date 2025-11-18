@@ -63,7 +63,9 @@ console.log("checkkk",data)
         `https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Modules/${currentQuestion?.Image_Code}.png`,
       [currentQuestion]
     );
-  if (biasQuizComplete) return <ClosingModal score={score} />;
+const[done,setDone] = useState(false)
+  if (biasQuizComplete || done) return <ClosingModal  ending= {"Look at that — your score’s low and your thinking’s leveling out. That’s what real awareness looks like. Stay curious, stay open, and keep the balance strong"} 
+  src={"/behind-the-buzz"} text={"5/5 Thumbnails done!"} score={score} />;
 
   if (questions.length === 0)
     return (
@@ -73,9 +75,10 @@ console.log("checkkk",data)
     );
 
  
-
+console.log
   return (
     <BiasQuiz
+    setDone={setDone}
     length={questions?.length}
     currentQuestionIndex={currentQuestionIndex}
       question={currentQuestion}

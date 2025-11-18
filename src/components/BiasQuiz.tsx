@@ -13,12 +13,13 @@ interface BiasQuizProps {
   question?: any;
   currentQuestionIndex:any
   length?:number;
+  setDone?:any;
 }
 
 
 // Define biased words/phrases with difficulty levels
 
-const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,currentQuestionIndex,length }: BiasQuizProps) => {
+const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,currentQuestionIndex,length,setDone }: BiasQuizProps) => {
   const biasedPhrases: any = {};
 
 if (question.Keyword1) {
@@ -207,9 +208,8 @@ const dispatch = useDispatch();
 
   const getWordStyle = (index: number) => {
     // Check if word is in building selection
-    if (buildingSelection.includes(index)) {
+  if (buildingSelection.includes(index)) {
       return {
-        backgroundColor: 'hsl(var(--primary) / 0.2)',
         padding: '4px 8px',
         borderRadius: '8px',
         margin: '0 2px',
@@ -265,9 +265,13 @@ const dispatch = useDispatch();
   const [showIntroModal,setShowIntroModal] = useState<boolean>(true)
 
 console.log("imagecode",question?.Image_Code)
-  return (<div className="p-6">
-<div className="h-[90vh] px-24 p-8 bg-[#F8F1E7]">
-<ModuleHeader polarizationScore={score} currentQuestionIndex={currentQuestionIndex}  length={length} time={timeLeft}/>
+
+  return (<div className="p-8">
+<div className="min-h-[90vh] px-24  bg-[#F8F1E7]">
+            <ModuleHeader setDone={setDone} module={4} src={"/opening14.svg"} heading={"Spot the bias"} description={"What if words echo louder than actions?"}
+             time={300}   left={5-currentQuestionIndex}    polarizationScore={score} />
+  
+{/* <ModuleHeader  polarizationScore={score} currentQuestionIndex={currentQuestionIndex}  length={length} time={timeLeft}/> */}
 <OpeningModal setGameStarted={setGameStarted}
 src={"/opening14.svg"}
           showIntroModal={showIntroModal}
@@ -275,7 +279,7 @@ src={"/opening14.svg"}
           setShowIntroModal={setShowIntroModal}
         />
       
-      <div className="max-w-6xl mx-auto ">
+      <div className="max-w-6xl mx-auto  ">
         {/* Header - Exact match to image */}
         
     
@@ -288,12 +292,12 @@ src={"/opening14.svg"}
           {/* YouTube-style card */}
           
           <div className=" px-32 bg-[#F8F1E7]">
-          <p className="font-normal text-[#00000] text-[18px] leading-[100%] tracking-[0%] text-center  mb-4">
-  Thumbnail #1
-</p>
+          <p  className=" mt-8 font-medium text-[#00000] text-[1.5vw] leading-[100%] tracking-[0%] text-center  ">
+          Click to identify 3 words OR phrases that sound biased
+          </p>
 
 
-  <div>
+  <div className="my-8">
     {/* Thumbnail */}
     <div className="rounded-lg overflow-hidden">
       <img
@@ -305,15 +309,14 @@ src={"/opening14.svg"}
   </div>
 </div>
 
-            <p className="font-normal text-[#00000] text-[18px] leading-[100%] tracking-[0%] text-center  my-8">
-              Click words that help you spot any bias
-            </p>
+            
           
        {/* Floating Tooltip */}
     
 
           {/* Headline text box - Exact match to image */}
-          <Card className=" relative p-4 w-[80%] mx-auto bg-[#EDE1D0] flex flex-col items-center border border-[#C6C1B9] border-dashed rounded-[13px]">
+          <div className=" rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px]
+ relative p-4 w-[80%] mx-auto bg-[#EDE1D0] flex flex-col items-center  ">
             
           <div className="absolute   z-50" style={{ top: '-100px', left:'-3vh' }}>
  {selections.length >= Object.keys(biasedPhrases).length &&   <TooltipCarousel
@@ -385,7 +388,7 @@ src={"/opening14.svg"}
                 <span className="font-medium text-foreground">Good Job</span>
               </div>
             )}
-          </Card>
+          </div>
         </div>
       </div>
     </div>
@@ -401,6 +404,7 @@ import { Root } from "react-dom/client";
 import { RootState } from "@/store";
 import { decreaseScore } from "@/store/topicsSlice";
 import TooltipCarousel from "./TooltipCarousel";
+import ModuleHeader from "./ModuleHeader";
 
 
 const OpeningModal = (props:any)=>{
@@ -492,83 +496,7 @@ className="bg-[#5F237B] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-
 
 
 
-const ModuleHeader = (props:any) => {
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-  return (
-      <>
-          <div className="  pt-6 mb-2">
-              <div className="flex items-center justify-between">
-                  {/* Left side: Icon + Module Info */}
-                  <div className="flex items-center gap-8">
-                      {/* Puzzle Icon */}
-                      <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-                          <img
-                              src={"/opening14.svg"}
-                              alt="Module 1"
-                              className="w-25  object-contain"
-                          />
-                      </div>
 
-                      {/* Module Info */}
-                      <div>
-                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-                      Spot the Bias</h1>
-
-<p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-What is words echo louder than actions?
-</p>
-
-
-                          <div className="flex items-center gap-4 text-[#201E1C]">
-<img src={"/clocl.svg"} />
-
-                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
-{formatTime(props.time)}
-</span>
-
-                          </div>
-
-                      </div>
-                  </div>
-
-                  {/* Right side: Counter */}
-                  <div className="flex flex-col justify-between h-full items-end">
-  {/* Top div */}
-  <div>
-    <div className="w-[200px] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1 relative">
-      {/* Gray background track (already present) */}
-      <div className="absolute top-0 left-0 w-full h-full bg-[#EDE1D0] rounded-full"></div>
-
-      {/* Gradient foreground */}
-      <div
-        className="h-full rounded-full relative"
-        style={{
-          width: `${props.polarizationScore || 5}%`,
-          background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
-        }}
-      />
-    </div>
-    <span className="text-sm text-gray-700"> Polarization Score</span>
-  </div>
-
-  {/* Bottom div */}
-  <div>
-    <div className="text-3xl font-bold text-gray-900">
-      {props.currentQuestionIndex}/{props.length} Left
-    </div>
-  </div>
-</div>
-              </div>
-          </div>
-
-          {/* Instructions */}
-          
-      </>)
-}
 
 
 

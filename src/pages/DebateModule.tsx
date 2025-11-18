@@ -25,7 +25,9 @@ const[showIntroModal,setShowIntroModal] = useState(true);
   return (
     <div className="p-8">
     <main className="h-[90vh] bg-[#F8F1E7] p-2">
-   {props.currentIndex==0 && <OpeningModal
+   {props.currentIndex==0 && 
+   
+   <OpeningModal
 showIntroModal={showIntroModal}
 moduleId={"M6"}
 setShowIntroModal={setShowIntroModal}

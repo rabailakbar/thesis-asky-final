@@ -8,6 +8,7 @@ import { RootState, AppDispatch } from "../store";
 import { addTopic, removeTopic, clearTopics } from "../store/topicsSlice";
 
 import { motion } from "framer-motion";
+import ModuleHeader from "@/components/ModuleHeader";
 
 interface Topic {
   id: number;
@@ -73,30 +74,38 @@ console.log("checkk",topic)
   const [showIntroModal, setShowIntroModal] = useState(true);
 
 
-  if (isComplete) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 40 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        transition={{ duration: 0.8, ease: "easeInOut" }}
-      >
-        <ClosingModal />
-      </motion.div>
-    );
-  }
+ 
   
 
 
-
+const score = useSelector((state:RootState)=>state.topics.score)
   // Module 1: Topic Voting - UPDATED UI
-  return (<div className="p-8 ">
+  const [done,setDone]= useState(false)
+  return (
+  isComplete?(<motion.div
+    initial={{ opacity: 0, scale: 0.95, y: 40 }}
+    animate={{ opacity: 1, scale: 1, y: 0 }}
+    exit={{ opacity: 0, scale: 0.95 }}
+    transition={{ duration: 0.8, ease: "easeInOut" }}
+  >
+    <ClosingModal />
+  </motion.div>):
+  
+  
+  <div className="p-8 ">
     <div className="h-[90vh] px-24 rounded-[24px] overflow-auto py-2 " style={{ backgroundColor: '#F8F1E7' }}>
-      <OpeningModal  src={"/opening11.svg"} showIntroModal={showIntroModal} moduleId={moduleId} setShowIntroModal={setShowIntroModal} />
+      <OpeningModal 
+      phase="I"  
+      module="Module 1: Find your vibe" 
+      description="In this module, students will filter out content for themselves. From a pool of 50 topics, they are supposed to narrow down 15 by simply clicking on the of ‘Interested’ & ‘Not Interested’ buttons. These picks will shape their personalized explore feed for the next module."   
+     time="2:00"
+     calculated="not"
+     level="Beginner"
+     src={"/opening11.svg"} showIntroModal={showIntroModal} moduleId={moduleId} setShowIntroModal={setShowIntroModal} />
       <div className={` px-4 transition-all duration-300 ${showIntroModal ? "blur-sm pointer-events-none" : ""}`}>
 
         {/* Header - Horizontal Layout */}
-<ModuleHeader count={selectedCount}/>
+<ModuleHeader polarizationScore={score} setDone={setDone} module={1} src={"/opening11.svg"} heading={"Find your Vibe"} description="Let’s help you build a feed!" time={120}  left={7-selectedCount}/>
 
         <div><h1 className="text-[black] text-center text-[24px]">Click to narrow down your interests</h1></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
@@ -110,8 +119,8 @@ console.log("checkk",topic)
             <span
               className="inline-block p-1 text-xs font-normal rounded-[21px]"
               style={{
-                backgroundColor: "#E9D5FF",
-                color: "black",
+                backgroundColor: "#DFD3E5",
+                color: "#32302E",
               }}
             >
               {topic.category}
@@ -119,7 +128,7 @@ console.log("checkk",topic)
           </div>
         
           {/* Title */}
-          <h3 className="font-normal text-[16px] leading-[100%] text-center text-gray-900 my-2">
+          <h3 className="font-normal text-[16px] leading-[100%] text-center text-[#130719] my-4">
             {topic.title}
           </h3>
         
@@ -133,10 +142,10 @@ console.log("checkk",topic)
                 ${
                   topic.voted === "interested"
                     ? "bg-[#9250B7] text-white hover:bg-[#9250B7]"
-                    : "bg-[#F1F5F9] text-[#1E1E2F]"
+                    : "bg-[#F1F5F9] text-[#4C1C62]"
                 }`}
             >
-              <img src="/like.svg" className="w-1.75 h-1.75 mr-1.5" />
+              <img src="/love.svg" className="w-1.75 h-1.75 mr-1.5" />
               Interested
             </Button>
         
@@ -144,14 +153,14 @@ console.log("checkk",topic)
             <Button
               size="sm"
               onClick={() => handleVote(topic.id, "not-interested",topic.title)}
-              className={`px-10 font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 
+              className={`px-10 font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 text-[#4C1C62]
                 ${
                   topic.voted === "not-interested"
                     ? "bg-[#9250B7] text-white hover:bg-[#9250B7]"
-                    : "bg-[#F1F5F9] text-[#1E1E2F]"
+                    : "bg-[#F1F5F9] text-[#4C1C62]"
                 }`}
             >
-              <img src="/dislike.svg" alt="dislike" className="w-1.75 h-1.75 mr-1.5" />
+              <img src="/unlove.svg" alt="dislike" className="w-1.75 h-1.75 mr-1.5" />
               Not Interested
             </Button>
           </div>
@@ -222,52 +231,52 @@ GOOOD JOB! We’ll start calculating from the next module....</div>
       </div>
   );
 } 
-const ModuleHeader = (props) => {
-  return (
-      <>
-          <div className="  pt-6 mb-2">
-              <div className="flex items-center justify-between">
-                  {/* Left side: Icon + Module Info */}
-                  <div className="flex items-center gap-8">
-                      {/* Puzzle Icon */}
-                      <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-                          <img
-                              src={"/characterm.svg"}
-                              alt="Module 1"
-                              className="w-25  object-contain"
-                          />
-                      </div>
+// const ModuleHeader = (props) => {
+//   return (
+//       <>
+//           <div className="  pt-6 mb-2">
+//               <div className="flex items-center justify-between">
+//                   {/* Left side: Icon + Module Info */}
+//                   <div className="flex items-center gap-8">
+//                       {/* Puzzle Icon */}
+//                       <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+//                           <img
+//                               src={"/characterm.svg"}
+//                               alt="Module 1"
+//                               className="w-25  object-contain"
+//                           />
+//                       </div>
 
-                      {/* Module Info */}
-                      <div>
-                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-Find Your Vibe</h1>
+//                       {/* Module Info */}
+//                       <div>
+//                       <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+// Find Your Vibe</h1>
 
-<p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-What do you like?
-</p>
+// <p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+// What do you like?
+// </p>
 
 
-                          <div className="flex items-center gap-4 text-[#201E1C]">
-<img src={"/clocl.svg"} />
+//                           <div className="flex items-center gap-4 text-[#201E1C]">
+// <img src={"/clocl.svg"} />
 
-                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
-02:00
-</span>
+//                               <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
+// 02:00
+// </span>
 
-                          </div>
+//                           </div>
 
-                      </div>
-                  </div>
+//                       </div>
+//                   </div>
 
-                  {/* Right side: Counter */}
-                  <div className="text-right">
-                      <div className="text-3xl font-bold text-gray-900">{`${props.count}/7`}</div>
-                  </div>
-              </div>
-          </div>
+//                   {/* Right side: Counter */}
+//                   <div className="text-right">
+//                       <div className="text-3xl font-bold text-gray-900">{`${props.count}/7`}</div>
+//                   </div>
+//               </div>
+//           </div>
 
-          {/* Instructions */}
+//           {/* Instructions */}
           
-      </>)
-}
+//       </>)
+// }

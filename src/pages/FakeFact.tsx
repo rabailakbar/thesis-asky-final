@@ -229,8 +229,8 @@ Nice! Your <span className=" font-semibold text-[#D0193E]"> polarization</span> 
 
     )}
   return (
-    <div className="p-6 ">
-    <div className="bg-[#F8F1E7] px-24 h-[90vh] overflow-hidden flex flex-col">
+    <div className="p-6">
+    <div className="bg-[#F8F1E7] px-24 pt-2 pb-8 overflow-hidden flex flex-col">
     <OpeningModal
           showIntroModal={showIntroModal}
           moduleId={"M3"}
@@ -250,7 +250,7 @@ calculated={""}
       <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={300}  left={8-currentQuestionIndex} total={8} />
   
       {currentQuestionIndex < totalQuestions && (
-        <h2 className="text-2xl text-center mb-6  font-normal">Click to identify which one is fake</h2>
+        <h2 className="text-2xl text-center my-8  font-normal">Click to identify which one is fake</h2>
       )}
   
       <div className="flex-1 flex items-start justify-center">
@@ -267,7 +267,7 @@ calculated={""}
         src={allQuestions.question0[0].src}
         alt="Left Post"
         className={cn(
-          "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+          "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
           !showResult && "hover:scale-105 hover:shadow-lg"
         )}
         onClick={() =>
@@ -299,7 +299,7 @@ calculated={""}
 
     {/* VS label */}
     <div className="flex items-center justify-center">
-      <span className="font-semibold text-[13px] leading-[100%] tracking-[0] text-center">
+      <span className="font-semibold text-[24px] leading-[100%] tracking-[0] text-center">
         VS
       </span>
     </div>
@@ -310,7 +310,7 @@ calculated={""}
         src={allQuestions.question0[1].src}
         alt="Right Post"
         className={cn(
-          "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+          "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
           !showResult && "hover:scale-105 hover:shadow-lg"
         )}
         onClick={() =>
@@ -358,7 +358,7 @@ calculated={""}
           src={post.src}
           alt={`Post ${i + 1}`}
           className={cn(
-            "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+            "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
             !showResult && "hover:scale-105 hover:shadow-lg",
           )}
           onClick={() => handlePostClick(`post1-${i}`, post.correct)}
@@ -397,11 +397,12 @@ calculated={""}
           src={post.src}
           alt={`Post ${i + 1}`}
           className={cn(
-            "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+            "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
             !showResult && "hover:scale-105 hover:shadow-lg",
           )}
           onClick={() => handlePostClick(`post2-${i}`, post.correct)}
         />
+        
         {showResult && selectedPost === `post2-${i}` && (
           <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center animate-fade-in">
             <div
@@ -441,7 +442,7 @@ calculated={""}
         src={allQuestions1.question0[0].src}
         alt="Left Post"
         className={cn(
-          "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+          "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
           !showResult && "hover:scale-105 hover:shadow-lg"
         )}
         onClick={() =>
@@ -484,7 +485,7 @@ calculated={""}
         src={allQuestions1.question0[1].src}
         alt="Right Post"
         className={cn(
-          "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+          "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
           !showResult && "hover:scale-105 hover:shadow-lg"
         )}
         onClick={() =>
@@ -530,7 +531,7 @@ calculated={""}
           src={post.src}
           alt={`Post ${i + 1}`}
           className={cn(
-            "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+            "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
             !showResult && "hover:scale-105 hover:shadow-lg",
           )}
           onClick={() => handlePostClick(`post1-${i}`, post.correct)}
@@ -569,7 +570,7 @@ calculated={""}
           src={post.src}
           alt={`Post ${i + 1}`}
           className={cn(
-            "h-[45vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+            "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
             !showResult && "hover:scale-105 hover:shadow-lg",
           )}
           onClick={() => handlePostClick(`post2-${i}`, post.correct)}
@@ -633,15 +634,15 @@ const numbers = carouselImages[0].reach.match(/[\d.]+[KM]?/g);
 
   return (
 
-    <div className="flex justify-center items-center bg-[#f9f9f9] ">
+    <div className="flex justify-center  items-center bg-[#f9f9f9] ">
       <div
         className={cn(
-          "bg-white rounded-xl shadow-sm border max-w-md w-full overflow-hidden transition-all duration-500",
+          "bg-white rounded-xl shadow-sm border p-2  w-[40vw] overflow-hidden transition-all duration-500",
           showResult && "animate-fade-out"
         )}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 px-4 pt-4">
+        <div className="flex   w-full items-center gap-3 ">
           <div className="bg-[#00B16A] rounded-full w-10 h-10 flex items-center justify-center text-white font-bold text-lg">
             EW
           </div>
@@ -654,7 +655,7 @@ const numbers = carouselImages[0].reach.match(/[\d.]+[KM]?/g);
         </div>
 
         {/* Caption */}
-        <p className="text-sm text-gray-800 px-4 py-3 leading-relaxed">
+        <p className="text-sm text-gray-800  py-3 leading-relaxed">
           {carouselImages[0].caption}
         </p>
 

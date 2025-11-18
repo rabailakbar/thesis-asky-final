@@ -14,8 +14,8 @@ const DebateSwitch = (props) => {
   const [selectedPrompt, setSelectedPrompt] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showUserOptions, setShowUserOptions] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(true);
-  const [timeLeft, setTimeLeft] = useState(180);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(100);
   const [stance, setStance] = useState("against");
   const score= useSelector((state:RootState)=>state.topics.score)
   const DEBATE_TOPIC =props?.debate?.Debate_Question || `"Are Millennials the forgotten generation in the mental health conversation, overshadowed by Gen Z’s
@@ -117,7 +117,7 @@ const DebateSwitch = (props) => {
           messages: [
             {
               role: "system",
-              content: `Return ONLY a JSON array of 3 short strings (max 15 words) arguing ${playerSide} the topic: ${DEBATE_TOPIC}.`,
+              content: `Return ONLY a JSON array of 3 short strings (max 15 words) strongly arguing ${playerSide} the topic: ${DEBATE_TOPIC}.`,
             },
           ],
           temperature: 0.8,
@@ -377,7 +377,7 @@ One debate, two sides, endless perspectives</p>
   {/* Bottom div */}
   <div>
     <div className="text-3xl font-semibold text-gray-900">
-      {4-props.currentQuestionIndex+1}/4 Left
+      {4-props.currentQuestionIndex}/4 Left
     </div>
   </div>
 </div>

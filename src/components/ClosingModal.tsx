@@ -28,9 +28,9 @@ const ClosingModal = (props) => {
 </h1>
 
 
-<p className="text-black font-normal text-[18px] leading-[100%] mt-1">
+<p className="text-black font-normal flex text-[20px] leading-[100%] mt-1">
 {/* ✓ 4/4 Likes  |  2/2 saves  */}
-{props.text}
+ <img src="/check.svg"/> {props.text}
 </p>
 
                   </div>

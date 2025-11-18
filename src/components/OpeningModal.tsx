@@ -8,7 +8,7 @@ import { ChevronRight } from "lucide-react";
 
 
 const OpeningModal = (props:any)=>{
-    
+    const phase1= props.phase=='I'?'#5F237B':(props.phase=='II'?'#D0193E':'#FF9348')
 
     return (
         <Dialog open={props.showIntroModal } onOpenChange={props.setShowIntroModal}>
@@ -29,7 +29,7 @@ const OpeningModal = (props:any)=>{
                       
                       {/* Title */}
                       <div>
-                      <div className="text-[#5F237B] text-[36px] font-semibold ">
+                      <div className={`text-[${phase1}] text-[36px] font-semibold`}>
                         Phase {props.phase}
                         
                         </div>
@@ -69,7 +69,7 @@ const OpeningModal = (props:any)=>{
                       </div>
                       <div className=" flex justify-center items-center gap-2 text-[#130719] font-[400] text-[20px] ">
           <img src={"/star.svg"} className="w-6 h-6"/>
-                        Score is {props.calculated}calculated in this module
+                        Score is {props.calculated} calculated in this module
                       </div>
                     </div>
         
@@ -79,12 +79,13 @@ const OpeningModal = (props:any)=>{
   onClick={() => props.setShowIntroModal(false)}
   className="
   bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px]
-  w-[197px] h-[42px] text-base font-[400] text-[24px]
+  w-[197px] h-[42px] text-base font-[400] text-[18px]
   flex items-center justify-center gap-[10px]
 
   border-none outline-none ring-0 ring-offset-0
   focus:border-none focus:outline-none focus:ring-0 focus:ring-offset-0
   active:border-none
+  
 ">
             Let's begin <ChevronRight 
              />

@@ -107,7 +107,7 @@ const InTheirShoes = () => {
                   setCurrentScreen("closing");
               }
           }
-      }, 10000); // 1 second delay
+      }, 3); // 1 second delay
   };
 
 
@@ -167,6 +167,9 @@ const InTheirShoes = () => {
   const q = renderQuestion();
 
 
+
+
+  
   if (currentScreen === "roleSelection") {
       return (
           <div className="p-8">
@@ -198,17 +201,18 @@ const InTheirShoes = () => {
                               className="w-full max-w-6xl relative"
                           >
                               <CarouselContent>
-                                  {roles.map((_, i) => (
-                                      <CarouselItem
-                                          key={i}
-                                          className={`cursor-pointer basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 
-                     ${usedRoles.includes(_.title) ? "opacity-40 pointer-events-none" : ""}`}
-                                          onClick={() => !usedRoles.includes(_.title) && handleRole(_.title)}
-                                      >
-                                          <RoleCard role={_.title} disabled={usedRoles.includes(_.title)} />
-                                      </CarouselItem>
+                              {roles
+  .filter(role => !usedRoles.includes(role.title))  // remove used roles
+  .map((role, i) => (
+    <CarouselItem
+      key={i}
+      className="cursor-pointer basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
+      onClick={() => handleRole(role.title)}
+    >
+      <RoleCard role={role.title} />
+    </CarouselItem>
+))}
 
-                                  ))}
                               </CarouselContent>
 
                               <CarouselPrevious className="bg-white border border-gray-300 shadow-sm hover:scale-105 transition" />
@@ -279,9 +283,9 @@ const InTheirShoes = () => {
                       <ModuleHeader currentQuestionIndex={3 - round} polarizationScore={score} />
 
                       {/* Question Header */}
-                      <div className="text-center mb-2">
-                          <h3 className="text-xl font-normal text-[#201E1C] ">
-                              {questionStep === 1 ? `Scenario ${round} — Q1` : `Scenario ${round} — Q2`}
+                      <div className="text-center ">
+                          <h3 className="text-xl   text-[#201E1C] ">
+                              {questionStep === 1 ? `Scenario #${round}` : `Scenario #${round} `}
                           </h3>
                       </div>
 
@@ -290,7 +294,8 @@ const InTheirShoes = () => {
                           <div className="flex flex-col justify-center items-center max-w-4xl w-full px-6 ">
                               <div className="flex justify-center items-center gap-2 ">
                                   <p
-                                      className="text-[60px]"
+                                      className="text-[72px] font-semibold
+                                      "
                                       style={{
                                           color: questionStep === 1 ? "#FF9348" : "#5F237B",
                                       }}
@@ -304,51 +309,49 @@ const InTheirShoes = () => {
 
                               {/* Image */}
                               <img
-                                  src="/Teacher.svg"
+                                  src="/module7.svg"
                                   alt="Teacher"
-                                  width={120}
-                                  height={120}
+                                  width={144}
+                                  height={144}
                                   className="rounded-md mb-2"
                               />
 
                               {/* Answers */}
-                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full mb-8">
-                                  {q.answers.map((a, i) => {
-                                      const isColored = selectedAnswer !== null; // true if user has clicked any answer
-                                      const bgColor = isColored ? a.color : "#EDE1D0";
-                                      const textColor = isColored ? "text-white" : "text-gray-800";
-                                      
-                                      // ⭐ Get the tooltip text from the mapping
-                                      const tooltipText = tooltipMapping[a.label];
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full mb-8">
+                              {q.answers.map((a, i) => {
+    const isColored = selectedAnswer !== null;
+    const bgColor = isColored ? a.color : "#EDE1D0";
+    const textColor = isColored ? "text-white" : "text-gray-800";
 
+    const tooltipText = tooltipMapping[a.label];
 
-                                      return (
-                                          // ⭐ Use a container div for relative positioning of the tooltip
-                                          <div key={a.label}  >
-                                              <Card
-                                                  onClick={() => handleAnswerSelect(a.label, a.color)}
-                                                  className={`p-2 cursor-pointer transition-all border-gray-200 h-full`}
-                                                  style={{ backgroundColor: bgColor }}
-                                              >
-                                                  <div className="flex flex-col items-start gap-3">
-                                                      <span className={`flex items-center justify-center text-[1.25vw] w-8 h-8 bg-white text-black rounded-2xl font-normal`}>
-                                                          {a.label}
-                                                      </span>
-                                                      <p className={`text-sm text-left leading-relaxed ${textColor}`}>
-                                                          {a.text}
-                                                      </p>
-                                                  </div>
-                                              </Card>
+    return (
+        <div key={a.label} className="relative">   {/* <-- FIX HERE */}
+            <div
+                onClick={() => handleAnswerSelect(a.label, a.color)}
+                className="pt-2 px-4 cursor-pointer transition-all border-gray-200 h-full rounded-tl-3xl rounded-tr-3xl rounded-br-3xl
+ "
+                style={{ backgroundColor: bgColor }}
+            >
+                <div className="flex flex-col items-start gap-3">
+                    <span className="flex items-center justify-center text-[1.25vw] w-8 h-8 bg-white text-black rounded-2xl font-normal">
+                        {a.label}
+                    </span>
+                    <p className="text-[16px] text-left leading-relaxed #130719">
+                        {a.text}
+                    </p>
+                </div>
+            </div>
 
-                                              {/* ⭐ Conditionally render the Tooltip component */}
-                                              {tooltipText && (
-                                                  <div className="absolute top-0 left-[105%] z-10">
-                                                      <Tooltip description={tooltipText} />
-                                                  </div>
-                                              )}
-                                          </div>
-                                      );
-                                  })}
+            {tooltipText && (
+                <div className="absolute top-0 left-[105%] z-10">
+                    <Tooltip description={tooltipText} />
+                </div>
+            )}
+        </div>
+    );
+})}
+
                               </div>
 
 
