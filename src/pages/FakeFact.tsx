@@ -624,98 +624,6 @@ export default FakeFact
 
 
 
-
-
-const ModuleHeader = (props) => {
-  return (
-      <>
-          <div className="  pt-6 mb-2">
-              <div className="flex items-center justify-between">
-                  {/* Left side: Icon + Module Info */}
-                  <div className="flex items-center gap-8">
-                      {/* Puzzle Icon */}
-                      <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-                          <img
-                              src={"/opening13.png"}
-                              alt="Module 1"
-                              className="w-25  object-contain"
-                          />
-                      </div>
-
-                      {/* Module Info */}
-                      <div>
-                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-Fake or fact</h1>
-
-<p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-Is everything not real?!
-</p>
-
-
-                          <div className="flex items-center gap-4 text-[#201E1C]">
-<img src={"/clocl.svg"} />
-
-                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
-02:00
-</span>
-
-                          </div>
-
-                      </div>
-                  </div>
-
-                  {/* Right side: Counter */}
-                  <div className="flex flex-col justify-between h-full items-end">
-  {/* Top div */}
-  <div>
-    <div className="w-[200px] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1 relative">
-      {/* Gray background track (already present) */}
-      <div className="absolute top-0 left-0 w-full h-full bg-[#EDE1D0] rounded-full"></div>
-
-      {/* Gradient foreground */}
-      <div
-        className="h-full rounded-full relative"
-        style={{
-          width: `${props.polarizationScore || 5}%`,
-          background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
-        }}
-      />
-    </div>
-    <span className="text-sm text-gray-700"> Polarization Score</span>
-  </div>
-
-  {/* Bottom div */}
-  <div>
-    <div className="text-3xl font-bold text-gray-900">
-      {props.currentQuestionIndex}/8 Left
-    </div>
-  </div>
-</div>
-
-
-              </div>
-          </div>
-
-          {/* Instructions */}
-          
-      </>)
-}
-
-
-
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
-import {  MessageCircle, Share2,  } from "lucide-react"
-import { Button } from "@/components/ui/button";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store";
-
 function Question3Carousel({
   showResult,
   selectedCarouselIndex,
@@ -843,6 +751,98 @@ const numbers = carouselImages[0].reach.match(/[\d.]+[KM]?/g);
     </div>
   )
 }
+
+const ModuleHeader = (props) => {
+  return (
+      <>
+          <div className="  pt-6 mb-2">
+              <div className="flex items-center justify-between">
+                  {/* Left side: Icon + Module Info */}
+                  <div className="flex items-center gap-8">
+                      {/* Puzzle Icon */}
+                      <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
+                          <img
+                              src={"/opening13.png"}
+                              alt="Module 1"
+                              className="w-25  object-contain"
+                          />
+                      </div>
+
+                      {/* Module Info */}
+                      <div>
+                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+Fake or fact</h1>
+
+<p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
+Is everything not real?!
+</p>
+
+
+                          <div className="flex items-center gap-4 text-[#201E1C]">
+<img src={"/clocl.svg"} />
+
+                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
+02:00
+</span>
+
+                          </div>
+
+                      </div>
+                  </div>
+
+                  {/* Right side: Counter */}
+                  <div className="flex flex-col justify-between h-full items-end">
+  {/* Top div */}
+  <div>
+    <div className="w-[200px] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1 relative">
+      {/* Gray background track (already present) */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[#EDE1D0] rounded-full"></div>
+
+      {/* Gradient foreground */}
+      <div
+        className="h-full rounded-full relative"
+        style={{
+          width: `${props.polarizationScore || 5}%`,
+          background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
+        }}
+      />
+    </div>
+    <span className="text-sm text-gray-700"> Polarization Score</span>
+  </div>
+
+  {/* Bottom div */}
+  <div>
+    <div className="text-3xl font-bold text-gray-900">
+      {props.currentQuestionIndex}/8 Left
+    </div>
+  </div>
+</div>
+
+
+              </div>
+          </div>
+
+          {/* Instructions */}
+          
+      </>)
+}
+
+
+
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import {  MessageCircle, Share2,  } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+
+
 const ClosingModal = (props:any) => {
   
   const navigate = useNavigate();
@@ -931,7 +931,7 @@ const OpeningModal = (props:any)=>{
                       {/* Title */}
                       <div>
                       <div className="text-[#D0193E] text-[24px] font-semibold ">Phase II</div>
-                      <h2 className="text-[24px] font-normal text-black">Module {props.moduleId.split()[0].split("")[1]}: Find your vibe</h2>
+                      <h2 className="text-[24px] font-normal text-black">Module {props.moduleId.split()[0].split("")[1]}: Fake or Fact</h2>
                       </div>
                     </div>
         

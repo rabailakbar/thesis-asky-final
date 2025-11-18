@@ -56,8 +56,7 @@ const [done,setDone] = useState(false)
   useEffect(() => {
     const fetchImages = async () => {
       const { data, error } = await supabase.storage.from("Thesis").list("Modules", { limit: 80 });
-      console.log("data", data);
-      console.log("topic", topic);
+      
       if (error) {
         console.error(error);
         return;
@@ -70,7 +69,6 @@ const [done,setDone] = useState(false)
           data.splice(i, 1);
         }
       }
-      console.log("data", data);
   
       const postsData: Post[] = await Promise.all(
         data.map(async (file, index) => {
@@ -101,7 +99,7 @@ const [done,setDone] = useState(false)
           } as Post;
         })
       );
-  
+  console.log("all",postsData)
       const filtered = postsData.filter(Boolean) as Post[];
       const shuffled = filtered.sort(() => Math.random() - 0.5);
       setAllPosts(shuffled);
@@ -116,17 +114,19 @@ const [done,setDone] = useState(false)
 
   // Smart replacement logic
   const findReplacementFor = (current: Post) => {
+    console.log("current",current)
+  //  console.log("replacements",unseenOverall)
     if (!current) return null;
 
     const sameGroup = allPosts.filter(
       (p) =>
-        p.codeNumber === current.codeNumber &&
+        p.title.split("_")[1].split("")[0] === current.title.split("_")[1].split("")[0] &&
         p.id !== current.id &&
         !visiblePosts.some((v) => v.id === p.id) &&
         !likedIds.has(p.id) &&
         !savedIds.has(p.id)
     );
-
+console.log("same",sameGroup)
     if (sameGroup.length > 0) return pickRandom(sameGroup);
 
     const unseenOverall = allPosts.filter(
@@ -136,7 +136,7 @@ const [done,setDone] = useState(false)
         !likedIds.has(p.id) &&
         !savedIds.has(p.id)
     );
-
+   
     if (unseenOverall.length > 0) return pickRandom(unseenOverall);
     return null;
   };
@@ -169,6 +169,7 @@ const [done,setDone] = useState(false)
     });
 
     const replacement = findReplacementFor(current);
+    console.log("replacement",replacement)
     if (replacement) {
       setReplacingIds((prev) => new Set(prev).add(id));
       setTimeout(() => {
@@ -199,7 +200,6 @@ const score = useSelector((state:RootState)=>state.topics.score)
     }).filter(Boolean);
   
     const uniqueTopics = new Set(topics).size;
-    console.log(uniqueTopics)
     if (uniqueTopics >= 5) return 5;   // C3
     if (uniqueTopics >= 3) return 2;   // C2
     if (uniqueTopics >= 2) return 1;   // C1
@@ -329,6 +329,9 @@ const score = useSelector((state:RootState)=>state.topics.score)
   };
   // Completion screen
  // Animated completion transition
+ const ending = <div>Yikes, <span className="text-[#5F237B]"> {score}%</span> <span className="text-[#D0193E]"> polarization!</span> But that’s what we’re here for — to unpack it, learn, and bring the number down together.
+    <span className="text-[#5F237B]">  Lower the score, lower the polarization</span>.... and that's how you win!`
+    </div>
  return(
 <AnimatePresence mode="wait">
   {isComplete ? (
@@ -339,7 +342,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
     >
-      <ClosingModal  score={score}/>
+      <ClosingModal  ending={ending} src={"/fakefact"} module={2} text={"✓ 4/4 Likes  |  2/2 saves"}  score={score}/>
     </motion.div>
   ) : (
     <motion.div
@@ -359,7 +362,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
           src={"/opening12.png"}
         />
         <div className="max-w-7xl w-full ">
-          <ModuleHeader setDone={setDone} savesCount={savesCount} likesCount={likesCount} MAX_LIKES={MAX_LIKES} MAX_SAVES={MAX_SAVES} polarizationScore={score} />
+          <ModuleHeader setDone={setDone} module={2} src={"/opening12.png"} heading={"Pick & Flick"} description={"Is everything not real?!"} time={120}       savesCount={savesCount} likesCount={likesCount} MAX_LIKES={MAX_LIKES} MAX_SAVES={MAX_SAVES} polarizationScore={score} />
           {isLoading?( <motion.div
         key="loading-screen"
         initial={{ opacity: 0 }}
@@ -440,6 +443,14 @@ interface ModuleHeaderProps {
   MAX_LIKES?: number;
   MAX_SAVES?: number;
   setDone:any;
+  src?:any;
+  time?:any;
+  heading?:any;
+  module?:any;
+  total?:any;
+  left?:any;
+  description?:any;
+
 }
 
 const ModuleHeader = ({
@@ -448,9 +459,19 @@ const ModuleHeader = ({
   savesCount = 0,
   MAX_LIKES = 8,
   MAX_SAVES = 8,
-  setDone
+  setDone,
+  module,
+  heading,
+ 
+  src,
+  total,
+  left,
+  description,
+  time
+
+  
 }: ModuleHeaderProps) => {
-  const [timeLeft, setTimeLeft] = useState(120); // 2 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(time); // 2 minutes in seconds
 
   useEffect(() => {
     if (timeLeft <= 0) {
@@ -459,7 +480,7 @@ const ModuleHeader = ({
     }
 
     const interval = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
+      setTimeLeft((prev:any) => prev - 1);
     }, 1000);
 
     return () => clearInterval(interval);
@@ -480,23 +501,22 @@ const ModuleHeader = ({
         {/* Left side: Icon + Module Info */}
         <div className="flex items-center gap-8">
           {/* Puzzle Icon */}
-          <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0">
-            <img src={"/opening12.png"} alt="Module 1" className="w-25 object-contain" />
+          <div className="w-22  rounded-lg flex items-center justify-center relative flex-shrink-0">
+            <img src={src} alt="Module 1" className="w-22 object-contain" />
           </div>
 
           {/* Module Info */}
           <div>
-            <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-              Pick & Flick
+            <h1 className="font-medium text-[42px] leading-[100%] tracking-[0] text-[#130719] mb-2">
+              {heading}
             </h1>
 
-            <p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-              Let's help you build a feed
-            </p>
+            <p className="font-normal text-[24px] leading-[100%] tracking-[0] text-[#130719] mb-2">
+{description}            </p>
 
-            <div className="flex items-center gap-4 text-[#201E1C]">
+            <div className="flex items-center gap-6 text-[#201E1C]">
               <img src={"/clocl.svg"} alt="Clock" />
-              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
+              <span className="font-normal text-[32px] leading-[100%] tracking-[0]">
                 {formatTime(timeLeft)}
               </span>
             </div>
@@ -506,7 +526,8 @@ const ModuleHeader = ({
         {/* Right side: Polarization bar + counts */}
         <div className="flex flex-col items-end gap-2">
           {/* Polarization bar */}
-          <div className="w-[200px] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1">
+          <div>
+          <div className="w-[20vw] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1">
             <div
               className="h-full rounded-full"
               style={{
@@ -514,12 +535,20 @@ const ModuleHeader = ({
                 background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
               }}
             />
+            
           </div>
+          <div className="font-medium text-right text-[16px]">
+              {polarizationScore}%
+            </div>
+            <div className="text-[16px] font-medium text-center text-[#130719]">Polarization Score</div>
+            </div>
 
-          <span className="text-sm text-gray-700"> Polarization Score</span>
+          
 
           {/* Likes / Saves */}
-          <div className="flex justify-end gap-2 text-gray-700 mt-1">
+          <div className="flex justify-end gap-2 text-[#130719] mt-2">
+           {module==2 && (
+            <>
             <span>
               {likesCount}/{MAX_LIKES} Likes
             </span>
@@ -527,6 +556,13 @@ const ModuleHeader = ({
             <span>
               {savesCount}/{MAX_SAVES} Saves
             </span>
+            </>)}
+            {module!=2 && (
+            <>
+            <div className="font-normal text-[32px]">
+{left}/{total} Left
+            </div>
+            </>)}
           </div>
         </div>
       </div>
@@ -565,11 +601,11 @@ const ModuleHeader = ({
   
     return (
       <div className="p-8">
-  <div className="h-[90vh] flex items-center justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
-                <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl  text-center">
+  <div className="h-[90vh] flex items-center justify-center rounded-[24px] " style={{ backgroundColor: '#F8F1E7' }}>
+                <div className=" w-full px-72 bg-[#F8F1E7] rounded-3xl  text-center">
   
                 {/* Module Completion Header */}
-                <div className="flex  justify-center gap-4 mb-6">
+                <div className="flex  justify-center gap-12 mb-6">
                 {/* <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
   <div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
     –
@@ -577,32 +613,36 @@ const ModuleHeader = ({
   </div> */}
   <CircleScore scoreDrop={props.score}/>
                     <div className="text-left">
-                    <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
-    Module 2: Complete
+                    <h1 className=" text-[#5F237B] font-semibold text-[64px] leading-[100%] tracking-[0%]  mb-4">
+                      
+    Module {props.module}: Complete
   </h1>
   
   
   <p className="text-black font-normal text-[18px] leading-[100%] mt-1">
-  ✓ 4/4 Likes  |  2/2 saves 
+  {/* ✓ 4/4 Likes  |  2/2 saves  */}
+  {props.text}
   </p>
   
                     </div>
                 </div>
   
                 {/* Score Circle */}
-                <div className="mt-10 mb-10 flex justify-center items-center">
+                <div className="mt-4 mb-4 flex justify-center items-center">
   <img src={"/closingg.svg"} className="h-[35vh]" />
   
                 </div>
   
-  <div>
-    Yikes, <span className="text-[#5F237B]"> {props.score}%</span> <span className="text-[#D0193E]"> polarization!</span> But that’s what we’re here for — to unpack it, learn, and bring the number down together.
-    <span className="text-[#5F237B]">  Lower the score, lower the polarization</span>.... and that's how you win!
+  <div className="text-[24px] font-normal">
+
+  
+  {props.ending}
+  
   </div>
                 {/* Next Module Button */}
                 <Button
                     size="lg"
-                    onClick={() => navigate(`/fakefact`)}
+                    onClick={() => navigate(props.src)}
                     className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
                 >
                     Next Module <ChevronRight/>
@@ -654,21 +694,22 @@ const OpeningModal = (props:any)=>{
 <DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
 <div className="px-32 py-16">
                     {/* Header with Icon */}
-                    <div className="flex items-start gap-4 mb-6">
+                    <div className="flex items-center  gap-4 mb-6">
                       {/* Puzzle Icon */}
-                      <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-          <img
-            src={props.src}
-            alt="Module 1"
-            className="w-18 h-18 object-contain"
-          />
-        </div>
+                      <div className="w-18 h-18 rounded-lg flex items-center justify-center">
+  <img
+    src={props.src}
+    alt="Module 1"
+    className="w-16 object-contain"
+  />
+</div>
+
         
                       
                       {/* Title */}
                       <div>
-                      <div className="text-[#5F237B] text-[24px] font-semibold ">Phase I</div>
-                      <h2 className="text-[24px] font-bold text-black">Module {props.moduleId.split()[0]}: Find your vibe</h2>
+                      <div className="text-[#5F237B] text-[36px] font-semibold ">Phase I</div>
+                      <h2 className="text-[36px] font-semibold text-black">Module 2: Pick and Flick</h2>
                       </div>
                     </div>
         
@@ -687,19 +728,19 @@ const OpeningModal = (props:any)=>{
 
         
                     {/* Info Badges */}
-                    <div className="flex items-center gap-4 mb-6 text-sm">
+                    <div className="flex items-center gap-4 mb-6 text-sm ">
                    
-                    <div className="flex items-center gap-2 text-[#1E1E2F]  py-1.5 rounded-full font-[400] text-[18px] leading-[100%] tracking-[0]">
-  <img src={"/I_1b.svg"} />
+                    <div className="flex items-center gap-2 text-[#130719]  py-1.5 rounded-full font-[400] text-[20px] leading-[100%] tracking-[0]">
+  <img src={"/I_1b.svg"} className="w-6 h-6" />
   Beginner Level
 </div>
 
-                      <div className="flex items-center gap-2 text-[#1E1E2F]-600">
-                        <img src={"/clocl.svg"} className="w-4 h-4 " />
+                      <div  className="flex items-center gap-2 text-[#130719] font-[400] text-[20px]">
+                        <img src={"/clocl.svg"} className="w-6 h-6" />
                         <span>02:00</span>
                       </div>
-                      <div className=" flex justify-center items-center gap-2 text-[#1E1E2F]-500 ">
-          <img src={"/star.svg"}/>
+                      <div className=" flex justify-center items-center gap-2 text-[#130719] font-[400] text-[20px] ">
+          <img src={"/star.svg"} className="w-6 h-6"/>
                         Score is not being calculated in this module
                       </div>
                     </div>
@@ -708,9 +749,10 @@ const OpeningModal = (props:any)=>{
                     <div className="flex justify-center">
                     <Button
   onClick={() => props.setShowIntroModal(false)}
-  className="bg-[#5F237B] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
+  className="bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-[400] text-[24px] flex items-center justify-center gap-[10px]"
 >
-            Let's begin →
+            Let's begin <ChevronRight 
+             />
           </Button>
         </div>
                   </div>
