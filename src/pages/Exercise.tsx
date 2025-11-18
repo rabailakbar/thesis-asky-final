@@ -13,6 +13,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { decreaseScore } from "@/store/topicsSlice";
 import CircleScore from "@/components/CircleScore";
+import ModuleHeader from "@/components/ModuleHeader";
+import OpeningModal from "@/components/OpeningModal";
+import ClosingModal from "@/components/ClosingModal";
 
 interface Post {
   id: number;
@@ -329,8 +332,9 @@ const score = useSelector((state:RootState)=>state.topics.score)
   };
   // Completion screen
  // Animated completion transition
- const ending = <div>Yikes, <span className="text-[#5F237B]"> {score}%</span> <span className="text-[#D0193E]"> polarization!</span> But that’s what we’re here for — to unpack it, learn, and bring the number down together.
-    <span className="text-[#5F237B]">  Lower the score, lower the polarization</span>.... and that's how you win!`
+ const ending = <div>Yikes, <span className="text-[#5F237B]"> {score}%</span> 
+ <span className="text-[#D0193E]"> polarization!</span> But that’s what we’re here for — to unpack it, learn, and bring the number down together.
+    <span className="text-[#5F237B]">Lower the score, lower the polarization</span>.... and that's how you win!`
     </div>
  return(
 <AnimatePresence mode="wait">
@@ -355,11 +359,17 @@ const score = useSelector((state:RootState)=>state.topics.score)
       <div className="p-8">
       {/* Your existing gallery content goes here */}
       <div className="min-h-screen bg-[#F8F1E7] flex overflow-auto   py-8 px-32 rounded-[24px] shadow-sm">
-        <OpeningModal
+      <OpeningModal
           showIntroModal={showIntroModal}
           moduleId={moduleId}
           setShowIntroModal={setShowIntroModal}
           src={"/opening12.png"}
+          phase="I"
+          module="Module 2: Pick & Flick"
+          description="In this module, students will interact with a simulated social media feed, similar to the ones they scroll through daily. Their goal is to like 10 posts and save 5 in order to earn a score. The twist — the more diverse their engagement, the higher their score."
+          time="2:00"
+          calculated=""
+          level="Beginner"
         />
         <div className="max-w-7xl w-full ">
           <ModuleHeader setDone={setDone} module={2} src={"/opening12.png"} heading={"Pick & Flick"} description={"Is everything not real?!"} time={120}       savesCount={savesCount} likesCount={likesCount} MAX_LIKES={MAX_LIKES} MAX_SAVES={MAX_SAVES} polarizationScore={score} />
@@ -436,139 +446,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
 
 
 
-interface ModuleHeaderProps {
-  polarizationScore: number; // 0-100
-  likesCount?: number;
-  savesCount?: number;
-  MAX_LIKES?: number;
-  MAX_SAVES?: number;
-  setDone:any;
-  src?:any;
-  time?:any;
-  heading?:any;
-  module?:any;
-  total?:any;
-  left?:any;
-  description?:any;
 
-}
-
-const ModuleHeader = ({
-  polarizationScore = 100,
-  likesCount = 0,
-  savesCount = 0,
-  MAX_LIKES = 8,
-  MAX_SAVES = 8,
-  setDone,
-  module,
-  heading,
- 
-  src,
-  total,
-  left,
-  description,
-  time
-
-  
-}: ModuleHeaderProps) => {
-  const [timeLeft, setTimeLeft] = useState(time); // 2 minutes in seconds
-
-  useEffect(() => {
-    if (timeLeft <= 0) {
-      setDone(true); // call setDone when timer finishes
-      return;
-    }
-
-    const interval = setInterval(() => {
-      setTimeLeft((prev:any) => prev - 1);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [timeLeft, setDone]);
-
-  // Format seconds to MM:SS
-  const formatTime = (seconds: number) => {
-    const min = Math.floor(seconds / 60);
-    const sec = seconds % 60;
-    return `${min.toString().padStart(2, "0")}:${sec
-      .toString()
-      .padStart(2, "0")}`;
-  };
-
-  return (
-    <div className="pt-6 mb-2">
-      <div className="flex items-center justify-between">
-        {/* Left side: Icon + Module Info */}
-        <div className="flex items-center gap-8">
-          {/* Puzzle Icon */}
-          <div className="w-22  rounded-lg flex items-center justify-center relative flex-shrink-0">
-            <img src={src} alt="Module 1" className="w-22 object-contain" />
-          </div>
-
-          {/* Module Info */}
-          <div>
-            <h1 className="font-medium text-[42px] leading-[100%] tracking-[0] text-[#130719] mb-2">
-              {heading}
-            </h1>
-
-            <p className="font-normal text-[24px] leading-[100%] tracking-[0] text-[#130719] mb-2">
-{description}            </p>
-
-            <div className="flex items-center gap-6 text-[#201E1C]">
-              <img src={"/clocl.svg"} alt="Clock" />
-              <span className="font-normal text-[32px] leading-[100%] tracking-[0]">
-                {formatTime(timeLeft)}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Right side: Polarization bar + counts */}
-        <div className="flex flex-col items-end gap-2">
-          {/* Polarization bar */}
-          <div>
-          <div className="w-[20vw] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1">
-            <div
-              className="h-full rounded-full"
-              style={{
-                width: `${polarizationScore}%`,
-                background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
-              }}
-            />
-            
-          </div>
-          <div className="font-medium text-right text-[16px]">
-              {polarizationScore}%
-            </div>
-            <div className="text-[16px] font-medium text-center text-[#130719]">Polarization Score</div>
-            </div>
-
-          
-
-          {/* Likes / Saves */}
-          <div className="flex justify-end gap-2 text-[#130719] mt-2">
-           {module==2 && (
-            <>
-            <span>
-              {likesCount}/{MAX_LIKES} Likes
-            </span>
-            <span>|</span>
-            <span>
-              {savesCount}/{MAX_SAVES} Saves
-            </span>
-            </>)}
-            {module!=2 && (
-            <>
-            <div className="font-normal text-[32px]">
-{left}/{total} Left
-            </div>
-            </>)}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 
 
@@ -594,65 +472,8 @@ const ModuleHeader = ({
 
   
   
-  const ClosingModal = (props) => {
-  
-    const navigate = useNavigate();
   
   
-    return (
-      <div className="p-8">
-  <div className="h-[90vh] flex items-center justify-center rounded-[24px] " style={{ backgroundColor: '#F8F1E7' }}>
-                <div className=" w-full px-72 bg-[#F8F1E7] rounded-3xl  text-center">
-  
-                {/* Module Completion Header */}
-                <div className="flex  justify-center gap-12 mb-6">
-                {/* <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
-  <div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
-    –
-  </div>
-  </div> */}
-  <CircleScore scoreDrop={props.score}/>
-                    <div className="text-left">
-                    <h1 className=" text-[#5F237B] font-semibold text-[64px] leading-[100%] tracking-[0%]  mb-4">
-                      
-    Module {props.module}: Complete
-  </h1>
-  
-  
-  <p className="text-black font-normal text-[18px] leading-[100%] mt-1">
-  {/* ✓ 4/4 Likes  |  2/2 saves  */}
-  {props.text}
-  </p>
-  
-                    </div>
-                </div>
-  
-                {/* Score Circle */}
-                <div className="mt-4 mb-4 flex justify-center items-center">
-  <img src={"/closingg.svg"} className="h-[35vh]" />
-  
-                </div>
-  
-  <div className="text-[24px] font-normal">
-
-  
-  {props.ending}
-  
-  </div>
-                {/* Next Module Button */}
-                <Button
-                    size="lg"
-                    onClick={() => navigate(props.src)}
-                    className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
-                >
-                    Next Module <ChevronRight/>
-                </Button>
-            </div>
-        </div>
-        </div>
-    );
-  } 
-  
 
 
 
@@ -680,84 +501,4 @@ const ModuleHeader = ({
 
 
 
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-
-
-
-
-
-const OpeningModal = (props:any)=>{
-    
-
-    return (
-        <Dialog open={props.showIntroModal } onOpenChange={props.setShowIntroModal}>
-<DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
-<div className="px-32 py-16">
-                    {/* Header with Icon */}
-                    <div className="flex items-center  gap-4 mb-6">
-                      {/* Puzzle Icon */}
-                      <div className="w-18 h-18 rounded-lg flex items-center justify-center">
-  <img
-    src={props.src}
-    alt="Module 1"
-    className="w-16 object-contain"
-  />
-</div>
-
-        
-                      
-                      {/* Title */}
-                      <div>
-                      <div className="text-[#5F237B] text-[36px] font-semibold ">Phase I</div>
-                      <h2 className="text-[36px] font-semibold text-black">Module 2: Pick and Flick</h2>
-                      </div>
-                    </div>
-        
-                    {/* Video Placeholder */}
-                    <div className="bg-gray-100 rounded-lg p-12 mb-6 text-center">
-                      <div className="text-gray-500">
-                        <div className="font-medium mb-1">Walkthrough Video</div>
-                        <div className="text-sm">(small screen recording)</div>
-                      </div>
-                    </div>
-        
-                    {/* Description */}
-                    <p className="text-[#1E1E2F]  font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
-                    In this module, students will interact with a simulated social media feed, similar to the ones they scroll through daily. Their goal is to like 8 posts and save 4 in order to earn a score. The twist — the more diverse their engagement, the higher their score. 
-                  </p>
-
-        
-                    {/* Info Badges */}
-                    <div className="flex items-center gap-4 mb-6 text-sm ">
-                   
-                    <div className="flex items-center gap-2 text-[#130719]  py-1.5 rounded-full font-[400] text-[20px] leading-[100%] tracking-[0]">
-  <img src={"/I_1b.svg"} className="w-6 h-6" />
-  Beginner Level
-</div>
-
-                      <div  className="flex items-center gap-2 text-[#130719] font-[400] text-[20px]">
-                        <img src={"/clocl.svg"} className="w-6 h-6" />
-                        <span>02:00</span>
-                      </div>
-                      <div className=" flex justify-center items-center gap-2 text-[#130719] font-[400] text-[20px] ">
-          <img src={"/star.svg"} className="w-6 h-6"/>
-                        Score is not being calculated in this module
-                      </div>
-                    </div>
-        
-                    {/* Begin Button */}
-                    <div className="flex justify-center">
-                    <Button
-  onClick={() => props.setShowIntroModal(false)}
-  className="bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-[400] text-[24px] flex items-center justify-center gap-[10px]"
->
-            Let's begin <ChevronRight 
-             />
-          </Button>
-        </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-    )
-}
 

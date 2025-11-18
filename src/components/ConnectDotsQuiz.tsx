@@ -87,10 +87,18 @@ if(isCorrect){
   // ----------------------------------------
   // COMPLETION SCREEN
   // ----------------------------------------
-  if (isComplete) {
+  // <ClosingModal  ending={ending} src={"/spotthebias"} module={3} text={"✓ 8/8 Facts served!"}  score={score}/>
+const ending = <div>
+You’ve outsmarted polarization and tackled biases! 
+<br/>Your<span className="text-[#FF9348]"> curiosity’s</span> flying.<span className="text-[#5F237B]"> Good Job!</span> 
+</div>
+  const [done,setDone]= useState(false)
+
+if (isComplete) {
     return (
+
       
-        <ClosingModal score={score} />
+        <ClosingModal module={5} text={"5/5 motivations behind a creator’s mind figured!"} src={"/debate"} ending={ending} score={score} />
       
     );
   }
@@ -98,7 +106,7 @@ if(isCorrect){
   // ----------------------------------------
   // MAIN UI
   // ----------------------------------------
-  return (
+  return (<div className="p-8">
     <div className="p-8 bg-[#F8F1E7] min-h-screen flex flex-col items-center">
       <div className="w-full px-24  relative">
 
@@ -107,9 +115,11 @@ if(isCorrect){
           showIntroModal={showIntroModal}
           moduleId={"M5"}
           setShowIntroModal={setShowIntroModal}
+          
         />
+      {/* <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={300}  left={8-currentQuestionIndex} total={8} /> */}
 
-        <ModuleHeader currentIndex={currentIndex} score={score} />
+        <ModuleHeader src={"/opening15.png"}    total={5} setDone={setDone}   left={5-currentIndex} polarizationScore={score} />
 
         {/* Round/Question Header */}
         <h2 className="text-2xl font-normal text-black mb-6 text-center">
@@ -183,6 +193,7 @@ if(isCorrect){
           })}
         </div>
       </div>
+    </div>
     </div>
   );
 };
@@ -271,54 +282,7 @@ Trace the spark that sets your feed on fire
 
 
 
- function ClosingModal (props) {
 
-  const navigate = useNavigate();
-
-
-  return (
-    <div className="p-8">
-<div className="h-[90vh] flex items-start justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
-              <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl shadow-sm  text-center">
-
-              {/* Module Completion Header */}
-              <div className="flex items-center justify-center gap-4 mb-6">
-           
-           <CircleScore scoreDrop={props.score}/>
-                  <div className="text-left">
-                  <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
-  Module 5: Complete
-</h1>
-
-
-<p className="text-black font-normal text-[18px] leading-[100%] mt-1">
-5/5 motivations behind a creator’s mind figured! </p>
-
-                  </div>
-              </div>
-
-              {/* Score Circle */}
-              <div className="mt-10 mb-10 flex justify-center items-center">
-<img src={"/closing22.png"} className="h-[35vh]" />
-
-              </div>
-
-<div>
-You’ve outsmarted polarization and tackled biases! <br/>Your<span className="text-[#FF9348]"> curiosity’s</span> flying.<span className="text-[#5F237B]"> Good Job!</span> 
-</div>
-              {/* Next Module Button */}
-              <Button
-                  size="lg"
-                  onClick={() => navigate(`/debate`)}
-                  className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
-              >
-                  Next Module <ChevronRight/>
-              </Button>
-          </div>
-      </div>
-      </div>
-  );
-} 
 
 
 import { Progress } from "@/components/ui/progress";
@@ -329,6 +293,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { decreaseScore } from "@/store/topicsSlice";
 import CircleScore from "./CircleScore";
+import ClosingModal from "./ClosingModal";
 
 
 

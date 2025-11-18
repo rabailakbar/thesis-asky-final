@@ -4,48 +4,24 @@ import { supabase } from "@/integrations/supabase/client";
 
 import { cn } from "@/lib/utils";
 import { Bookmark, Check, ChevronRight, Heart, X } from "lucide-react";
-
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import {  MessageCircle, Share2,  } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { decreaseScore } from "@/store/topicsSlice";
+import OpeningModal from "@/components/OpeningModal";
+import ClosingModal from "@/components/ClosingModal";
+import ModuleHeader from "@/components/ModuleHeader";
 import { useState,useEffect } from "react";
 
-function extractDynamicSets(data) {
-  return data.map(item => {
-    const codes = Object.keys(item)
-      .filter(k => k.startsWith("imagecode"))
-      .map(k => item[k])
-      .filter(Boolean);
 
-    let set1 = [];
-    let set2 = [];
-    let set3 = [];
-
-    let i = 0;
-
-    // --- Set 1: Start with IG or IGR ---
-    while (i < codes.length && (codes[i].startsWith("IG_") || codes[i].startsWith("IGR_"))) {
-      set1.push(codes[i]);
-      i++;
-    }
-
-    // --- Set 2: CAR images ---
-    while (i < codes.length && codes[i].startsWith("CAR_")) {
-      set2.push(codes[i]);
-      i++;
-    }
-
-    // --- Set 3: Everything else (TTR or IGR) ---
-    while (i < codes.length) {
-      set3.push(codes[i]);
-      i++;
-    }
-
-    return {
-      topic: item.topic,
-      set1,
-      set2,
-      set3
-    };
-  });
-}
 function buildAllQuestions(topics) {
   // Each topic gives one question
   const result = {
@@ -239,12 +215,18 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
   const allQuestions1= buildAllQuestions([game[3],game[2],game[0],game[1]])
   allQuestions.question0 = pickFactAndFake(allQuestions.question0);
   allQuestions1.question0 = pickFactAndFake(allQuestions1.question0)
-
+const ending=<div>
+Nice! Your <span className=" font-semibold text-[#D0193E]"> polarization</span> just dropped — looks like you’re already making progress.
+ Keep on asking why & keep on going: <span className="font-semibold text-[#5F237B]">lower the score, lower the polarization…</span> that’s how you win! 
+</div>
     const [showIntroModal,setShowIntroModal] = useState<boolean>(true)
-
-    if(currentQuestionIndex >= totalQuestions && !isM4Module ){
+  const[done,setDone] = useState(false)
+    if(currentQuestionIndex >= totalQuestions || done ){
       return(
-         <ClosingModal score={score}/>
+         <ClosingModal  ending={ending} src={"/spotthebias"} module={3} text={"✓ 8/8 Facts served!"}  score={score}/>
+
+
+
     )}
   return (
     <div className="p-6 ">
@@ -254,8 +236,18 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
           moduleId={"M3"}
           setShowIntroModal={setShowIntroModal}
           src={"/opening13.png"}
+          phase={"II"}
+          module={"Module 3: Fake or Fact?"}
+          description={<div>
+            "In this level, you’ll become a fake content detective 🕵️‍♀️.<br/> You’ll explore different post formats — from side-by-side comparisons to posts, reels, and carousels — and figure out what’s real and what’s not. Look closely at sources, images, and engagement counts to spot the fakes and earn your points!"
+         </div>
+          }
+          time={"5:00"}
+level={"Intermediate"}
+calculated={""}
         />
-      <ModuleHeader polarizationScore={score} currentQuestionIndex={8-currentQuestionIndex} />
+
+      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={300}  left={8-currentQuestionIndex} total={8} />
   
       {currentQuestionIndex < totalQuestions && (
         <h2 className="text-2xl text-center mb-6  font-normal">Click to identify which one is fake</h2>
@@ -752,235 +744,17 @@ const numbers = carouselImages[0].reach.match(/[\d.]+[KM]?/g);
   )
 }
 
-const ModuleHeader = (props) => {
-  return (
-      <>
-          <div className="  pt-6 mb-2">
-              <div className="flex items-center justify-between">
-                  {/* Left side: Icon + Module Info */}
-                  <div className="flex items-center gap-8">
-                      {/* Puzzle Icon */}
-                      <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-                          <img
-                              src={"/opening13.png"}
-                              alt="Module 1"
-                              className="w-25  object-contain"
-                          />
-                      </div>
-
-                      {/* Module Info */}
-                      <div>
-                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-Fake or fact</h1>
-
-<p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-Is everything not real?!
-</p>
-
-
-                          <div className="flex items-center gap-4 text-[#201E1C]">
-<img src={"/clocl.svg"} />
-
-                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
-02:00
-</span>
-
-                          </div>
-
-                      </div>
-                  </div>
-
-                  {/* Right side: Counter */}
-                  <div className="flex flex-col justify-between h-full items-end">
-  {/* Top div */}
-  <div>
-    <div className="w-[200px] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1 relative">
-      {/* Gray background track (already present) */}
-      <div className="absolute top-0 left-0 w-full h-full bg-[#EDE1D0] rounded-full"></div>
-
-      {/* Gradient foreground */}
-      <div
-        className="h-full rounded-full relative"
-        style={{
-          width: `${props.polarizationScore || 5}%`,
-          background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
-        }}
-      />
-    </div>
-    <span className="text-sm text-gray-700"> Polarization Score</span>
-  </div>
-
-  {/* Bottom div */}
-  <div>
-    <div className="text-3xl font-bold text-gray-900">
-      {props.currentQuestionIndex}/8 Left
-    </div>
-  </div>
-</div>
-
-
-              </div>
-          </div>
-
-          {/* Instructions */}
-          
-      </>)
-}
-
-
-
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
-import {  MessageCircle, Share2,  } from "lucide-react"
-import { Button } from "@/components/ui/button";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store";
-
-
-const ClosingModal = (props:any) => {
-  
-  const navigate = useNavigate();
-
-
-  return (
-    <div className="p-8">
-<div className="h-[90vh] flex items-center justify-center rounded-[24px] " style={{ backgroundColor: '#F8F1E7' }}>
-              <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7]   text-center">
-
-              {/* Module Completion Header */}
-              <div className="flex  justify-center gap-4 mb-6">
-              {/* <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
-<div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
-  –
-</div>
-</div> */}
-  <CircleScore scoreDrop={props.score}/>
-
-                  <div className="text-left">
-                  <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
-  Module 3: Complete
-</h1>
-
-
-<p className="text-black font-normal text-[18px] leading-[100%] mt-1">
-✓ 8/8 facts served! 
-</p>
-
-                  </div>
-              </div>
-
-              {/* Score Circle */}
-              <div className="mt-10 mb-10 flex justify-center items-center">
-<img src={"/closingg.svg"} className="h-[35vh]" />
-
-              </div>
-
-<div>
-Nice! Your <span className="text-[#D0193E]"> polarization</span> just dropped — looks like you’re already making progress.
- Keep on asking why & keep on going: <span className="text-[#5F237B]">lower the score, lower the polarization…</span> that’s how you win! 
-</div>
-              {/* Next Module Button */}
-              <Button
-                  size="lg"
-                  onClick={() => navigate(`/spotthebias`)}
-                  className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
-              >
-                  Next Module <ChevronRight/>
-              </Button>
-          </div>
-      </div>
-      </div>
-  );
-} 
-
-
-
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { decreaseScore } from "@/store/topicsSlice";
-import CircleScore from "@/components/CircleScore";
 
 
 
 
 
-const OpeningModal = (props:any)=>{
-    
 
-    return (
-        <Dialog open={props.showIntroModal } onOpenChange={props.setShowIntroModal}>
-<DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
-<div className="px-32 py-16">
-                    {/* Header with Icon */}
-                    <div className="flex items-start gap-4 mb-6">
-                      {/* Puzzle Icon */}
-                      <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-          <img
-            src={props.src}
-            alt="Module 1"
-            className="w-16 h-16 object-contain"
-          />
-        </div>
-        
-                      
-                      {/* Title */}
-                      <div>
-                      <div className="text-[#D0193E] text-[24px] font-semibold ">Phase II</div>
-                      <h2 className="text-[24px] font-normal text-black">Module {props.moduleId.split()[0].split("")[1]}: Fake or Fact</h2>
-                      </div>
-                    </div>
-        
-                    {/* Video Placeholder */}
-                    <div className="bg-gray-100 rounded-lg p-12 mb-6 text-center">
-                      <div className="text-gray-500">
-                        <div className="font-medium mb-1">Walkthrough Video</div>
-                        <div className="text-sm">(small screen recording)</div>
-                      </div>
-                    </div>
-        
-                    {/* Description */}
-                    <p className="text-[#1E1E2F] font-lato font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
-                    In this level, you’ll become a fake content detective 🕵️‍♀️.
-                    <br/>
-                    You’ll explore different post formats — from side-by-side comparisons to posts, reels, and carousels — and figure out what’s real and what’s not. Look closely at sources, images, and engagement counts to spot the fakes and earn your points!
-                  </p>
 
-        
-                    {/* Info Badges */}
-                    <div className="flex items-center gap-4 mb-6 text-sm">
-                   
-                    <div className="flex items-center gap-2 text-[#1E1E2F]  py-1.5 rounded-full font-[400] text-[18px] leading-[100%] tracking-[0]">
-  <img src={"/I_1b.svg"} />
-  Beginner Level
-</div>
 
-                      <div className="flex items-center gap-2 text-[#1E1E2F]-600">
-                        <img src={"/clocl.svg"} className="w-4 h-4 " />
-                        <span>03:00</span>
-                      </div>
-                      <div className=" flex justify-center items-center gap-2 text-[#1E1E2F]-500 ">
-          <img src={"/star.svg"}/>
-                        Score is not being calculated in this module
-                      </div>
-                    </div>
-        
-                    {/* Begin Button */}
-                    <div className="flex justify-center">
-                    <Button
-  onClick={() => props.setShowIntroModal(false)}
-  className="bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
->
-            Let's begin →
-          </Button>
-        </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-    )
-}
+
+
+
+
+
 

@@ -1,11 +1,7 @@
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Clock, ThumbsUp, ThumbsDown, Heart, Bookmark } from "lucide-react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Button } from "./ui/button";
+import { ChevronRight } from "lucide-react";
+
 
 
 
@@ -19,21 +15,29 @@ const OpeningModal = (props:any)=>{
 <DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
 <div className="px-32 py-16">
                     {/* Header with Icon */}
-                    <div className="flex items-start gap-4 mb-6">
+                    <div className="flex items-center  gap-4 mb-6">
                       {/* Puzzle Icon */}
-                      <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-          <img
-            src={props.src}
-            alt="Module 1"
-            className="w-18 h-18 object-contain"
-          />
-        </div>
+                      <div className="w-18 h-18 rounded-lg flex items-center justify-center">
+  <img
+    src={props.src}
+    alt="Module 1"
+    className="w-16 object-contain"
+  />
+</div>
+
         
                       
                       {/* Title */}
                       <div>
-                      <div className="text-[#5F237B] text-[24px] font-semibold ">Phase I</div>
-                      <h2 className="text-[24px] font-bold text-black">Module {props.moduleId.split()[0]}: Find your vibe</h2>
+                      <div className="text-[#5F237B] text-[36px] font-semibold ">
+                        Phase {props.phase}
+                        
+                        </div>
+                      <h2 className="text-[36px] font-semibold text-black">
+                        
+{props.module}
+
+                        </h2>
                       </div>
                     </div>
         
@@ -46,31 +50,26 @@ const OpeningModal = (props:any)=>{
                     </div>
         
                     {/* Description */}
-                    <p className="text-[#1E1E2F] font-lato font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
-                        In this module, students will filter out content for themselves. From a pool of 50 topics, 
-                        they are supposed to narrow down 15 by simply clicking on the 
-                  <span className="font-semibold"> ‘Interested’ </span>
-                                                                  & 
-                    <span className="font-semibold"> ‘Not Interested’ </span>
-                               buttons. These picks will shape their personalized explore feed for the next module.
+                    <p className="text-[#1E1E2F]  font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
+{props.description}
                   </p>
 
         
                     {/* Info Badges */}
-                    <div className="flex items-center gap-4 mb-6 text-sm">
+                    <div className="flex items-center gap-8 mb-6 text-sm ">
                    
-                    <div className="flex items-center gap-2 text-[#1E1E2F] px-3 py-1.5 rounded-full font-[400] text-[18px] leading-[100%] tracking-[0]">
-  <img src={"/I_1b.svg"} />
-  Beginner Level
+                    <div className="flex items-center gap-2 text-[#130719]  py-1.5 rounded-full font-[400] text-[20px] leading-[100%] tracking-[0]">
+  <img src={"/I_1b.svg"} className="w-6 h-6" />
+  {props.level} Level
 </div>
 
-                      <div className="flex items-center gap-2 text-[#1E1E2F]-600">
-                        <img src={"/clocl.svg"} className="w-4 h-4 " />
-                        <span>02:00</span>
+                      <div  className="flex items-center gap-2 text-[#130719] font-[400] text-[20px]">
+                        <img src={"/clocl.svg"} className="w-6 h-6" />
+                        <span>{props.time}</span>
                       </div>
-                      <div className=" flex justify-center items-center gap-2 text-[#1E1E2F]-500 ">
-          <img src={"/star.svg"}/>
-                        Score is not being calculated in this module
+                      <div className=" flex justify-center items-center gap-2 text-[#130719] font-[400] text-[20px] ">
+          <img src={"/star.svg"} className="w-6 h-6"/>
+                        Score is {props.calculated}calculated in this module
                       </div>
                     </div>
         
@@ -78,9 +77,17 @@ const OpeningModal = (props:any)=>{
                     <div className="flex justify-center">
                     <Button
   onClick={() => props.setShowIntroModal(false)}
-  className="bg-[#5F237B] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
->
-            Let's begin →
+  className="
+  bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px]
+  w-[197px] h-[42px] text-base font-[400] text-[24px]
+  flex items-center justify-center gap-[10px]
+
+  border-none outline-none ring-0 ring-offset-0
+  focus:border-none focus:outline-none focus:ring-0 focus:ring-offset-0
+  active:border-none
+">
+            Let's begin <ChevronRight 
+             />
           </Button>
         </div>
                   </div>

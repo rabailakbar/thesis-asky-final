@@ -44,30 +44,18 @@ const App = () => (
           <Route path="/" element={<Onboarding/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/module" element={<Module />} />
           <Route path="/interest" element={<Interest />} />
           <Route path="/exercise" element={<Exercise />} />
           {/* Component-specific routes */}
-          <Route path="/pick-and-flick" element={<PickAndFlickPage />} />
-          <Route path="/bias-quiz" element={<BiasQuizPage />} />
-          <Route path="/connect-dots" element={<ConnectDotsPage />} />
-          <Route path="/social-posts" element={<SocialPostPage />} />
-          <Route path="/fake-or-fact" element={<FakeOrFactPage />} />
           <Route path="/behind-the-buzz" element={<BehindTheBuzzPage />} />
-          <Route path="/debate-switch" element={<DebateSwitchPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
          
          
-          <Route path="/module/:moduleNumber" element={<Indexx />} />
           <Route path="/FakeFact" element={<FakeFact />} />
-          <Route path="/quiz" element={<Quiz />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="/spotthebias" element={<SpotTheBias />} />
-          <Route path="/M4" element={<Indexx />} />
-          <Route path= "/M5" element = {<Indexx/>}/>
           <Route path="/debate" element={<Debate />} />
-          <Route path="/debate/switch" element={<DebateSwitch />} />
-          <Route path="/debate/final" element={<InTheirShoes />} /> 
+         
           {/* P*/}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

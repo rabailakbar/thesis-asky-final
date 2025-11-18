@@ -43,8 +43,6 @@ useEffect(() => {
   
   console.log(question)
   const [selections, setSelections] = useState<{ indices: number[], phrase: string, color: string | null }[]>([]);
-  console.log("checkk",Object.keys(biasedPhrases).length)
-console.log("check",selections.length)
   const [currentSelection, setCurrentSelection] = useState<number[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [buildingSelection, setBuildingSelection] = useState<number[]>([]);
@@ -98,15 +96,15 @@ const dispatch = useDispatch();
     if (matchedPhrase) {
       const color = biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].color;
 
-if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="easy"){
+  if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="easy"){
   dispatch(decreaseScore(0.7))
-}
-if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="medium"){
+  }
+  if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="medium"){
   dispatch(decreaseScore(1))
-}
-if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="difficult"){
+  }
+  if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="difficult"){
   dispatch(decreaseScore(1.5))
-}
+  }
 
       setSelections(prev => [...prev, { indices: allIndices, phrase, color }]);
       setBuildingSelection([]);
