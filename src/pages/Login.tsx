@@ -27,6 +27,7 @@ const Login = () => {
 
     setLoading(false);
 
+
     if (error || !data) {
       setErrorMsg("Invalid email or password.");
       return;
@@ -39,6 +40,8 @@ console.log(data)
       setErrorMsg("Invalid email or password.");
       return;
     }
+    localStorage.setItem("email",JSON.stringify(email))
+    localStorage.setItem("password",JSON.stringify(password))
 
     // If login is successful, redirect to dashboard
     navigate("/dashboard");

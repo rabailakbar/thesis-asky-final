@@ -29,7 +29,6 @@ import Workshop from "./pages/Workshop";
 import CelebrationScreen from "./pages/Closing";
 
 
-
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -45,7 +44,7 @@ const App = () => (
           <Route path="/onboarding" element={<Onboarding/>}/>
           <Route path="/" element={<Onboarding/>} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Workshop/>} />
           <Route path="/interest" element={<Interest />} />
           <Route path="/exercise" element={<Exercise />} />
           {/* Component-specific routes */}

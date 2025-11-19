@@ -111,7 +111,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
       <div className={` px-4 transition-all duration-300 ${showIntroModal ? "blur-sm pointer-events-none" : ""}`}>
 
         {/* Header - Horizontal Layout */}
-<ModuleHeader polarizationScore={score} setDone={setDone} module={1} src={"/opening11.svg"} heading={"Find your Vibe"} description="Let’s help you build a feed!" time={120}  left={7-selectedCount}/>
+<ModuleHeader polarizationScore={score} setDone={setDone} module={1} src={"/opening11.svg"} heading={"Find your Vibe"} description="Let’s help you build a feed!" time={60}  left={7-selectedCount}/>
 
         <div><h1 className="text-[black] text-center text-[24px]">Click to narrow down your interests</h1></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">

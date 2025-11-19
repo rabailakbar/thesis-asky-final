@@ -2,6 +2,7 @@ import React from "react";
 import { X } from "lucide-react";
 
 const Tooltip = (props) => {
+  if(props.description=="") return<div></div>
   return (
     <div
       className="

@@ -11,7 +11,7 @@ const TooltipCarousel = ({ slides, onClose,header }) => {
                  rounded-t-3xl justify-between  rounded-bl-3xl
                  flex flex-col pb-2"
       style={{
-        height: "15vh", // fixed height for all slides
+        height: "17.5vh", // fixed height for all slides
       }}
     >
       {/* Content: flex-1 to push dots to bottom */}
@@ -29,7 +29,7 @@ const TooltipCarousel = ({ slides, onClose,header }) => {
                 {current.heading}
               </h2>
             )}
-            <p className="text-[10px] leading-snug text-white/90">
+            <p className="text-[12px] leading-snug text-white/90">
               {current.description}
             </p>
           </div>

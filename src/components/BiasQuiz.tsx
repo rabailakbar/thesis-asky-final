@@ -270,7 +270,7 @@ console.log("imagecode",question?.Image_Code)
   return (<div className="p-8">
 <div className="min-h-[90vh] px-24  bg-[#F8F1E7]">
             <ModuleHeader setDone={setDone} module={4} src={"/opening14.svg"} heading={"Spot the bias"} description={"What if words echo louder than actions?"}
-             time={300}   left={5-currentQuestionIndex}    polarizationScore={score} />
+             time={420}   left={5-currentQuestionIndex}    polarizationScore={score} />
   
 {/* <ModuleHeader  polarizationScore={score} currentQuestionIndex={currentQuestionIndex}  length={length} time={timeLeft}/> */}
 <OpeningModal setGameStarted={setGameStarted}
@@ -328,7 +328,7 @@ src={"/opening14.svg"}
           <div className=" rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px]
  relative p-4 w-[80%] mx-auto bg-[#EDE1D0] flex flex-col items-center  ">
             
-          <div className="absolute   z-50" style={{ top: '-100px', left:'-3vh' }}>
+          <div className="absolute   z-50" style={{ top: '100px', left:'-3vh' }}>
  {selections.length >= Object.keys(biasedPhrases).length &&   <TooltipCarousel
       slides={[
         { heading: question?.Bias_Type, description: question?.Tooltip1 },
@@ -488,7 +488,7 @@ onClick={() => {props.setShowIntroModal(false)
 }
 
 }
-className="bg-[#5F237B] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
+className="bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
 >
           Let's begin <ChevronRight/>
         </Button>
