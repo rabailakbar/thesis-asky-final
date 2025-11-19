@@ -15,7 +15,7 @@ const DebateSwitch = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [showUserOptions, setShowUserOptions] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(100);
+  const [timeLeft, setTimeLeft] = useState(180);
   const [stance, setStance] = useState("against");
   const score= useSelector((state:RootState)=>state.topics.score)
   const DEBATE_TOPIC =props?.debate?.Debate_Question || `"Are Millennials the forgotten generation in the mental health conversation, overshadowed by Gen Z’s
@@ -37,7 +37,7 @@ const DebateSwitch = (props) => {
     }
   
     // Switch stance based on time passed
-    if (timeLeft > 10) {
+    if (timeLeft < 90) {
       // First half (90 sec)
       setStance("against");   // LLM = against, Player = for
     } else {
@@ -208,28 +208,24 @@ const dispatch = useDispatch();
 
  
 
-  return ( isCompleted)?(<ClosingModal score={score}/>):(<div className="p-8">
-    <main className="h-[90vh] px-24 bg-[#F8F1E7] flex flex-col">
-    {/* <OpeningModal
-          showIntroModal={showIntroModal}
-          moduleId={"M3"}
-          setShowIntroModal={setShowIntroModal}
-          src={"/opening16.png"}
-        />      Header Section */}
-      <ModuleHeader currentQuestionIndex={props.round} polarizationScore={score} />
+  return ( isCompleted)?(<ClosingModal score={score}/>):(
+    <main>
+    
   
       {/* Headline */}
+      <div className="pt-8 pb-12">
       <div className="text-center">
-        <p className="text-xl font-medium text-gray-900">Headline #1</p>
+        <p className="text-xl font-medium text-[#130719]">Headline #1</p>
       </div>
-      <div className="text-center mb-2">
-        <p className="text-gray-800">
-          Argue in favor of the headline by choosing the best prompt
+      <div className="text-center ">
+        <p className=" text-xl font-medium text-[#130719]">
+          Argue {stance!="against"&& "in"} <span className="text-[#5F237B] font-bold">{stance=="against"?"against":"favor"}</span> {stance!="against" && "of"} the headline by <span className="font-bold text-[#FF9348]" >choosing</span> the best prompt
         </p>
+      </div>
       </div>
   
       {/* Red Banner */}
-      <div className="bg-[#5F237B] rounded-tl-3xl text-white text-center py-2 px-6 mb-4 ">
+      <div className="bg-[#5F237B] rounded-tl-3xl text-white text-center py-2 ml-16 px-6 mb-4 ">
         <p className="text-xl font-medium">{DEBATE_TOPIC}</p>
       </div>
   
@@ -300,7 +296,7 @@ const dispatch = useDispatch();
 </div>
 
     </main>
-    </div>) 
+    ) 
   
   
 };

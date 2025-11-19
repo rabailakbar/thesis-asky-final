@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
 
-const TooltipCarousel = ({ slides, onClose }) => {
+const TooltipCarousel = ({ slides, onClose,header }) => {
   const [index, setIndex] = useState(0);
   const current = slides[index];
 
   return (
     <div
       className="w-[240px] bg-[#5F237B] text-white shadow-lg 
-                 rounded-t-3xl rounded-tr-3xl rounded-br-3xl rounded-bl-none
-                 flex flex-col"
+                 rounded-t-3xl justify-between rounded-tr-3xl rounded-br-3xl rounded-bl-none
+                 flex flex-col pb-2"
       style={{
-        height: "12.5vh", // fixed height for all slides
+        height: "15vh", // fixed height for all slides
       }}
     >
       {/* Content: flex-1 to push dots to bottom */}
@@ -24,7 +24,7 @@ const TooltipCarousel = ({ slides, onClose }) => {
 
           {/* Text */}
           <div className="flex flex-col gap-1 pl-2">
-            {current.heading && (
+            {current.heading && header   && (
               <h2 className="text-[12px] font-semibold leading-none">
                 {current.heading}
               </h2>

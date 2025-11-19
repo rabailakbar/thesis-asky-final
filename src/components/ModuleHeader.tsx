@@ -110,13 +110,13 @@ interface ModuleHeaderProps {
             
   
             {/* Likes / Saves */}
-            <div className="flex-end justify-end gap-2 text-[#130719] mt-2">
+            <div className="flex-end justify-end gap-2  font-normal text-[32px] text-[#130719] mt-2">
              {module==2 && (
               <>
               <span>
                 {likesCount}/{MAX_LIKES} Likes
               </span>
-              <span>|</span>
+              <span> | </span>
               <span>
                 {savesCount}/{MAX_SAVES} Saves
               </span>

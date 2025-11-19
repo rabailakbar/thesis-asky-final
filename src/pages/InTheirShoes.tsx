@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import ModuleHeader from "@/components/ModuleHeader";
 type Screen = "intro" | "roleSelection" | "question" | "scenario" | "closing";
 type Role = {
   title: string;
@@ -18,7 +19,7 @@ const InTheirShoes = () => {
   const [currentScreen, setCurrentScreen] = useState<Screen>("roleSelection");
   const [selectedRole, setSelectedRole] = useState<string>("");
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
   const [roleDetails, setRoleDetails] = useState<any>({});
   const [round, setRound] = useState(1); // Round 1 → 3
   const [usedRoles, setUsedRoles] = useState<string[]>([]);
@@ -40,13 +41,13 @@ const InTheirShoes = () => {
   };
 
   const roles: Role[] = [
-      { title: "Team Captain", subtitle: "Physical Training" },
-      { title: "School Editor", subtitle: "" },
-      { title: "Parent", subtitle: "" },
-      { title: "Friend", subtitle: "Social Media" },
-      { title: "Family", subtitle: "School" },
-      { title: "Teacher", subtitle: "School Club" },
-      { title: "Influencer", subtitle: "Older Sibling" },
+      { title: "Team Captain", subtitle: "Captain's Judgement" },
+      { title: "School Editor", subtitle: "Editor's Mind" },
+      { title: "Parent", subtitle: "Dinner Debate" },
+      { title: "Friend", subtitle: "Protest Pressure" },
+      { title: "Family", subtitle: "Worried Grandmother" },
+      { title: "Teacher", subtitle: "Viral Video" },
+      { title: "Influencer", subtitle: "Influencer Dilemma" },
   ];
 
   const dispatch = useDispatch()
@@ -107,7 +108,7 @@ const InTheirShoes = () => {
                   setCurrentScreen("closing");
               }
           }
-      }, 3); // 1 second delay
+      }, 10000); // 1 second delay
   };
 
 
@@ -163,9 +164,8 @@ const InTheirShoes = () => {
       }
   };
 
-
   const q = renderQuestion();
-
+const [done,setDone] = useState(false)
 
 
 
@@ -181,12 +181,12 @@ const InTheirShoes = () => {
                       src={"/opening17.png"}
                   />        <div className="max-w-7xl mx-auto">
                       {/* Header */}
-                      <ModuleHeader currentQuestionIndex={3 - round} polarizationScore={score} />
+                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120}  left={4-round}  />
 
                       {/* Role Selection Heading */}
-                      <div className="text-center mb-12">
-                          <h2 className="text-3xl font-normal text-black mb-3">Choose Your Role:</h2>
-                          <p className="text-lg text-gray-700">
+                      <div className="text-center mt-8 mb-16">
+                          <h2 className="text-[1.5vw] font-medium text-[#130719] ">Choose Your Role:</h2>
+                          <p className="text-[1.5vwto] font-medium text-[#130719]">
                               Each scenario puts you in a different position of power and perspective
                           </p>
                       </div>
@@ -209,7 +209,7 @@ const InTheirShoes = () => {
       className="cursor-pointer basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
       onClick={() => handleRole(role.title)}
     >
-      <RoleCard role={role.title} />
+      <RoleCard role={role} />
     </CarouselItem>
 ))}
 
@@ -229,9 +229,9 @@ const InTheirShoes = () => {
 
           <div className="p-8">
               <main className="h-[90vh] bg-[#F8F1E7] ">
-                  <div className="max-w-6xl mx-auto flex flex-col">
+                  <div className="max-w-7xl mx-auto flex flex-col">
                       {/* Header */}
-                      <ModuleHeader currentQuestionIndex={round} polarizationScore={score} />
+                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120}  left={4-round}  />
                       <div className="text-center ">
                           <h2 className="text-lg font-semibold text-[#201E1C] ">Choose Your Role:</h2>
                           <p className="text-lg text-[#201E1C]">
@@ -278,9 +278,9 @@ const InTheirShoes = () => {
 
       return (
           <div className="p-8">
-              <main className="h-[90vh] bg-[#F8F1E7] p-8">
+              <main className="min-h-[90vh] bg-[#F8F1E7] ">
                   <div className="max-w-7xl mx-auto">
-                      <ModuleHeader currentQuestionIndex={3 - round} polarizationScore={score} />
+                  <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120}  left={4-round}  />
 
                       {/* Question Header */}
                       <div className="text-center ">
@@ -291,7 +291,7 @@ const InTheirShoes = () => {
 
                       {/* Question Content */}
                       <div className="flex justify-center items-center ">
-                          <div className="flex flex-col justify-center items-center max-w-4xl w-full px-6 ">
+                          <div className="flex flex-col justify-center items-center max-w-4xl w-full px-12 ">
                               <div className="flex justify-center items-center gap-2 ">
                                   <p
                                       className="text-[72px] font-semibold
@@ -323,31 +323,52 @@ const InTheirShoes = () => {
     const bgColor = isColored ? a.color : "#EDE1D0";
     const textColor = isColored ? "text-white" : "text-gray-800";
 
-    const tooltipText = tooltipMapping[a.label];
+    const tooltipText = selectedAnswer==a.label && a.color != "#5F237B"
+const ischecked = selectedAnswer==a.label && a.color == "#5F237B"
 
     return (
         <div key={a.label} className="relative">   {/* <-- FIX HERE */}
             <div
                 onClick={() => handleAnswerSelect(a.label, a.color)}
-                className="pt-2 px-4 cursor-pointer transition-all border-gray-200 h-full rounded-tl-3xl rounded-tr-3xl rounded-br-3xl
+                className="pt-2 pb-2  px-4 cursor-pointer transition-all border-gray-200 h-full rounded-tl-3xl rounded-tr-3xl rounded-br-3xl
  "
-                style={{ backgroundColor: bgColor }}
+                style={{ backgroundColor: "#EDE1D0" }}
             >
-                <div className="flex flex-col items-start gap-3">
+              {!ischecked && !tooltipText &&  <div className="flex flex-col items-start gap-3">
                     <span className="flex items-center justify-center text-[1.25vw] w-8 h-8 bg-white text-black rounded-2xl font-normal">
                         {a.label}
                     </span>
                     <p className="text-[16px] text-left leading-relaxed #130719">
                         {a.text}
                     </p>
+                </div>}
+                {ischecked &&
+                <div className="flex items-center w-full h-full justify-center">
+                <img src="/try.svg"/>
                 </div>
+                }
+                {tooltipText &&
+                <div className="flex items-center w-full h-full justify-center">
+                <img src="/trynot.svg"/>
+                </div>
+
+                }
             </div>
 
             {tooltipText && (
-                <div className="absolute top-0 left-[105%] z-10">
-                    <Tooltip description={tooltipText} />
+      <div className="absolute bottom-full left-0 mb-2 z-10">
+                     <TooltipCarousel
+        
+      slides={[
+        { heading: "question?.Bias_Type", description: q?.tooltip1 },
+        { description: q?.tooltip2 }
+      ]} onClose={()=>(false)} 
+      header={false}
+      
+      />
                 </div>
             )}
+            
         </div>
     );
 })}
@@ -379,22 +400,20 @@ export default InTheirShoes;
 function RoleCard({ role, disabled }: any) {
   return (
     <div
-      className={`bg-white h-[35vh] border-[3px] rounded-xl p-6 text-center
+      className={`bg-white h-[35vh] w-full gap-4 flex flex-col justify-center items-center border-[3px] rounded-xl px-4 py-2 text-center
                   ${disabled ? "opacity-40 border-gray-400" : "border-black"}`}
     >
-      <h2 className="text-lg font-semibold mb-2 text-black">Divided Class</h2>
-      <div className="flex justify-center mb-2">
+      <h2 className="text-[1vw] font-medium  text-[#130719]">{role.subtitle}</h2>
+      <div className="flex justify-center ">
         <img
           src="/character1.svg"
           alt={role}
-          width={120}
-          height={120}
-          className="rounded-md"
+     
+          className="rounded-md w-[10vw]" 
         />
       </div>
 
-      <p className="text-gray-900 font-medium text-md">Role: {role}</p>
-      {disabled && <p className="text-sm text-red-500 mt-2">Already used</p>}
+      <p className="text-[1.25vw] font-medium text-md">Role: {role.title}</p>
     </div>
   );
 }
@@ -406,80 +425,7 @@ function RoleCard({ role, disabled }: any) {
 
 
 
-const ModuleHeader = (props) => {
-  return (
-      <>
-          <div className="  pt-6 mb-2">
-              <div className="flex items-center justify-between">
-                  {/* Left side: Icon + Module Info */}
-                  <div className="flex items-center gap-8">
-                      {/* Puzzle Icon */}
-                      <div className="w-24 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-                          <img
-                              src={"/opening17.png"}
-                              alt="Module 1"
-                              className="w-24  object-contain"
-                          />
-                      </div>
 
-                      {/* Module Info */}
-                      <div>
-                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-In their shoes</h1>
-
-<p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-Step into another role, and make their world make sense.
-</p>
-
-
-                          <div className="flex items-center gap-4 text-[#201E1C]">
-<img src={"/clocl.svg"} />
-
-                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
-02:00
-</span>
-
-                          </div>
-
-                      </div>
-                  </div>
-
-                  {/* Right side: Counter */}
-                  <div className="flex flex-col justify-between gap-4 h-full items-end">
-  {/* Top div */}
-  <div>
-    <div className="w-[200px] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1 relative">
-      {/* Gray background track (already present) */}
-      <div className="absolute top-0 left-0 w-full h-full bg-[#EDE1D0] rounded-full"></div>
-
-      {/* Gradient foreground */}
-      <div
-        className="h-full rounded-full relative"
-        style={{
-          width: `${props.polarizationScore || 5}%`,
-          background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
-        }}
-      />
-    </div>
-    <span className="text-sm text-gray-700"> Polarization Score</span>
-  </div>
-
-  {/* Bottom div */}
-  <div>
-    <div className="text-3xl font-semibold text-gray-900">
-      {props.currentQuestionIndex}/3 Left
-    </div>
-  </div>
-</div>
-
-
-              </div>
-          </div>
-
-          {/* Instructions */}
-          
-      </>)
-}
 
 
 
@@ -557,6 +503,7 @@ import { RootState } from "@/store";
 import { decreaseScore } from "@/store/topicsSlice";
 import CircleScore from "@/components/CircleScore";
 import Tooltip from "@/components/tooltipp";
+import TooltipCarousel from "@/components/TooltipCarousel";
 const OpeningModal = (props:any)=>{
     
 

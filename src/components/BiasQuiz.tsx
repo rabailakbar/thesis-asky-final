@@ -254,7 +254,7 @@ const dispatch = useDispatch();
     if (selections.length >= Object.keys(biasedPhrases).length && onComplete) {
       const timer = setTimeout(() => {
         onComplete();
-      }, 2000);
+      }, 10000);
       return () => clearTimeout(timer);
     }
   }, [selections.length, onComplete]);
@@ -325,6 +325,7 @@ src={"/opening14.svg"}
         { description: question?.Tooltip2 }
       ]}
       onClose={() => false}
+      header={true}
     />}
   </div>
          

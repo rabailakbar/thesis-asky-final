@@ -25,6 +25,7 @@ import FakeFact from "./pages/FakeFact";
 import SpotTheBias from "./pages/SpotTheBias";
 import Onboarding from "./pages/Onboarding";
 import Debate from "./pages/Debate";
+import Workshop from "./pages/Workshop";
 
 
 
@@ -41,7 +42,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/onboarding" element={<Onboarding/>}/>
-          <Route path="/" element={<Onboarding/>} />
+          <Route path="/" element={<Workshop/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/interest" element={<Interest />} />

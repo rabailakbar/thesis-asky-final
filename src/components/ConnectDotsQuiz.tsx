@@ -108,7 +108,7 @@ if (isComplete ||done) {
   // ----------------------------------------
   
   return (<div className="p-6">
-    <div className=" bg-[#F8F1E7] h-[90vh]  px-24 flex flex-col ">
+    <div className=" bg-[#F8F1E7] h-[90vh] overflow-auto py-2  px-24 flex flex-col ">
 
       <div className="   ">
 
@@ -139,16 +139,43 @@ if (isComplete ||done) {
         <p className=" font-normal text-[24px] leading-[100%] tracking-normal text-center py-8 text-gray-800">
   What might have made the creator post something that got so much attention?
 </p>
+<div className="w-full flex justify-center items-center" >
+<div className="relative inline-block mb-8 rounded-2xl overflow-hidden">
+  {/* The Image */}
+  {behind?.Image && (
+    <img
+      src={imageUrl}
+      alt="TikTok Post"
+      className="h-[30vh] relative w-auto object-contain"
+    />
+  )}
 
-        <div className="flex mb-8 items-center justify-center rounded-2xl overflow-hidden mb-4">
-          {behind?.Image && (
-            <img
-              src={imageUrl}
-              alt="TikTok Post"
-              className="h-[30vh] w-auto object-contain"
-            />
-          )}
-        </div>
+  {/* TOP-LEFT BADGE */}
+  <div className="absolute top-2 right-1 flex items-center gap-2 border border-black rounded-tl-[8px] rounded-tr-[8px]">
+  <div
+  className="
+    w-[5vw]
+    bg-[#E00040] text-white 
+    flex flex-col items-center justify-center gap-[10px]
+    rounded-tl-[8px] rounded-tr-[8px]
+    border border-white/30
+    text-xs font-semibold shadow-md
+    py-5 px-2
+    font-semibold text-[2vw]
+  "
+>      {behind?.Reach.split(" ")[0]} <span className="font-normal text-[1vw]">{behind?.Reach.split(" ")[1]}</span>
+    </div>
+
+    {/* <img
+      src="/your-character.png"
+      className="w-5 h-5"
+      alt=""
+    /> */}
+  </div>
+</div>
+</div>
+
+
 
         {/* Text Box */}
         {/* <div className="bg-[#EDE1D0] px-6 pb-8 pt-2 text-center">
@@ -178,17 +205,16 @@ if (isComplete ||done) {
             const optionLabel = String.fromCharCode(65 + index); // A, B, C
             const isCorrect = answer.Word === behind.Correct_Answer;
             const isSelected = selectedAnswer === answer.Word;
-
+            
             return (
               <div
                 key={answer.id}
-                className={`rounded-tl-3xl rounded-tr-3xl rounded-br-3xl 
+                className={`rounded-tl-3xl h-[20vh] rounded-tr-3xl rounded-br-3xl 
                   p-2 cursor-pointer transition-all  bg-[#EDE1D0] px-4
-                  ${isSelected && isCorrect ? "bg-[#FF9348]" : ""}
-                  ${isSelected && !isCorrect ? "border-red-500 bg-red-100" : ""}
                 `}
                 onClick={() => handleSelect(answer.Word, isCorrect)}
               >
+             {!isSelected &&   <div>
                 <div className="flex items-center gap-4 mb-1">
                   <h3 className=" font-normal text-black bg-white px-2 rounded-[33px] inline-block">
                     {optionLabel}
@@ -199,6 +225,21 @@ if (isComplete ||done) {
                 <p className="text-[#130719] text-sm ">
                   {answer.Description}
                 </p>
+                </div>}
+                {
+                  isSelected && isCorrect &&
+                  <div className="flex h-full justify-center items-center">
+                    <img  src="/try.svg" className=" h-[15vh]  object-contain"/>
+                    </div>
+                }
+                {
+                  isSelected && !isCorrect &&
+                  <div className="flex h-full justify-center items-center">
+                    <img src="/trynot.svg" className="h-[15vh] object-contain"/>
+                    </div>
+                }
+
+
               </div>
             );
           })}

@@ -20,103 +20,109 @@ import OpeningModal from "@/components/OpeningModal";
 import ClosingModal from "@/components/ClosingModal";
 import ModuleHeader from "@/components/ModuleHeader";
 import { useState,useEffect } from "react";
-
-
-function buildAllQuestions(topics) {
-  // Each topic gives one question
-  const result = {
-    question0: buildFromTopic(topics[0], "IG"),
-    question1: buildFromTopic(topics[1], "IG"),
-    question2: buildFromTopic(topics[2], "LAST"),
-    question3: buildFromTopic(topics[3], "CAR")
-  };
-
-  return result;
-}
-function buildFromTopic(topic, type) {
-  if (!topic) return null;
-  // 1. Collect all imagecodes
-  const codes = Object.keys(topic)
-    .filter(k => k.startsWith("imagecode"))
-    .map(k => topic[k]);
-
-  // Auto-group
-  const ig = [];
-  const car = [];
-  const last = [];
-
-  for (const code of codes) {
-    const prefix = code.split("_")[0].toUpperCase();
-    console.log(code)
-    if (prefix === "IG") ig.push(code);
-    else if (prefix === "CAR") car.push(code);
-    else last.push(code); // TT, TR, IGR, etc
-  }
-  const toUrl = (code:any) =>{
-    
-    if(code.split("_")[0].toUpperCase()=="CAR"){
-      return supabase.storage
-      .from("Thesis")
-      .getPublicUrl(`CAR/${code.split(" ")[0]}.png`).data.publicUrl;
-    }
-   return supabase.storage
-      .from("Thesis")
-      .getPublicUrl(`Modules/${code.split(" ")[0]}.png`).data.publicUrl;
-    
-    }
+import Tooltip from "@/components/tooltipp";
 
 
 
 
-  // Decide which set to extract
-  let selectedSet;
 
-  if (type === "IG") selectedSet = ig;
-  if (type === "CAR") selectedSet = car;
-  if (type === "LAST") selectedSet = last;
-  // Map into renderable structure
-  return selectedSet
-  .filter((code: any) => code)        // removes null, undefined, "", 0, false
-  .map((code: any) => ({
-    src: toUrl(code),
-    correct: !code.toLowerCase().includes("(fake)"),
-    heading:topic.heading,
-    caption:topic.caption,
-    reach:topic.reach,
-    source:topic.source
-  }));
-}
 
 
 const FakeFact = ()=> {
   const dispatch = useDispatch();
   const topic = useSelector((state:RootState)=>state.topics.topics)
   const uniqueTopics = Array.from(new Set(topic));
+  const [tooltips,setToolTips] = useState([]);
 const score = useSelector((state:RootState)=> state.topics.score)
   const topics = uniqueTopics
     .sort(() => Math.random() - 0.5)
     .slice(0, 8);
   const[game,setGames] = useState<any>([]);
-
-  const fetchtooltip = async (code:any) => {
-    const { data, error } = await supabase
-    .from("module3tool")
-    .select("*")
-    .eq("ImageCode", code);  
-
-     
-    if (error) {
-      console.error("Error fetching spotthebias:", error);
-      return;
+  function buildAllQuestions(topics) {
+    // Each topic gives one question
+    const result = {
+      question0: buildFromTopic(topics[0], "IG"),
+      question1: buildFromTopic(topics[1], "IG"),
+      question2: buildFromTopic(topics[2], "LAST"),
+      question3: buildFromTopic(topics[3], "CAR")
+    };
+  
+    return result;
+  }
+  function buildFromTopic(topic, type) {
+    if (!topic) return null;
+    // 1. Collect all imagecodes
+    const codes = Object.keys(topic)
+      .filter(k => k.startsWith("imagecode"))
+      .map(k => topic[k]);
+  
+    // Auto-group
+    const ig = [];
+    const car = [];
+    const last = [];
+  
+    for (const code of codes) {
+      const prefix = code.split("_")[0].toUpperCase();
+      console.log(code)
+      if (prefix === "IG") ig.push(code);
+      else if (prefix === "CAR") car.push(code);
+      else last.push(code); // TT, TR, IGR, etc
     }
-    
-  };
+    const toUrl = (code:any) =>{
+      
+      if(code.split("_")[0].toUpperCase()=="CAR"){
+        return supabase.storage
+        .from("Thesis")
+        .getPublicUrl(`CAR/${code.split(" ")[0]}.png`).data.publicUrl;
+      }
+     return supabase.storage
+        .from("Thesis")
+        .getPublicUrl(`Modules/${code.split(" ")[0]}.png`).data.publicUrl;
+      
+      }
+  
+  
+  
+  
+    // Decide which set to extract
+    let selectedSet;
+  
+    if (type === "IG") selectedSet = ig;
+    if (type === "CAR") selectedSet = car;
+    if (type === "LAST") selectedSet = last;
+    // Map into renderable structure
+    return selectedSet
+    .filter((code: any) => code)        // removes null, undefined, "", 0, false
+    .map((code: any) => ({
+
+
+      src: toUrl(code),
+      correct: !code.toLowerCase().includes("(fake)"),
+      heading:topic.heading,
+      caption:topic.caption,
+      reach:topic.reach,
+      source:topic.source,
+      tooltip:tooltips.filter(p=>p.ImageCode===code.split(" ")[0])[0]?.Tooltip?tooltips.filter(p=>p.ImageCode===code.split(" ")[0])[0]?.Tooltip:""
+  
+    }));
+  
+  
+  
+  }
+
+  
   const fetchfact = async () => {
       const { data, error } = await supabase.from("module3").select("*");
       const filterByTopic = (data:any, topics:any) => {
         return data.filter((item:any) => topics.includes(Number(item.topic)));
       };
-      console.log("check",topics)
+
+      const tooltip = await supabase
+      .from("module3tool")
+      .select("*")  
+
+      setToolTips(tooltip.data)
+
       console.log(data)
       console.log(filterByTopic(data,topics))
       setGames(filterByTopic(data,topics))
@@ -215,6 +221,7 @@ const handlePostClick = (postNumber: string, isCorrect: boolean) => {
   const allQuestions1= buildAllQuestions([game[3],game[2],game[0],game[1]])
   allQuestions.question0 = pickFactAndFake(allQuestions.question0);
   allQuestions1.question0 = pickFactAndFake(allQuestions1.question0)
+  console.log(allQuestions)
 const ending=<div>
 Nice! Your <span className=" font-semibold text-[#D0193E]"> polarization</span> just dropped — looks like you’re already making progress.
  Keep on asking why & keep on going: <span className="font-semibold text-[#5F237B]">lower the score, lower the polarization…</span> that’s how you win! 
@@ -273,10 +280,12 @@ calculated={""}
         onClick={() =>
           handlePostClick(
             `question0-post1`,
-            allQuestions.question0[0].correct
+            allQuestions.question0[0].correct,
+            
           )
         }
       />
+
 
       {/* Overlay */}
       {showResult && selectedPost === `question0-post1` && (
@@ -295,6 +304,8 @@ calculated={""}
           </div>
         </div>
       )}
+      {showResult&& 
+      ( <div> <Tooltip description={allQuestions.question0[0].tooltip}/></div>)}
     </div>
 
     {/* VS label */}
@@ -340,6 +351,9 @@ calculated={""}
           </div>
         </div>
       )}
+     {showResult&& 
+      ( <div> <Tooltip description={allQuestions.question0[1].tooltip}/></div>)}
+    
     </div>
   </div>
 ): currentQuestionIndex === 2 ? (
@@ -378,6 +392,8 @@ calculated={""}
             </div>
           </div>
         )}
+        {showResult&& 
+      ( <div> <Tooltip description={allQuestions.question1[i].tooltip}/></div>)}
       </div>
     ))}
   </div>
@@ -418,6 +434,8 @@ calculated={""}
             </div>
           </div>
         )}
+        {showResult&& 
+      ( <div> <Tooltip description={allQuestions.question2[i].tooltip}/></div>)}
       </div>
     ))}
   </div>
@@ -706,6 +724,8 @@ const numbers = carouselImages[0].reach.match(/[\d.]+[KM]?/g);
                         </div>
                       )}
                     </div>
+                    {showResult&& 
+      ( <div> <Tooltip description={src.tooltip}/></div>)}
                   </CarouselItem>
                 )
               ))}
