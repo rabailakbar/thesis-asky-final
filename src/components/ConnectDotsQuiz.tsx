@@ -108,7 +108,7 @@ if (isComplete ||done) {
   // ----------------------------------------
   
   return (<div className="p-6">
-    <div className=" bg-[#F8F1E7] h-[90vh] overflow-auto py-2  px-24 flex flex-col ">
+    <div className=" bg-[#F8F1E7] min-h-screen overflow-auto py-2  px-24 flex flex-col ">
 
       <div className="   ">
 
@@ -161,7 +161,7 @@ if (isComplete ||done) {
     border border-white/30
     text-xs font-semibold shadow-md
     py-5 px-2
-    font-semibold text-[2vw]
+    font-semibold text-[1.75vw]
   "
 >      {behind?.Reach.split(" ")[0]} <span className="font-normal text-[1vw]">{behind?.Reach.split(" ")[1]}</span>
     </div>

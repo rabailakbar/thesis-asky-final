@@ -8,7 +8,7 @@ const TooltipCarousel = ({ slides, onClose,header }) => {
   return (
     <div
       className="w-[240px] bg-[#5F237B] text-white shadow-lg 
-                 rounded-t-3xl justify-between rounded-tr-3xl rounded-br-3xl rounded-bl-none
+                 rounded-t-3xl justify-between  rounded-bl-3xl
                  flex flex-col pb-2"
       style={{
         height: "15vh", // fixed height for all slides

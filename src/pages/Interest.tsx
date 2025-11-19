@@ -142,19 +142,25 @@ const score = useSelector((state:RootState)=>state.topics.score)
           <div className="flex w-full items-center justify-center">
   {/* Interested Button */}
   <Button
-    size="sm"
-    onClick={() => handleVote(topic.id, "interested", topic.title)}
-    className={`
-      font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 transition-all duration-300
-      ${topic.voted === "interested" ? "bg-[#D0193E] text-white w-full py-3" : "bg-[#F1F5F9] text-[#4C1C62] px-10"}
-    `}
-  >
-    {topic.voted != "interested"? (<img src="/love.svg" className="w-1.75 h-1.75 mr-1.5" />):
-    (<img src="/whitelove.svg" className="w-1.75 h-1.75 " />)}
-    
-    Interested
+  size="sm"
+  onClick={() => handleVote(topic.id, "interested", topic.title)}
+  className={`
+    font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 
+    w-full py-3
+    transition-colors duration-300 ease-in-out
+    ${topic.voted === "interested"
+      ? "bg-[#D0193E] text-white"
+      : "bg-[#F1F5F9] text-[#4C1C62] px-10"}
+  `}
+>
+  {topic.voted !== "interested" ? (
+    <img src="/love.svg" className="w-1.75 h-1.75 mr-1.5" />
+  ) : (
+    <img src="/whitelove.svg" className="w-1.75 h-1.75" />
+  )}
+  Interested
+</Button>
 
-  </Button>
 
   {/* Not Interested Button — hide when interested */}
   {topic.voted !== "interested" && (

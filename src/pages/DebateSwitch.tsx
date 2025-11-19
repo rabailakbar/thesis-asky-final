@@ -201,14 +201,12 @@ const dispatch = useDispatch();
   };
   
 
-  const formatTime = (s: number) =>
-    `${Math.floor(s / 60)
-      .toString()
-      .padStart(2, "0")}:${(s % 60).toString().padStart(2, "0")}`;
-
  
 
-  return ( isCompleted)?(<ClosingModal score={score}/>):(
+
+
+  return ( isCompleted)?(  <ClosingModal  ending={<div><span className="text-[#5F237B]">Keep going,</span> We’re almost there! </div> }src={"/debate/final"} module={6} text={"4/4 Debates switch "}  score={score}/>
+  ):(
     <main>
     
   
@@ -313,130 +311,9 @@ import { RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { decreaseScore } from "@/store/topicsSlice";
 import CircleScore from "@/components/CircleScore";
-const ModuleHeader = (props) => {
-  return (
-      <>
-          <div className="  pt-6 mb-2">
-              <div className="flex items-center justify-between">
-                  {/* Left side: Icon + Module Info */}
-                  <div className="flex items-center gap-8">
-                      {/* Puzzle Icon */}
-                      <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-                          <img
-                              src={"/opening16.png"}
-                              alt="Module 1"
-                              className="w-25  object-contain"
-                          />
-                      </div>
-
-                      {/* Module Info */}
-                      <div>
-                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-                      Debate Switch</h1>
-
-<p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-One debate, two sides, endless perspectives</p>
+import ClosingModal from "@/components/ClosingModal";
 
 
-                          <div className="flex items-center gap-4 text-[#201E1C]">
-<img src={"/clocl.svg"} />
-
-                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
-02:00
-</span>
-
-                          </div>
-
-                      </div>
-                  </div>
-
-                  {/* Right side: Counter */}
-                  <div className="flex flex-col justify-between gap-4 h-full items-end">
-  {/* Top div */}
-  <div>
-    <div className="w-[200px] h-4 rounded-full bg-[#EDE1D0] overflow-hidden mb-1 relative">
-      {/* Gray background track (already present) */}
-      <div className="absolute top-0 left-0 w-full h-full bg-[#EDE1D0] rounded-full"></div>
-
-      {/* Gradient foreground */}
-      <div
-        className="h-full rounded-full relative"
-        style={{
-          width: `${props.polarizationScore || 5}%`,
-          background: "linear-gradient(180deg, #D0193E 0%, #5F237B 100%)",
-        }}
-      />
-    </div>
-    <span className="text-sm text-gray-700"> Polarization Score</span>
-  </div>
-
-  {/* Bottom div */}
-  <div>
-    <div className="text-3xl font-semibold text-gray-900">
-      {4-props.currentQuestionIndex}/4 Left
-    </div>
-  </div>
-</div>
-              </div>
-          </div>
-
-          {/* Instructions */}
-          
-      </>)
-}
 
 
-const ClosingModal = (props) => {
-  
-  const navigate = useNavigate();
-
-
-  return (
-    <div className="p-8">
-<div className="h-[90vh] flex items-center justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
-              <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7] rounded-3xl shadow-sm  text-center">
-
-              {/* Module Completion Header */}
-              <div className="flex items-center justify-center gap-4 mb-6">
-              {/* <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
-<div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
-  –
-</div>
-</div> */}
-  <CircleScore scoreDrop={props.score}/>
-
-                  <div className="text-left">
-                  <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
-  Module 6: Complete
-</h1>
-
-
-<p className="text-black font-normal text-[18px] leading-[100%] mt-1">
-✓ 4/4 Debates switch 
-</p>
-
-                  </div>
-              </div>
-
-              {/* Score Circle */}
-              <div className="mt-10 mb-10 flex justify-center items-center">
-<img src={"/closingg.svg"} className="h-[35vh]" />
-
-              </div>
-
-<div>
-<span className="text-[#5F237B]">Keep going,</span> We’re almost there! </div>
-              {/* Next Module Button */}
-              <Button
-                  size="lg"
-                  onClick={() => navigate(`/debate/final`)}
-                  className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
-              >
-                  Next Module →
-              </Button>
-          </div>
-      </div>
-      </div>
-  );
-} 
 

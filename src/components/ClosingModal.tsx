@@ -20,7 +20,7 @@ const ClosingModal = (props) => {
   –
 </div>
 </div> */}
-<CircleScore scoreDrop={props.score}/>
+{ props.module!=1 && <CircleScore scoreDrop={props.score}/>}
                   <div className="text-left">
                   <h1 className=" text-[#5F237B] font-semibold text-[64px] leading-[100%] tracking-[0%]  mb-4">
                     

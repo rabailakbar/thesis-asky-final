@@ -315,7 +315,7 @@ src={"/opening14.svg"}
     
 
           {/* Headline text box - Exact match to image */}
-          <div className=" rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px]
+          <div className=" rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px]
  relative p-4 w-[80%] mx-auto bg-[#EDE1D0] flex flex-col items-center  ">
             
           <div className="absolute   z-50" style={{ top: '-100px', left:'-3vh' }}>
@@ -383,12 +383,12 @@ src={"/opening14.svg"}
 
             
             {/* Success message - Exact match to image */}
-            {selections.length >= Object.keys(biasedPhrases).length && (
+            {/* {selections.length >= Object.keys(biasedPhrases).length && (
               <div className="flex items-center justify-center gap-2 mt-4">
                 <Star className="w-5 h-5" fill="#FFEB01" stroke="#FFEB01" />
                 <span className="font-medium text-foreground">Good Job</span>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
