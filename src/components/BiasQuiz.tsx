@@ -309,7 +309,7 @@ src={"/opening14.svg"}
 
     {/* Next Button */}
     <button
-      onClick={()=>{setCurrentQuestionIndex(prev =>prev+1)}} // your function to go to the next question
+      onClick={()=>onComplete()} // your function to go to the next question
       className="absolute top-1/2 right-0 -translate-y-1/2 z-20 w-14 h-14 flex items-center justify-center bg-[#FF9348] text-white rounded-full shadow-lg hover:bg-[#7A3ACF] transition-colors"
     >
       <ChevronRight />

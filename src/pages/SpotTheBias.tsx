@@ -64,7 +64,7 @@ console.log("checkkk",data)
       [currentQuestion]
     );
 const[done,setDone] = useState(false)
-  if (biasQuizComplete || done) return <ClosingModal  ending= {"Look at that — your score’s low and your thinking’s leveling out. That’s what real awareness looks like. Stay curious, stay open, and keep the balance strong"} 
+  if (biasQuizComplete || done ) return <ClosingModal  ending= {"Look at that — your score’s low and your thinking’s leveling out. That’s what real awareness looks like. Stay curious, stay open, and keep the balance strong"} 
   src={"/behind-the-buzz"} text={"5/5 Thumbnails done!"} score={score} />;
 
   if (questions.length === 0)

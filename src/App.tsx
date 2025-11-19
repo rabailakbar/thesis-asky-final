@@ -26,6 +26,7 @@ import SpotTheBias from "./pages/SpotTheBias";
 import Onboarding from "./pages/Onboarding";
 import Debate from "./pages/Debate";
 import Workshop from "./pages/Workshop";
+import CelebrationScreen from "./pages/Closing";
 
 
 
