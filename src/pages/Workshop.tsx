@@ -2,6 +2,7 @@
 
 import { ChevronRight, Lock, Clock, BookOpen, ChevronDown } from 'lucide-react';
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const Workshop = () => {
   const [expandedPhases, setExpandedPhases] = useState<string[]>(["phase-1"]);
@@ -96,6 +97,7 @@ const Workshop = () => {
     
   ];
 
+  const navigate = useNavigate()
   return (
     <div className="w-full p-8 flex justify-center">
       <div className="w-full pb-4 overflow-auto h-[90vh] bg-[#F8F1E7] rounded-2xl shadow-xl">
@@ -119,7 +121,7 @@ const Workshop = () => {
             <StatBox number="3" label="Difficulty Levels" />
             {/* Pass unitFont for 'hr' style */}
             <StatBox number="1 hr" label="Total Duration" unitFont="Gabarito" />
-            <button className="flex justify-center items-center gap-4 bg-[#FF9348] hover:bg-[#ff7e1a] text-white px-6 py-3 rounded-xl font-semibold shadow-md transition">
+            <button onClick={()=>navigate("/interest")} className="flex justify-center items-center gap-4 bg-[#FF9348] hover:bg-[#ff7e1a] text-white px-6 py-3 rounded-xl font-semibold shadow-md transition">
               <div>
                 <div className="text-left font-normal">Click here to</div>
                 <div className="text-left font-semibold text-[1.5vw]">
@@ -199,7 +201,8 @@ const Workshop = () => {
 
                     {/* Modules List */}
                     {expandedPhases.includes(phase.id) && (
-                      <div className="space-y-4 pl-8 border-left" 
+                      <div
+                       className="space-y-4 pl-8 border-left" 
                       style={{ borderLeftColor: '#D9D9D9', borderLeftWidth: '1px' }}>
                         {phase.modules.map((module) => (
                           <ModuleCard key={module.id} module={module} />

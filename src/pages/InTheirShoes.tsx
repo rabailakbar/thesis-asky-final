@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BookOpen, Clock, Star, AlarmClock } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -166,7 +166,6 @@ const InTheirShoes = () => {
 
   const q = renderQuestion();
 const [done,setDone] = useState(false)
-
 const email = JSON.parse(localStorage.getItem("email"))
 
 const insertscore = async(email)=>{
@@ -174,7 +173,16 @@ const insertscore = async(email)=>{
   .from('Users')
   .update({ Score: score })
   .eq('Email', email);
+  console.log("dataaa",data)
 }
+
+useEffect(()=>{
+
+    if(currentScreen=="closing"){
+        console.log("eeeeeeeeeeee",email)
+        insertscore(email)
+    }
+},[currentScreen])
   
   if (currentScreen === "roleSelection") {
       return (
@@ -187,7 +195,7 @@ const insertscore = async(email)=>{
                       src={"/opening17.png"}
                   />        <div className="max-w-7xl mx-auto">
                       {/* Header */}
-                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120}  left={4-round}  />
+                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={300}  left={4-round}  />
 
                       {/* Role Selection Heading */}
                       <div className="text-center mt-8 mb-16">
@@ -361,7 +369,6 @@ const insertscore = async(email)=>{
                 setSelectedRole("");
                 setCurrentScreen("roleSelection");
             } else {
-                insertscore(email)
                 setCurrentScreen("closing");
             }
         }
@@ -449,7 +456,7 @@ const ischecked = selectedAnswer==a.label && a.color == "#5F237B"
 
 
 
-      return <ClosingModal score={score} />;
+      return <CelebrationScreen/>
   }
 
 };
@@ -567,6 +574,7 @@ import { decreaseScore } from "@/store/topicsSlice";
 import CircleScore from "@/components/CircleScore";
 import Tooltip from "@/components/tooltipp";
 import TooltipCarousel from "@/components/TooltipCarousel";
+import CelebrationScreen from "./Closing";
 const OpeningModal = (props:any)=>{
     
 

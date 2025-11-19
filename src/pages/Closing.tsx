@@ -3,7 +3,7 @@ import React from "react";
 
 export default function CelebrationScreen() {
   return (
-    <div className="p-6 ">
+    <div className="p-8 ">
     <div className="flex flex-col items-center  min-h-[90vh]  bg-[#f5f1e8] px-10 font-sans">
       
       {/* Banner Wrapper */}
@@ -12,7 +12,7 @@ export default function CelebrationScreen() {
       */}
 
       {/* Image (Centered by parent flex column) */}
-      <img src={"/sample.svg"} alt="Celebration" className="w-[60vw] pt-8 pb-8 h-auto" />
+      <img src={"/samplee.svg"} alt="Celebration" className="w-[60vw] pt-8 pb-8 h-auto" />
 
       {/* Stats Section */}
       <div className="text-center mb-8 ">
@@ -33,8 +33,8 @@ export default function CelebrationScreen() {
         
         {/* Item 1 */}
         <div className="flex items-center gap-3 text-[#1a1a1a] font-normal text-[1vw]">
-          <div className="text-2xl flex items-center justify-center">
-            <img src="/begin.svg"/>
+          <div className="text-2xl font-normal flex items-center justify-center">
+            <img src="/begin.svg" className="w-6"/>
           </div>
           <span>All Modules Complete</span>
         </div>
@@ -42,7 +42,7 @@ export default function CelebrationScreen() {
         {/* Item 2 */}
         <div className="flex items-center gap-3 text-[#1a1a1a] font-normal text-[1vw]">
           <div className="text-xl text-[#2ecc71] font-bold flex items-center justify-center">
-            <img src="/checkk.svg"/>
+            <img src="/checkk.svg" className="w-4"/>
           </div>
           <span>Workshop Complete</span>
         </div>

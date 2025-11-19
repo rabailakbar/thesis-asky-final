@@ -254,7 +254,7 @@ level={"Intermediate"}
 calculated={""}
         />
 
-      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={300}  left={8-currentQuestionIndex} total={8} />
+      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={600}  left={8-currentQuestionIndex} total={8} />
   
       {currentQuestionIndex < totalQuestions && (
         <h2 className="text-2xl text-center my-8  font-normal">Click to identify which one is fake</h2>
