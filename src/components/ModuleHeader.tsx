@@ -78,12 +78,7 @@ interface ModuleHeaderProps {
               <p className="font-normal text-[24px] leading-[100%] tracking-[0] text-[#130719] mb-2">
   {description}            </p>
   
-              <div className="flex items-center gap-6 text-[#201E1C]">
-                <img src={"/clocl.svg"} alt="Clock" />
-                <span className="font-normal text-[32px] leading-[100%] tracking-[0]">
-                  {formatTime(timeLeft)}
-                </span>
-              </div>
+              {/* Timer moved to right side near the counter */}
             </div>
           </div>
   
@@ -109,8 +104,17 @@ interface ModuleHeaderProps {
   
             
   
-            {/* Likes / Saves */}
-            <div className="flex-end justify-end gap-2  font-normal text-[32px] text-[#130719] mt-2">
+            {/* Timer + separator + Likes/Saves/Left */}
+            <div className="flex items-center justify-end gap-4 font-normal text-[32px] text-[#130719] mt-2">
+              {/* Timer placed before the right-side counter */}
+              <div className="flex items-center gap-3 text-[#201E1C]">
+                <img src={"/clocl.svg"} alt="Clock" />
+                <span className="font-normal text-[32px] leading-[100%] tracking-[0]">
+                  {formatTime(timeLeft)}
+                </span>
+              </div>
+              {/* Vertical separator (thicker) */}
+              <span className="h-8 w-1 bg-[#D0C4B3] inline-block" aria-hidden="true"></span>
              {module==2 && (
               <>
               <span>

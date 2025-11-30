@@ -214,7 +214,8 @@ const score = useSelector((state:RootState)=>state.topics.score)
   
   
   useEffect(() => {
-    if ((likesCount >= MAX_LIKES && savesCount >= MAX_SAVES) || done) {
+    // Auto-complete when user performs any action (like or save) once, or when timer is done
+    if ((likesCount >= 1 || savesCount >= 1) || done) {
       
       dispatch(decreaseScore(getScoreDrop(code)))
 
@@ -346,7 +347,10 @@ const score = useSelector((state:RootState)=>state.topics.score)
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
     >
-      <ClosingModal  ending={ending} src={"/fakefact"} module={2} text={"✓ 4/4 Likes  |  2/2 saves"}  score={score}/>
+      <ClosingModal  ending={ending} src={"/fakefact"} module={2} 
+        text={likesCount >= 1 ? "1 Like" : savesCount >= 1 ? "1 Save" : "Completed"}  
+        score={score}
+      />
     </motion.div>
   ) : (
     <motion.div
@@ -366,13 +370,14 @@ const score = useSelector((state:RootState)=>state.topics.score)
           src={"/opening12.png"}
           phase="I"
           module="Module 2: Pick & Flick"
-          description="In this module, students will interact with a simulated social media feed, similar to the ones they scroll through daily. Their goal is to like 10 posts and save 5 in order to earn a score. The twist — the more diverse their engagement, the higher their score."
-          time="5:00"
+          description="In this module, students will interact with a simulated social media feed, similar to the ones they scroll through daily. Their goal is to like posts and save some in order to earn a score. The twist — the more diverse their engagement, the higher their score."
+          time="2:00"
           calculated=""
           level="Beginner"
         />
         <div className="max-w-7xl w-full mx-auto">
-          <ModuleHeader setDone={setDone} module={2} src={"/opening12.png"} heading={"Pick & Flick"} description={"Is everything not real?!"} time={300}       savesCount={savesCount} likesCount={likesCount} MAX_LIKES={MAX_LIKES} MAX_SAVES={MAX_SAVES} polarizationScore={score} />
+          {/* Show single counter: 1 Left; use module=1 rendering path to display 'Left' */}
+          <ModuleHeader setDone={setDone} module={1} src={"/opening12.png"} heading={"Pick & Flick"} description={"Is everything not real?!"} time={120} left={1 - (likesCount > 0 || savesCount > 0 ? 1 : 0)} polarizationScore={score} />
           {isLoading?( <motion.div
         key="loading-screen"
         initial={{ opacity: 0 }}

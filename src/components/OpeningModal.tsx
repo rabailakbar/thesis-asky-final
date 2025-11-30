@@ -65,7 +65,7 @@ const OpeningModal = (props:any)=>{
 
                       <div  className="flex items-center gap-2 text-[#130719] font-[400] text-[20px]">
                         <img src={"/clocl.svg"} className="w-6 h-6" />
-                        <span>{props.time}</span>
+                        <span>{"2:00"}</span>
                       </div>
                       <div className=" flex justify-center items-center gap-2 text-[#130719] font-[400] text-[20px] ">
           <img src={"/star.svg"} className="w-6 h-6"/>

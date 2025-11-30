@@ -64,7 +64,7 @@ console.log("checkk",topic)
      
 
       const newCount = updated.filter(t => t.voted === "interested").length;
-      if (newCount >= 7) {
+      if (newCount >= 1) {
         setTimeout(() => setIsComplete(true), 500);
       }
       return updated;
@@ -89,7 +89,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
     exit={{ opacity: 0, scale: 0.95 }}
     transition={{ duration: 0.8, ease: "easeInOut" }}
   >
-            <ClosingModal module={1} text={"7/7 Score interests narrowed!"} src={"/exercise"} ending={"GOOOD JOB! We’ll start calculating from the next module...."} 
+            <ClosingModal module={1} text={"1/1 Score interests narrowed!"} src={"/exercise"} ending={"GOOOD JOB! We’ll start calculating from the next module...."} 
             score={score} />
 
 
@@ -111,7 +111,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
       <div className={` px-4 transition-all duration-300 ${showIntroModal ? "blur-sm pointer-events-none" : ""}`}>
 
         {/* Header - Horizontal Layout */}
-<ModuleHeader polarizationScore={score} setDone={setDone} module={1} src={"/opening11.svg"} heading={"Find your Vibe"} description="Let’s help you build a feed!" time={60}  left={7-selectedCount}/>
+<ModuleHeader polarizationScore={score} setDone={setDone} module={1} src={"/opening11.svg"} heading={"Find your Vibe"} description="Let’s help you build a feed!" time={120}  left={1-selectedCount}/>
 
         <div><h1 className="text-[black] text-center text-[24px]">Click to narrow down your interests</h1></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">

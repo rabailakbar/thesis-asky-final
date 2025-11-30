@@ -45,6 +45,11 @@ const ConnectDotsQuiz = ({ rounds }: any) => {
   // ----------------------------------------
   useEffect(() => {
     if (!behind) return;
+    // Prefer a direct public URL when provided
+    if (behind.ImagePublicUrl) {
+      setImageUrl(behind.ImagePublicUrl);
+      return;
+    }
     loadImage(`${behind.Image}.png`);
   }, [currentIndex]);
 
@@ -123,13 +128,13 @@ if (isComplete ||done) {
             Time to dive into the minds behind the viral!<br/>Pick your prompts and uncover what really makes people hit “share.” See how personal motives and biases  spark chain reactions across your feed — and maybe even the whole internet!
           </div>
           }
-          time={"3:00"}
+          time={"2:00"}
           level={"Intermediate"}
           calculated={""}
           
         />
       {/* <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={300}  left={8-currentQuestionIndex} total={8} /> */}
-      <ModuleHeader time={300} src={"/opening15.png"} heading="Behind the buzz" description="Trace the spark that sets your feed on fire"  total={5} setDone={setDone}   left={5-currentIndex} polarizationScore={score} />
+      <ModuleHeader time={120} src={"/opening15.png"} heading="Behind the buzz" description="Trace the spark that sets your feed on fire"  total={5} setDone={setDone}   left={1-currentIndex} polarizationScore={score} />
 
 
         {/* Round/Question Header */}
@@ -210,7 +215,7 @@ if (isComplete ||done) {
               <div
                 key={answer.id}
                 className={`rounded-tl-3xl h-[20vh] rounded-tr-3xl rounded-br-3xl 
-                  p-2 cursor-pointer transition-all  bg-[#EDE1D0] px-4
+                  p-2 cursor-pointer transition-all bg-[#EDE1D0] px-4 hover:bg-[#FFA96D]
                 `}
                 onClick={() => handleSelect(answer.Word, isCorrect)}
               >
@@ -219,10 +224,10 @@ if (isComplete ||done) {
                   <h3 className=" font-normal text-black bg-white px-2 rounded-[33px] inline-block">
                     {optionLabel}
                   </h3>
-                  <h3 className="font-medium">{answer.Word}</h3>
+                  <h3 className="font-medium hover:text-[#FFA96D]">{answer.Word}</h3>
                 </div>
 
-                <p className="text-[#130719] text-sm ">
+                <p className="text-[#130719] text-sm hover:text-[#FFA96D]">
                   {answer.Description}
                 </p>
                 </div>}

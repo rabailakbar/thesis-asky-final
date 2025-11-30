@@ -2,15 +2,21 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface TopicsState {
   topics: number[];
-  score: number;
+  score: number; // Polarization score following fixed module sequence
+  currentModule: number; // 0-based index of current module
 }
 
 // Load topics from localStorage
 const storedTopics = localStorage.getItem("topics");
 const storedScore = localStorage.getItem("score");
+// Fixed polarization trajectory per module (Module 1..6)
+// Updated per user specification: 100 → 95 → 87 → 56 → 36 → 2
+const POLARIZATION_SEQUENCE = [100, 95, 87, 56, 36, 2];
+
 const initialState: TopicsState = {
   topics: storedTopics ? JSON.parse(storedTopics) : [],
-  score: storedScore ? parseFloat(JSON.parse(storedScore).toFixed(1)) : 100,
+  score: storedScore ? parseFloat(JSON.parse(storedScore).toFixed(1)) : POLARIZATION_SEQUENCE[0],
+  currentModule: 0,
 };
 
 const topicsSlice = createSlice({
@@ -29,17 +35,29 @@ const topicsSlice = createSlice({
       state.topics = [];
       localStorage.removeItem("topics");
     },
+    // Deprecated dynamic score adjustments (now deterministic per module)
     addScore: (state, action: PayloadAction<number>) => {
-      state.score = parseFloat((state.score + action.payload).toFixed(1));
+      // No-op to preserve backward compatibility
       localStorage.setItem("score", JSON.stringify(state.score));
     },
     decreaseScore: (state, action: PayloadAction<number>) => {
-      console.log("reaching here", action.payload);
-      state.score = parseFloat((state.score - action.payload).toFixed(1));
+      // No-op: polarization path is fixed; ignore dynamic decrements
       localStorage.setItem("score", JSON.stringify(state.score));
     },
+    nextModule: (state) => {
+      if (state.currentModule < POLARIZATION_SEQUENCE.length - 1) {
+        state.currentModule += 1;
+        state.score = POLARIZATION_SEQUENCE[state.currentModule];
+        localStorage.setItem("score", JSON.stringify(state.score));
+      }
+    },
+    resetModules: (state) => {
+      state.currentModule = 0;
+      state.score = POLARIZATION_SEQUENCE[0];
+      localStorage.setItem("score", JSON.stringify(state.score));
+    }
   },
 });
 
-export const { addTopic, removeTopic, clearTopics, addScore, decreaseScore } = topicsSlice.actions;
+export const { addTopic, removeTopic, clearTopics, addScore, decreaseScore, nextModule, resetModules } = topicsSlice.actions;
 export default topicsSlice.reducer;

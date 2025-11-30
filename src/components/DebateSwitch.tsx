@@ -169,17 +169,19 @@ const DebateSwitch = () => {
                 <p className="text-sm text-gray-600">One debate, two sides, endless perspectives</p>
               </div>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
               <div className="text-right">
                 <p className="text-xs text-gray-500">Polarization Score</p>
-                <Progress value={polarizationScore} className="w-24 h-2 bg-gray-200" />
+                <Progress value={polarizationScore} className="w-32 h-2 bg-gray-200" />
+                <p className="text-xs text-gray-700 mt-1">{polarizationScore}%</p>
               </div>
-              <div className="text-right">
-                <p className="text-xs text-gray-500">{currentScenarioIndex + 1}/{sampleScenarios.length} Left</p>
-                <div className="flex items-center gap-1 text-sm text-gray-700">
-                  <Clock className="w-4 h-4" />
+              <div className="flex items-center gap-4 font-medium text-[#130719]">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-[#FF9348]" />
                   <span>{formatTime(timeLeft)}</span>
                 </div>
+                <span className="h-8 w-1 bg-[#D0C4B3] inline-block" />
+                <div>1 Left</div>
               </div>
             </div>
           </div>
@@ -242,17 +244,19 @@ const DebateSwitch = () => {
                 <p className="text-sm text-gray-600">One debate, two sides, endless perspectives</p>
               </div>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
               <div className="text-right">
                 <p className="text-xs text-gray-500">Polarization Score</p>
-                <Progress value={polarizationScore} className="w-24 h-2 bg-gray-200" />
+                <Progress value={polarizationScore} className="w-32 h-2 bg-gray-200" />
+                <p className="text-xs text-gray-700 mt-1">{polarizationScore}%</p>
               </div>
-              <div className="text-right">
-                <p className="text-xs text-gray-500">{currentScenarioIndex + 1}/{sampleScenarios.length} Left</p>
-                <div className="flex items-center gap-1 text-sm text-gray-700">
-                  <Clock className="w-4 h-4" />
+              <div className="flex items-center gap-4 font-medium text-[#130719]">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-[#FF9348]" />
                   <span>{formatTime(timeLeft)}</span>
                 </div>
+                <span className="h-8 w-1 bg-[#D0C4B3] inline-block" />
+                <div>1 Left</div>
               </div>
             </div>
           </div>

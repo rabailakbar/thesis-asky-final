@@ -170,7 +170,7 @@ fetchfact();
     
      
     
-      const totalQuestions = 8; // Hardcoded to 4 questions for this module
+      const totalQuestions = 1; // Reduced to a single question per new requirements
     
       const [selectedCarouselIndex, setSelectedCarouselIndex] = useState<number | null>(null);
     
@@ -247,7 +247,7 @@ Nice! Your <span className=" font-semibold text-[#D0193E]"> polarization</span> 
   const[done,setDone] = useState(false)
     if(currentQuestionIndex >= totalQuestions || done ){
       return(
-         <ClosingModal  ending={ending} src={"/spotthebias"} module={3} text={"✓ 8/8 Facts served!"}  score={score}/>
+         <ClosingModal  ending={ending} src={"/spotthebias"} module={3} text={"✓ 1/1 Fact checked!"}  score={score}/>
 
 
 
@@ -266,12 +266,12 @@ Nice! Your <span className=" font-semibold text-[#D0193E]"> polarization</span> 
             "In this level, you’ll become a fake content detective 🕵️‍♀️.<br/> You’ll explore different post formats — from side-by-side comparisons to posts, reels, and carousels — and figure out what’s real and what’s not. Look closely at sources, images, and engagement counts to spot the fakes and earn your points!"
          </div>
           }
-          time={"10:00"}
+          time={"2:00"}
 level={"Intermediate"}
 calculated={""}
         />
 
-      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={600}  left={8-currentQuestionIndex} total={8} />
+      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={120}  left={1-currentQuestionIndex} total={1} />
   
       {currentQuestionIndex < totalQuestions && (
         <h2 className="text-2xl text-center my-8  font-normal">Click to identify which one is fake</h2>

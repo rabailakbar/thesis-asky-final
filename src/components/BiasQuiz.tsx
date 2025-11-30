@@ -24,15 +24,15 @@ const BiasQuiz = ({ imageUrl, headline, questionNumber, onComplete,question,curr
   const biasedPhrases: any = {};
 
 if (question.Keyword1) {
-  biasedPhrases[question.Keyword1] = { difficulty: "easy", color: "#E9D5FF", };
+  biasedPhrases[question.Keyword1] = { difficulty: "easy", color: "#FFA96D" };
 }
 
 if (question.Keyword2) {
-  biasedPhrases[question.Keyword2] = { difficulty: "medium", color: "#E9D5FF" };
+  biasedPhrases[question.Keyword2] = { difficulty: "medium", color: "#FFA96D" };
 }
 
 if (question.Keyword3!="") {
-  biasedPhrases[question.Keyword3] = { difficulty: "hard", color: "#E9D5FF" };
+  biasedPhrases[question.Keyword3] = { difficulty: "hard", color: "#FFA96D" };
 }
 
 useEffect(() => {
@@ -44,7 +44,7 @@ useEffect(() => {
 
   
   console.log(question)
-  const [selections, setSelections] = useState<{ indices: number[], phrase: string, color: string | null }[]>([]);
+  const [selections, setSelections] = useState<{ indices: number[], phrase: string, color: string | null, textColor?: boolean }[]>([]);
   const [currentSelection, setCurrentSelection] = useState<number[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [buildingSelection, setBuildingSelection] = useState<number[]>([]);
@@ -108,7 +108,7 @@ const dispatch = useDispatch();
   dispatch(decreaseScore(1.5))
   }
 
-      setSelections(prev => [...prev, { indices: allIndices, phrase, color }]);
+      setSelections(prev => [...prev, { indices: allIndices, phrase, color, textColor: false }]);
       setBuildingSelection([]);
 
 
@@ -199,7 +199,7 @@ const dispatch = useDispatch();
         : null;
       
       if (color) {
-        setSelections(prev => [...prev, { indices: allIndices, phrase, color }]);
+        setSelections(prev => [...prev, { indices: allIndices, phrase, color, textColor: false }]);
         setBuildingSelection([]);
       }
       
@@ -231,6 +231,15 @@ const dispatch = useDispatch();
     // Check if word is in any completed selection
     const selection = selections.find(sel => sel.indices.includes(index));
     if (selection) {
+      // If marked as text color, apply green to font instead of background
+      if (selection.textColor) {
+        return {
+          color: selection.color || '#0D5623',
+          padding: '4px 8px',
+          borderRadius: '20px',
+          margin: '0 2px'
+        };
+      }
       return {
         backgroundColor: selection.color || 'hsl(var(--muted))',
         padding: '4px 8px',
@@ -253,6 +262,8 @@ const [check,setCheck] = useState(false)
   // Call onComplete callback when quiz is complete
   useEffect(() => {
     if (selections.length >= Object.keys(biasedPhrases).length && onComplete) {
+      // Switch to green font color for correct answers once completed
+      setSelections(prev => prev.map(sel => ({ ...sel, color: "#0D5623", textColor: true })));
      
       const timer = setTimeout(() => {
         onComplete();
@@ -271,7 +282,7 @@ console.log("imagecode",question?.Image_Code)
   return (<div className="p-8">
 <div className="min-h-[90vh] px-24  bg-[#F8F1E7]">
             <ModuleHeader setDone={setDone} module={4} src={"/opening14.svg"} heading={"Spot the bias"} description={"What if words echo louder than actions?"}
-             time={420}   left={5-currentQuestionIndex}    polarizationScore={score} />
+             time={120}   left={1-currentQuestionIndex}    polarizationScore={score} />
   
 {/* <ModuleHeader  polarizationScore={score} currentQuestionIndex={currentQuestionIndex}  length={length} time={timeLeft}/> */}
 <OpeningModal setGameStarted={setGameStarted}
@@ -303,7 +314,7 @@ src={"/opening14.svg"}
   {/* Thumbnail */}
   <div className="rounded-lg overflow-hidden relative">
     <img
-      src={`https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Modules/${question?.Image_Code}.png`}
+      src={imageUrl}
       alt={`Question ${questionNumber}`}
       className="w-[50%] object-cover mx-auto"
     />

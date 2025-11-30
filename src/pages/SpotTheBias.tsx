@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { supabase } from "@/integrations/supabase/client";
+// Supabase not needed for single-question static content
 import BiasQuiz from "@/components/BiasQuiz";
 import { useNavigate } from "react-router";
 import CircleScore from "@/components/CircleScore";
@@ -15,34 +15,22 @@ const score = useSelector((state:RootState)=>state.topics.score)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [biasQuizComplete, setBiasQuizComplete] = useState(false);
 
-  // Fetch 5 random questions from Supabase
+  // Use a single predefined question and attached image/text
   const fetchSpotTheBias = useCallback(async () => {
-    const { data, error } = await supabase.from("spotthebias").select("*");
-    if (error) {
-      console.error("Error fetching spotthebias:", error);
-      return;
-    }
-
-    if (!data || data.length === 0) return;
-console.log("checkkk",data)
-    // Pick 5 random questions
-    const shuffled = data.sort(() => Math.random() - 0.5);
-     const selectedQuestions = shuffled.slice(0, 5);
-//     const firstTopicOne = data.find(q => q.Topic === 1);
-
-// // Filter out all other questions (except the one we already picked)
-// const remaining = data.filter(q => q !== firstTopicOne);
-
-// // Shuffle the remaining questions
-// const shuffled = remaining.sort(() => Math.random() - 0.5);
-
-// // Pick 4 random questions from remaining
-// const randomFour = shuffled.slice(0, 4);
-
-// // Final list of 5 questions
-// const selectedQuestions = [firstTopicOne, ...randomFour]
-
-    setQuestions(selectedQuestions);
+    const singleQuestion: any = {
+      Image_Text:
+        "\u201CHow many times can there be lucky guesses before it\u2019s just the truth hiding in plain sight?\u201D\n#SimpsonsConspiracy",
+      headline:
+        "\u201CHow many times can there be lucky guesses before it\u2019s just the truth hiding in plain sight?\u201D\n#SimpsonsConspiracy",
+      Image_Code: "sample",
+      Bias_Type: "Bias cues",
+      Tooltip1: "Wrong Logo, Not a real source",
+      Tooltip2: "'Collapse' exaggerated word; Dramatic image; Caption that might spark controversy",
+      Keyword1: "lucky guesses",
+      Keyword2: "it’s just the truth",
+      Keyword3: "#SimpsonsConspiracy",
+    };
+    setQuestions([singleQuestion]);
   }, []);
 
   useEffect(() => {
@@ -58,14 +46,10 @@ console.log("checkkk",data)
   };
   const currentQuestion = questions[currentQuestionIndex];
   console.log("check",questions)
-    const imageUrl = useMemo(
-      () =>
-        `https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Modules/${currentQuestion?.Image_Code}.png`,
-      [currentQuestion]
-    );
+  const imageUrl = "/YTH12.png";
 const[done,setDone] = useState(false)
   if (biasQuizComplete || done ) return <ClosingModal  ending= {"Look at that — your score’s low and your thinking’s leveling out. That’s what real awareness looks like. Stay curious, stay open, and keep the balance strong"} 
-  src={"/behind-the-buzz"} text={"5/5 Thumbnails done!"} score={score} />;
+  src={"/behind-the-buzz"} text={"1/1 Thumbnail spotted!"} score={score} />;
 
   if (questions.length === 0)
     return (
