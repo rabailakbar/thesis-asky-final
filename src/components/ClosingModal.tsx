@@ -24,7 +24,7 @@ const ClosingModal = (props) => {
 
               {/* Module Completion Header */}
               {/* Top row: Circular score + heading */}
-              <div className="flex flex-row items-center justify-center gap-5 mb-6 text-center">
+              <div className="flex flex-row items-start justify-center gap-8 mb-6 text-center">
               {/* <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
 <div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
   –
@@ -35,11 +35,11 @@ const ClosingModal = (props) => {
     <CircleScore scoreDrop={props.score} animateFrom={props.animateFrom} />
   </div>
 )}
-                  <div className="text-center">
+                  <div className="text-center flex flex-col">
                   <h1 className=" text-[#5F237B] flex justify-center items-center font-semibold text-[48px] md:text-[60px] leading-[100%] tracking-[0%] mt-2 mb-2">
                     Module {props.module}: Complete
                   </h1>
-                  <p className="text-black font-semibold gap-2 flex justify-center items-center text-[18px] md:text-[20px] leading-[100%] mt-1">
+                  <p className="text-black font-normal gap-2 flex  text-[18px] md:text-[20px] leading-[100%] mt-1">
                     <img src="/check.svg"/> {displayText}
                   </p>
                   </div>

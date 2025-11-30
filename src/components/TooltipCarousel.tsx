@@ -11,12 +11,12 @@ const TooltipCarousel = ({ slides, onClose,header }) => {
                  rounded-t-3xl justify-between  rounded-bl-3xl
                  flex flex-col pb-2"
       style={{
-        height: "17.5vh", // fixed height for all slides
+         // fixed height for all slides
       }}
     >
       {/* Content: flex-1 to push dots to bottom */}
       <div className="p-2 flex-1">
-        <div className="flex items-start justify-between">
+        <div className="flex items-start ">
           {/* Icon */}
           <div className="w-6 h-6 flex-shrink-0 rounded-full bg-[#FF9348] flex items-center justify-center">
             <img src="/tooltip.svg" className="w-6 h-6" />

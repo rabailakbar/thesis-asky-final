@@ -112,8 +112,8 @@ if (isComplete ||done) {
   // MAIN UI
   // ----------------------------------------
   
-  return (<div className="p-6">
-    <div className=" bg-[#F8F1E7] min-h-screen overflow-auto py-2  px-24 flex flex-col ">
+  return (<div className="p-12">
+    <div className=" bg-[#F8F1E7] min-h-screen overflow-auto py-2  px-24 flex flex-col rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset] ">
 
       <div className="   ">
 
@@ -215,13 +215,13 @@ if (isComplete ||done) {
               <div
                 key={answer.id}
                 className={`rounded-tl-3xl h-[20vh] rounded-tr-3xl rounded-br-3xl 
-                  p-2 cursor-pointer transition-all bg-[#EDE1D0] px-4 hover:bg-[#FFA96D]
+                  p-2 cursor-pointer transition-all bg-[##EFE8DD] px-4 hover:bg-[#FFA96D]
                 `}
                 onClick={() => handleSelect(answer.Word, isCorrect)}
               >
              {!isSelected &&   <div>
                 <div className="flex items-center gap-4 mb-1">
-                  <h3 className=" font-normal text-black bg-white px-2 rounded-[33px] inline-block">
+                  <h3 className=" font-normal text-black bg-white px-4 rounded-[33px] inline-block">
                     {optionLabel}
                   </h3>
                   <h3 className="font-medium hover:text-[#FFA96D]">{answer.Word}</h3>

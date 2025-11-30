@@ -170,7 +170,7 @@ fetchfact();
     
      
     
-      const totalQuestions = 1; // Reduced to a single question per new requirements
+      const totalQuestions = 7; // Reduced to a single question per new requirements
     
       const [selectedCarouselIndex, setSelectedCarouselIndex] = useState<number | null>(null);
     
@@ -184,7 +184,7 @@ const handlePostClick = (postNumber: string, isCorrect: boolean, tooltip?: strin
     setSelectedImageTooltip(tooltip || "");
     setSelectedIncorrectImage(imageSrc || "");
     if (isCorrect) {
-      setCorrectAnswers((prev) => prev + 1);
+      setCorrectAnswers((prev) => prev + 2);
       dispatch(decreaseScore(2.25))
 
     } 
@@ -198,7 +198,7 @@ const handlePostClick = (postNumber: string, isCorrect: boolean, tooltip?: strin
     setSelectedImageTooltip(tooltip || "");
     setSelectedIncorrectImage(imageSrc || "");
     if (isCorrect) {
-      setCorrectAnswers((prev) => prev + 1);
+      setCorrectAnswers((prev) => prev + 2);
       dispatch(decreaseScore(2.25))
     }
   };
@@ -253,9 +253,9 @@ Nice! Your <span className=" font-semibold text-[#D0193E]"> polarization</span> 
 
     )}
   return (
-    <div className="p-6">
-    <div className="bg-[#F8F1E7] px-24 pt-2 pb-8 overflow-hidden flex flex-col">
-    <OpeningModal
+    <div className="p-12">
+<div className="bg-[#F8F1E7] px-24 pt-2 pb-8 overflow-hidden flex flex-col rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset]">
+<OpeningModal
           showIntroModal={showIntroModal}
           moduleId={"M3"}
           setShowIntroModal={setShowIntroModal}
@@ -271,7 +271,7 @@ level={"Intermediate"}
 calculated={""}
         />
 
-      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={95} module={3} heading="Fake or fact" headingColor="#D0193E" description="Is everything not real?!" time={120} started={!showIntroModal} left={1-currentQuestionIndex} total={1} />
+      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact?" headingColor="#D0193E" description="Is everything not real?!" time={120} started={!showIntroModal} left={4-currentQuestionIndex/2} total={4} />
   
       {currentQuestionIndex < totalQuestions && (
         <h2 className="text-2xl text-center my-8  font-normal">Click to identify which one is fake</h2>
@@ -283,16 +283,16 @@ calculated={""}
         <div className="absolute inset-0 flex items-center justify-center z-10">
           <div className="text-center">
             {isCorrectAnswer ? (
-              <div className="flex flex-col items-center gap-4">
-                <img src="/try.svg" alt="Good Job!" className="w-64 h-64 animate-fade-in" />
+              <div className="bg-[#EFE8DD] h-[60vh] px-4 items-center justify-center border border-[#D9D9D9] flex flex-col items-center gap-4 rounded-[12px]" >
+              <img src="/module3tt.svg" alt="Good Job!" className="w-64 h-64 animate-fade-in" />
                 {/* Orange arrow button positioned on the right */}
                 <div className="absolute right-8 top-1/2 -translate-y-1/2">
-                  <Button 
+                  <div 
                     onClick={handleNextQuestion}
-                    className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-white rounded-full w-16 h-16 flex items-center justify-center animate-fade-in shadow-sm"
+                    className="bg-[#FF6B35] cursor-pointer  hover:bg-[#FF6B35]/90 text-white rounded-full w-16 h-16 flex items-center justify-center animate-fade-in shadow-sm"
                   >
-                    <ChevronRight className="w-8 h-8" />
-                  </Button>
+                    <ChevronRight className="w-14 h-14" />
+                  </div>
                 </div>
               </div>
             ) : (
@@ -318,12 +318,12 @@ calculated={""}
                 
                 {/* Orange arrow button positioned on the right for wrong answers */}
                 <div className="absolute right-8 top-1/2 -translate-y-1/2">
-                  <Button 
+                  <div 
                     onClick={handleNextQuestion}
-                    className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-white rounded-full w-16 h-16 flex items-center justify-center animate-fade-in shadow-sm"
+                    className="bg-[#FF6B35]  cursor-pointer hover:bg-[#FF6B35]/90 text-white rounded-full w-16 h-16 flex items-center justify-center animate-fade-in shadow-sm"
                   >
-                    <ChevronRight className="w-8 h-8" />
-                  </Button>
+                    <ChevronRight className="w-14 h-14" />
+                  </div>
                 </div>
               </div>
             )}

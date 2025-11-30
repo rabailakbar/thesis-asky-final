@@ -235,7 +235,7 @@ const dispatch = useDispatch();
       // If marked as text color, apply green to font instead of background
       if (selection.textColor) {
         return {
-          color: selection.color || '#0D5623',
+          color: selection.color ,
           padding: '4px 8px',
           borderRadius: '20px',
           margin: '0 2px'
@@ -276,8 +276,8 @@ const [check,setCheck] = useState(false)
 
 console.log("imagecode",question?.Image_Code)
 
-  return (<div className="p-8">
-<div className="min-h-[90vh] px-24  bg-[#F8F1E7]">
+  return (<div className="p-12">
+<div className="min-h-[90vh] px-24 pt-8  bg-[#F8F1E7] rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset]">
             <ModuleHeader setDone={setDone} module={4} src={"/opening14.svg"} heading={"Spot the bias"} headingColor="#D0193E" description={"What if words echo louder than actions?"}
              time={120}   left={1-currentQuestionIndex}    polarizationScore={87} />
   
@@ -318,15 +318,15 @@ src={"/opening14.svg"}
     />
 
     {/* Next Button (appears after completion to open closing modal) */}
-    { check && <button
+    { check && <div
       onClick={()=>{
         setCheck(false)
         onComplete && onComplete()
       }}
-      className="absolute top-1/2 right-0 -translate-y-1/2 z-20 w-14 h-14 flex items-center justify-center bg-[#FF9348] text-white rounded-full shadow-lg transition-colors"
+      className="absolute cursor-pointer top-1/2 right-0 -translate-y-1/2 z-20 w-16 h-16 flex items-center justify-center bg-[#FF9348] text-white rounded-full shadow-lg transition-colors"
     >
-      <ChevronRight />
-    </button>}
+      <ChevronRight className="w-14 h-14" />
+    </div>}
   </div>
 </div>
 
@@ -338,10 +338,10 @@ src={"/opening14.svg"}
     
 
           {/* Headline text box - Exact match to image */}
-          <div className=" rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px]
- relative p-4 w-[80%] mx-auto bg-[#EDE1D0] flex flex-col items-center  ">
+          <div className=" rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px]
+ relative p-4 w-[80%] mx-auto bg-[#EFE8DD] flex flex-col items-center  ">
             
-          <div className="absolute   z-50" style={{ top: '100px', left:'-3vh' }}>
+          <div className="absolute   z-50" style={{ top: '-80px', left:'-3vh' }}>
  {selections.length >= Object.keys(biasedPhrases).length &&   <TooltipCarousel
       slides={[
         { heading: question?.Bias_Type, description: question?.Tooltip1 },
@@ -374,7 +374,7 @@ src={"/opening14.svg"}
       fontWeight: 600,
       fontStyle: 'semi-bold',  // Note: "semi-bold" is generally represented as 600 weight
       fontSize: '32px',
-      lineHeight: '100%',
+      lineHeight: '150%',
       letterSpacing: '0%',
       leadingTrim: 'none', 
       "text-align":'center'
@@ -392,7 +392,7 @@ src={"/opening14.svg"}
   onMouseDown={() => handleMouseDown(index)}
   onMouseEnter={() => handleMouseEnter(index)}
   style={combinedStyle}
-  className={`cursor-pointer inline-block transition-all duration-200 mx-3 hover:rounded-lg ${
+  className={`cursor-pointer inline-block transition-all duration-200 mx-4 hover:rounded-lg ${
     !wordStyle && !isInCurrentSelection && !isInAnySelection
       ? 'hover:outline hover:outline-2 hover:outline-dashed hover:outline-foreground/40 hover:rounded-lg'
       : ''

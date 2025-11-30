@@ -81,10 +81,10 @@ interface ModuleHeaderProps {
   
             {/* Module Info */}
             <div className="flex flex-col justify-between h-32 py-1">
-              <h1 className="font-medium text-[42px] leading-[100%] tracking-[0]" style={{ color: headingColor }}>
+              <h1 className="font-semibold text-[64px] leading-[100%] tracking-[0]" style={{ color: headingColor }}>
                 {heading}
               </h1>
-              <p className="font-normal text-[24px] leading-[100%] tracking-[0] text-[#130719]">
+              <p className="font-normal text-[32px] leading-[100%] tracking-[0] text-[#130719]">
                 {description}
               </p>
             </div>
