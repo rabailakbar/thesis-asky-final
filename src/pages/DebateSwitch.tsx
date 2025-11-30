@@ -212,20 +212,12 @@ console.log("checkstance",stance)
     <main>
     
   
-      {/* Header with Timer and Left */}
+      {/* Header (no duplicate timer/left) */}
       <div className="pt-8 pb-12 flex flex-col items-center gap-2">
         <p className="text-xl font-medium text-[#130719]">Headline #1</p>
         <p className=" text-xl font-medium text-[#130719] text-center">
           Argue {stance!="against"&& "in"} <span className="text-[#5F237B] font-bold">{stance=="against"?"against":"favor"}</span> {stance!="against" && "of"} the headline by <span className="font-bold text-[#FF9348]" >choosing</span> the best prompt
         </p>
-        <div className="flex items-center gap-4 mt-2 text-[#130719] font-medium">
-          <div className="flex items-center gap-2">
-            <img src="/clocl.svg" alt="Clock" className="h-6" />
-            <span>{`${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`}</span>
-          </div>
-          <span className="h-8 w-1 bg-[#D0C4B3] inline-block" />
-          <div className="text-xl">1 Left</div>
-        </div>
       </div>
   
       {/* Red Banner */}

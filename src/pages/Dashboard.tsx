@@ -92,7 +92,7 @@ const Dashboard = () => {
 
   return (
     <div className="p-8">
-<div className="flex h-[90vh] pt-4 px-16 bg-[#F8F1E7] rounded-2xl shadow-sm overflow-y-auto">
+<div className="flex h-[90vh] pt-4 px-0 bg-[#F8F1E7] rounded-2xl shadow-sm overflow-y-auto">
 {/* Make inner container fill width with 10% padding on each side */}
 <div className="w-full flex flex-col  ">
         {/* Header Bar */}
@@ -110,15 +110,15 @@ User 1
 
 
 
-        <div className="mb-4 flex h-[18vh] items-center justify-between bg-[#5F237B] text-white px-12 py-8 rounded-xl shadow-sm">
+        <div className="mb-4 flex h-[18vh] items-center justify-between bg-[#5F237B] text-white px-0 py-8 rounded-xl shadow-sm">
           {/* Div A - Heading + Text */}
 
-  <div className="w-[80%] ">
-  <h1 className=" font-semibold text-[1.5vw] leading-[100%] text-white  mb-2">
+  <div className="w-[80%] text-left">
+  <h1 className=" font-semibold text-[1.5vw] leading-[100%] text-white mb-2 text-left">
   Welcome to askwhy!
 </h1>
 
-    <p className=" text-[1vw] leading-relaxed opacity-90 text-white w-[75%]">
+    <p className=" text-[1vw] leading-relaxed opacity-90 text-white w-[75%] text-left">
       A glow up for your brain. How does that sound? We’re here to help. 
       Turn curiosity into your superpower.{" "}
       <strong>Play. Challenge. Ask Why.</strong> Let’s start your journey with us!
@@ -128,10 +128,10 @@ User 1
 
 
           {/* Div B - Button */}
-          <div className="w-[20%] flex justify-center">
+          <div className="w-[28%] flex justify-center">
           <Button
   onClick={() => navigate("/interest")}
-  className=" bg-[#FF9348]  text-[white]  font-semibold text-[1vw] leading-[100%] rounded-[6px] px-[10px] py-[8px] gap-[10px] opacity-100 flex items-center justify-center transition-all duration-200"
+  className="w-full bg-[#FF9348] text-[white] font-semibold text-[1vw] leading-[100%] rounded-[6px] px-[16px] py-[14px] gap-[10px] opacity-100 flex items-center justify-center transition-all duration-200"
 >
   Click here to start <ChevronRight/>
 </Button>
@@ -141,7 +141,7 @@ User 1
 
 
         {/* All Modules - Phases Section */}
-        <div className="mb-4" >
+        <div className="mb-12" >
           <h2 className="text-[1.5vw] pb-2 font-semibold text-[#D0193E]">Module Breakdown</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -179,10 +179,11 @@ User 1
         </div>
 
         {/* All Modules - Cards Section */}
-        <div >
-          <h2 className="text-[1.5vw] pb-2 font-semibold text-[#FF5A5F]">All Modules</h2>
+        <div>
+          <h2 className="text-[1.5vw] pb-2 font-semibold text-[#FF5A5F] text-right">All Modules</h2>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 ">
+          <div className="flex justify-end">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 w-[85%]">
           {modules.map((mod, index) => (
   <Card
     key={index}
@@ -201,7 +202,7 @@ User 1
       />
     </div>
 
-    <h4 className="font-semibold text-[1vw] mb-1 text-gray-800">
+    <h4 className="font-semibold text-[1vw] mb-1 text-[#5F237B]">
       {mod.title}
     </h4>
     <p className="text-[0.75vw] text-gray-600 mb-1 leading-snug">
@@ -216,6 +217,8 @@ User 1
 ))}
 
 </div>
+
+      </div>
 
 
         </div>

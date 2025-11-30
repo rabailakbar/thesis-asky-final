@@ -205,7 +205,7 @@ const [done,setDone] = useState(false)
                       src={"/opening17.png"}
                   />        <div className="max-w-7xl mx-auto">
                       {/* Header */}
-                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120}  left={4-round}  />
+                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={4-round}  />
 
                       {/* Role Selection Heading */}
                       <div className="text-center mt-8 mb-16">
@@ -255,7 +255,7 @@ const [done,setDone] = useState(false)
               <main className="h-[90vh] bg-[#F8F1E7] ">
                   <div className="max-w-7xl mx-auto flex flex-col">
                       {/* Header */}
-                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120}  left={4-round}  />
+                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={4-round}  />
                       <div className="text-center ">
                           <h2 className="text-lg font-semibold text-[#201E1C] ">Choose Your Role:</h2>
                           <p className="text-lg text-[#201E1C]">
@@ -326,7 +326,7 @@ const [done,setDone] = useState(false)
   >
     <ChevronRight/>
   </button> */}
-                  <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120}  left={4-round}  />
+                  <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={4-round}  />
 
                       {/* Question Header */}
                       <div className="text-center ">
@@ -648,7 +648,7 @@ Advanced Level
     focus:outline-none focus:ring-0 active:outline-none
   "
 >
-  Let's begin <ChevronRight size={14} />
+    Start <ChevronRight size={14} />
 </button>
       </div>
                 </div>

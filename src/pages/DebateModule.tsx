@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
 const DebateModule = (props) => {
   const navigate = useNavigate();
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(120); // 5 minutes in seconds
   ;
  
 
@@ -30,7 +30,7 @@ const[showIntroModal,setShowIntroModal] = useState(true);
     <main >
    {props.currentIndex==0 && 
    
-   <OpeningModal
+  <OpeningModal
 showIntroModal={showIntroModal}
 moduleId={"M6"}
 setShowIntroModal={setShowIntroModal}
@@ -38,7 +38,7 @@ src={"/opening16.png"}
 phase="III"
 module="Module 6: Debate Switch"
 description={description}
-time="5:00"
+time="2:00"
 calculated=""
 level="Advanced Level"
 />
@@ -142,10 +142,10 @@ One debate, two sides, endless perspectives</p>
                       </div>
                   </div>
 
-                  {/* Right side: Counter */}
-                  <div className="text-right">
-                      <div className="text-3xl font-bold text-gray-900">/7</div>
-                  </div>
+                    {/* Right side: Counter */}
+                    <div className="text-right">
+                      <div className="text-3xl font-bold text-gray-900">1 Left</div>
+                    </div>
               </div>
           </div>
 

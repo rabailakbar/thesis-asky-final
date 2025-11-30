@@ -50,22 +50,27 @@ const Interest = () => {
 const topic = useSelector((state:RootState)=>state.topics.topics)
   const selectedCount = topics.filter(t => t.voted === "interested").length;
 console.log("checkk",topic)
-  const handleVote = (id: number, vote: "interested" | "not-interested",title:string) => {
-    
-    if(vote=="interested"){
-      dispatch(addTopic(id))
-    } else if (vote==="not-interested"){
-      dispatch(removeTopic(id))
-    }
+  const handleVote = (id: number, vote: "interested" | "not-interested", title: string) => {
+    // Toggle behavior: clicking "Interested" again will unselect
     setTopics(prev => {
+      const current = prev.find(t => t.id === id);
+      const nextVote: Topic["voted"] = current?.voted === "interested" ? null : "interested";
+
+      if (nextVote === "interested") {
+        dispatch(addTopic(id));
+      } else {
+        dispatch(removeTopic(id));
+      }
+
       const updated = prev.map(topic =>
-        topic.id === id ? { ...topic, voted: vote } : topic
+        topic.id === id ? { ...topic, voted: nextVote } : topic
       );
-     
 
       const newCount = updated.filter(t => t.voted === "interested").length;
-      if (newCount >= 1) {
+      if (newCount >= 7) {
         setTimeout(() => setIsComplete(true), 500);
+      } else {
+        setIsComplete(false);
       }
       return updated;
     });
@@ -89,7 +94,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
     exit={{ opacity: 0, scale: 0.95 }}
     transition={{ duration: 0.8, ease: "easeInOut" }}
   >
-            <ClosingModal module={1} text={"1/1 Score interests narrowed!"} src={"/exercise"} ending={"GOOOD JOB! We’ll start calculating from the next module...."} 
+            <ClosingModal module={1} text={"7/7 Interests selected!"} src={"/exercise"} ending={"GOOOD JOB! We’ll start calculating from the next module...."} 
             score={score} />
 
 
@@ -111,9 +116,9 @@ const score = useSelector((state:RootState)=>state.topics.score)
       <div className={` px-4 transition-all duration-300 ${showIntroModal ? "blur-sm pointer-events-none" : ""}`}>
 
         {/* Header - Horizontal Layout */}
-<ModuleHeader polarizationScore={score} setDone={setDone} module={1} src={"/opening11.svg"} heading={"Find your Vibe"} description="Let’s help you build a feed!" time={120}  left={1-selectedCount}/>
+<ModuleHeader polarizationScore={score} setDone={setDone} module={1} src={"/opening11.svg"} heading={"Find your Vibe"} description="Let’s help you build a feed!" time={120} started={!showIntroModal}  left={Math.max(7-selectedCount,0)}/>
 
-        <div><h1 className="text-[black] text-center text-[24px]">Click to narrow down your interests</h1></div>
+        <div><h1 className="text-[black] text-center text-[24px]">Pick 7 interests to continue</h1></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
           {topics.map((topic) => (
           <Card
@@ -146,8 +151,8 @@ const score = useSelector((state:RootState)=>state.topics.score)
               onClick={() => handleVote(topic.id, "interested", topic.title)}
               className={`
                 font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 
-                px-6 py-2 w-auto
-                transition-colors duration-300 ease-in-out
+                px-6 py-2 ${topic.voted === "interested" ? "w-full" : "w-auto"}
+                transition-all duration-300 ease-in-out
                 ${topic.voted === "interested"
                   ? "bg-[#D0193E] text-white"
                   : "bg-[#F1F5F9] text-[#4C1C62]"}
@@ -174,56 +179,3 @@ const score = useSelector((state:RootState)=>state.topics.score)
 };
 
 export default Interest;
-
-
-
-
-// const ModuleHeader = (props) => {
-//   return (
-//       <>
-//           <div className="  pt-6 mb-2">
-//               <div className="flex items-center justify-between">
-//                   {/* Left side: Icon + Module Info */}
-//                   <div className="flex items-center gap-8">
-//                       {/* Puzzle Icon */}
-//                       <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-//                           <img
-//                               src={"/characterm.svg"}
-//                               alt="Module 1"
-//                               className="w-25  object-contain"
-//                           />
-//                       </div>
-
-//                       {/* Module Info */}
-//                       <div>
-//                       <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-// Find Your Vibe</h1>
-
-// <p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-// What do you like?
-// </p>
-
-
-//                           <div className="flex items-center gap-4 text-[#201E1C]">
-// <img src={"/clocl.svg"} />
-
-//                               <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
-// 02:00
-// </span>
-
-//                           </div>
-
-//                       </div>
-//                   </div>
-
-//                   {/* Right side: Counter */}
-//                   <div className="text-right">
-//                       <div className="text-3xl font-bold text-gray-900">{`${props.count}/7`}</div>
-//                   </div>
-//               </div>
-//           </div>
-
-//           {/* Instructions */}
-          
-//       </>)
-// }

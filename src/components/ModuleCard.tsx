@@ -84,7 +84,7 @@ const ModuleCard = ({ module }: ModuleCardProps) => {
             className="bg-[#A56DFF] hover:bg-[#9355FA] text-white px-8 rounded-xl"
             onClick={() => navigate(`/quiz?module=${module.id}`)}
           >
-            Let’s begin
+            Start
           </Button>
         </div>
       </Card>

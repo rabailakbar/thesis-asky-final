@@ -40,6 +40,7 @@ useEffect(() => {
   setSelections([]);
   setCurrentSelection([]);
   setBuildingSelection([]);
+  setCheck(false);
 }, [currentQuestionIndex]);
 
   
@@ -259,18 +260,14 @@ const dispatch = useDispatch();
 
   const polarizationScore = Math.round((selections.length / 5) * 100);
 const [check,setCheck] = useState(false)
-  // Call onComplete callback when quiz is complete
+  // When quiz is complete, show the right-side orange button to proceed
   useEffect(() => {
-    if (selections.length >= Object.keys(biasedPhrases).length && onComplete) {
+    if (selections.length >= Object.keys(biasedPhrases).length) {
       // Switch to green font color for correct answers once completed
       setSelections(prev => prev.map(sel => ({ ...sel, color: "#0D5623", textColor: true })));
-     
-      const timer = setTimeout(() => {
-        onComplete();
-      }, 10000);
-      return () => clearTimeout(timer);
+      setCheck(true); // reveal the orange next button on the right
     }
-  }, [selections.length, onComplete]);
+  }, [selections.length]);
 
 
   
@@ -281,8 +278,8 @@ console.log("imagecode",question?.Image_Code)
 
   return (<div className="p-8">
 <div className="min-h-[90vh] px-24  bg-[#F8F1E7]">
-            <ModuleHeader setDone={setDone} module={4} src={"/opening14.svg"} heading={"Spot the bias"} description={"What if words echo louder than actions?"}
-             time={120}   left={1-currentQuestionIndex}    polarizationScore={score} />
+            <ModuleHeader setDone={setDone} module={4} src={"/opening14.svg"} heading={"Spot the bias"} headingColor="#D0193E" description={"What if words echo louder than actions?"}
+             time={120}   left={1-currentQuestionIndex}    polarizationScore={87} />
   
 {/* <ModuleHeader  polarizationScore={score} currentQuestionIndex={currentQuestionIndex}  length={length} time={timeLeft}/> */}
 <OpeningModal setGameStarted={setGameStarted}
@@ -290,6 +287,7 @@ src={"/opening14.svg"}
           showIntroModal={showIntroModal}
           moduleId={"M4"}
           setShowIntroModal={setShowIntroModal}
+          buttonAlign="left"
         />
       
       <div className="   ">
@@ -319,11 +317,12 @@ src={"/opening14.svg"}
       className="w-[50%] object-cover mx-auto"
     />
 
-    {/* Next Button */}
+    {/* Next Button (appears after completion to open closing modal) */}
     { check && <button
       onClick={()=>{
         setCheck(false)
-        onComplete()}} // your function to go to the next question
+        onComplete && onComplete()
+      }}
       className="absolute top-1/2 right-0 -translate-y-1/2 z-20 w-14 h-14 flex items-center justify-center bg-[#FF9348] text-white rounded-full shadow-lg transition-colors"
     >
       <ChevronRight />
@@ -440,7 +439,7 @@ const OpeningModal = (props:any)=>{
 <DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
 <div className="px-32 py-16">
                   {/* Header with Icon */}
-                  <div className="flex items-start gap-4 mb-6">
+                  <div className="flex items-end gap-4 mb-6">
                     {/* Puzzle Icon */}
                     <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
         <img
@@ -494,7 +493,7 @@ Intermediate Level
                   </div>
       
                   {/* Begin Button */}
-                  <div className="flex justify-center">
+                  <div className="flex justify-start">
                   <Button
 onClick={() => {props.setShowIntroModal(false)
 
@@ -504,7 +503,7 @@ onClick={() => {props.setShowIntroModal(false)
 }
 className="bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
 >
-          Let's begin <ChevronRight/>
+          Start <ChevronRight/>
         </Button>
       </div>
                 </div>

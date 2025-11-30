@@ -214,18 +214,13 @@ const score = useSelector((state:RootState)=>state.topics.score)
   
   
   useEffect(() => {
-    // Auto-complete when user performs any action (like or save) once, or when timer is done
-    if ((likesCount >= 1 || savesCount >= 1) || done) {
-      
-      dispatch(decreaseScore(getScoreDrop(code)))
-
-
-
-      const delay = setTimeout(() => setIsComplete(true), 1500); // 1.2s delay
-      
+    // Complete when user reaches 4 likes AND 2 saves, or when timer ends
+    if ((likesCount >= MAX_LIKES && savesCount >= MAX_SAVES) || done) {
+      dispatch(decreaseScore(getScoreDrop(code)));
+      const delay = setTimeout(() => setIsComplete(true), 1500);
       return () => clearTimeout(delay);
     }
-  }, [likesCount, savesCount,done]);
+  }, [likesCount, savesCount, done]);
   
 
   // Convert posts to photo format
@@ -333,10 +328,11 @@ const score = useSelector((state:RootState)=>state.topics.score)
   };
   // Completion screen
  // Animated completion transition
- const ending = <div>Yikes, <span className="text-[#5F237B]"> {score}%</span> 
- <span className="text-[#D0193E]"> polarization!</span> But that’s what we’re here for — to unpack it, learn, and bring the number down together.
-    <span className="text-[#5F237B]">Lower the score, lower the polarization</span>.... and that's how you win!`
-    </div>
+ const ending = (
+   <div>
+     Yikes, <a className="text-[#5F237B] underline">{score}% polarization!</a> But that’s what we’re here for — to unpack it, learn, and bring the number down together. <span className="text-[#5F237B]">Lower the score, lower the polarization</span>.... and that's how you win!
+   </div>
+ );
  return(
 <AnimatePresence mode="wait">
   {isComplete ? (
@@ -348,7 +344,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
       transition={{ duration: 0.6, ease: "easeInOut" }}
     >
       <ClosingModal  ending={ending} src={"/fakefact"} module={2} 
-        text={likesCount >= 1 ? "1 Like" : savesCount >= 1 ? "1 Save" : "Completed"}  
+        text={`${Math.min(likesCount, MAX_LIKES)}/${MAX_LIKES} Likes  |  ${Math.min(savesCount, MAX_SAVES)}/${MAX_SAVES} Saves`}  
         score={score}
       />
     </motion.div>
@@ -374,10 +370,11 @@ const score = useSelector((state:RootState)=>state.topics.score)
           time="2:00"
           calculated=""
           level="Beginner"
+          buttonAlign="left"
         />
         <div className="max-w-7xl w-full mx-auto">
-          {/* Show single counter: 1 Left; use module=1 rendering path to display 'Left' */}
-          <ModuleHeader setDone={setDone} module={1} src={"/opening12.png"} heading={"Pick & Flick"} description={"Is everything not real?!"} time={120} left={1 - (likesCount > 0 || savesCount > 0 ? 1 : 0)} polarizationScore={score} />
+          {/* Show separate counters for likes and saves */}
+          <ModuleHeader setDone={setDone} module={2} src={"/opening12.png"} heading={"Pick & Flick"} description={"Is everything not real?!"} time={120} started={!showIntroModal} likesCount={likesCount} savesCount={savesCount} MAX_LIKES={MAX_LIKES} MAX_SAVES={MAX_SAVES} polarizationScore={100} />
           {isLoading?( <motion.div
         key="loading-screen"
         initial={{ opacity: 0 }}

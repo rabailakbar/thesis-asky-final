@@ -52,13 +52,13 @@ console.log("module",moduleId)
         <DialogContent className="max-w-3xl w-full bg-transparent border-none shadow-none z-30 p-0">
           <Card className="w-full p-10 shadow-card border-none rounded-2xl bg-white flex flex-col space-y-8 relative z-40">
             {/* === HEADER === */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-end gap-6">
               <div className="relative w-20 h-20 flex items-center justify-center bg-[#E9F1FF] rounded-full text-[#5B7FFF] text-2xl font-semibold">
                 {moduleId}
               </div>
               <div className="flex flex-col items-start">
                 <h3 className="text-[#E76E50] font-semibold text-lg">{phase}</h3>
-                <h1 className="text-3xl font-bold text-foreground">{`${moduleName}`}</h1>
+                <h1 className="text-3xl font-bold text-[#5F237B]">{`${moduleName}`}</h1>
               </div>
             </div>
 
@@ -97,7 +97,7 @@ console.log("module",moduleId)
                   navigate(`/exercise?id=${moduleId}&name=${moduleName}`)
                 }
               >
-                Let’s begin
+                Start
               </Button>
             </div>
           </Card>

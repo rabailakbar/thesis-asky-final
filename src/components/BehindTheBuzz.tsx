@@ -164,7 +164,7 @@ const BehindTheBuzz = () => {
           className="w-full bg-[#6B46C1] text-white py-3 rounded-lg text-lg font-semibold hover:bg-[#5A3A9E] transition"
           onClick={() => setCurrentScreen('game')}
         >
-          Let's begin <ArrowRight className="ml-2 w-5 h-5" />
+          Start <ArrowRight className="ml-2 w-5 h-5" />
         </Button>
       </Card>
     </div>
@@ -179,12 +179,12 @@ const BehindTheBuzz = () => {
         <Card className="max-w-3xl w-full mx-auto bg-[#FDF8F3] rounded-3xl shadow-sm p-8">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center">
+            <div className="flex items-end">
               <div className="w-10 h-10 bg-[#FF5A5F] rounded-xl flex items-center justify-center mr-3">
                 <span className="text-white font-bold text-lg">M2</span>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-black">Behind the Buzz</h1>
+                <h1 className="text-2xl font-bold text-[#5F237B]">Behind the Buzz</h1>
                 <p className="text-sm text-gray-600">Trace the spark that sets your feed on fire!</p>
               </div>
             </div>

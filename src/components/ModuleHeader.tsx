@@ -10,10 +10,12 @@ interface ModuleHeaderProps {
     src?:any;
     time?:any;
     heading?:any;
+    headingColor?: string;
     module?:any;
     total?:any;
     left?:any;
     description?:any;
+    started?: boolean;
   
   }
   
@@ -26,18 +28,21 @@ interface ModuleHeaderProps {
     setDone,
     module,
     heading,
+    headingColor = "#5F237B",
    
     src,
     total,
     left,
     description,
-    time
+    time,
+    started = false
   
     
   }: ModuleHeaderProps) => {
-    const [timeLeft, setTimeLeft] = useState(time); // 2 minutes in seconds
+    const [timeLeft, setTimeLeft] = useState(time); // seconds
   
     useEffect(() => {
+      if (!started) return; // don't tick until started
       if (timeLeft <= 0) {
         setDone(true); // call setDone when timer finishes
         return;
@@ -48,7 +53,12 @@ interface ModuleHeaderProps {
       }, 1000);
   
       return () => clearInterval(interval);
-    }, [timeLeft, setDone]);
+    }, [started, timeLeft, setDone]);
+
+    // Reset time when prop changes (e.g., on mount)
+    useEffect(() => {
+      setTimeLeft(time);
+    }, [time]);
   
     // Format seconds to MM:SS
     const formatTime = (seconds: number) => {
@@ -63,7 +73,7 @@ interface ModuleHeaderProps {
       <div className="pt-6 mb-2">
         <div className="flex items-center justify-between">
           {/* Left side: Icon + Module Info */}
-          <div className="flex items-center gap-8">
+          <div className="flex items-end gap-8">
             {/* Puzzle Icon */}
             <div className="w-24  rounded-lg flex items-center justify-center relative flex-shrink-0">
               <img src={src} alt="Module 1" className="w-24 object-contain" />
@@ -71,7 +81,7 @@ interface ModuleHeaderProps {
   
             {/* Module Info */}
             <div>
-              <h1 className="font-medium text-[42px] leading-[100%] tracking-[0] text-[#130719] mb-2">
+              <h1 className="font-medium text-[42px] leading-[100%] tracking-[0] mb-2" style={{ color: headingColor }}>
                 {heading}
               </h1>
   
@@ -96,10 +106,10 @@ interface ModuleHeaderProps {
               />
               
             </div>
-            <div className="font-medium text-right text-[16px]">
+              <div className="font-medium text-right text-[16px]">
                 {polarizationScore}%
               </div>
-              <div className="text-[16px] font-medium text-center text-[#130719]">Polarization Score</div>
+              <div className="text-[16px] font-medium text-right text-[#130719]">Polarization Score</div>
               </div> }
   
             
@@ -110,7 +120,7 @@ interface ModuleHeaderProps {
               <div className="flex items-center gap-3 text-[#201E1C]">
                 <img src={"/clocl.svg"} alt="Clock" />
                 <span className="font-normal text-[32px] leading-[100%] tracking-[0]">
-                  {formatTime(timeLeft)}
+                  {formatTime(typeof timeLeft === 'number' ? timeLeft : (typeof time === 'number' ? time : 0))}
                 </span>
               </div>
               {/* Vertical separator (thicker) */}

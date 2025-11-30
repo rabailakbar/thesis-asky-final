@@ -49,7 +49,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
   const imageUrl = "/YTH12.png";
 const[done,setDone] = useState(false)
   if (biasQuizComplete || done ) return <ClosingModal  ending= {"Look at that — your score’s low and your thinking’s leveling out. That’s what real awareness looks like. Stay curious, stay open, and keep the balance strong"} 
-  src={"/behind-the-buzz"} text={"1/1 Thumbnail spotted!"} score={score} />;
+  src={"/behind-the-buzz"} text={"1/1 Thumbnail spotted!"} score={71} animateFrom={87} />;
 
   if (questions.length === 0)
     return (
@@ -95,7 +95,7 @@ const ClosingModal = (props) => {
   –
 </div>
 </div> */}
-  <CircleScore scoreDrop={props.score}/>
+  <CircleScore scoreDrop={props.score} animateFrom={props.animateFrom}/>
 
                   <div className="text-left">
                   <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">

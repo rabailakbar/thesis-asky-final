@@ -9,13 +9,18 @@ import { ChevronRight } from "lucide-react";
 
 const OpeningModal = (props:any)=>{
     const phase1= props.phase=='I'?'#5F237B':(props.phase=='II'?'#D0193E':'#FF9348')
+  const btnJustify = props.buttonAlign === 'left'
+    ? 'justify-start'
+    : props.buttonAlign === 'right'
+    ? 'justify-end'
+    : 'justify-start'
 
     return (
         <Dialog open={props.showIntroModal } onOpenChange={props.setShowIntroModal}>
 <DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
 <div className="px-32 py-16">
                     {/* Header with Icon */}
-                    <div className="flex items-center  gap-4 mb-6">
+                    <div className="flex items-end  gap-4 mb-6">
                       {/* Puzzle Icon */}
                       <div className="w-18 h-18 rounded-lg flex items-center justify-center">
   <img
@@ -74,7 +79,7 @@ const OpeningModal = (props:any)=>{
                     </div>
         
                     {/* Begin Button */}
-                    <div className="flex justify-center">
+                    <div className={`flex ${btnJustify}`}>
                     <Button
   onClick={() => props.setShowIntroModal(false)}
   className="
@@ -87,7 +92,7 @@ const OpeningModal = (props:any)=>{
   active:border-none
   
 ">
-            Let's begin <ChevronRight 
+            Start <ChevronRight 
              />
           </Button>
         </div>

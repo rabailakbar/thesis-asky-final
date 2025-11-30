@@ -247,7 +247,7 @@ Nice! Your <span className=" font-semibold text-[#D0193E]"> polarization</span> 
   const[done,setDone] = useState(false)
     if(currentQuestionIndex >= totalQuestions || done ){
       return(
-         <ClosingModal  ending={ending} src={"/spotthebias"} module={3} text={"✓ 1/1 Fact checked!"}  score={score}/>
+        <ClosingModal  ending={ending} src={"/spotthebias"} module={3} text={"✓ 1/1 Fact checked!"}  score={score} animateFrom={95}/>
 
 
 
@@ -271,7 +271,7 @@ level={"Intermediate"}
 calculated={""}
         />
 
-      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={120}  left={1-currentQuestionIndex} total={1} />
+      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={95} module={3} heading="Fake or fact" headingColor="#D0193E" description="Is everything not real?!" time={120} started={!showIntroModal} left={1-currentQuestionIndex} total={1} />
   
       {currentQuestionIndex < totalQuestions && (
         <h2 className="text-2xl text-center my-8  font-normal">Click to identify which one is fake</h2>

@@ -10,14 +10,21 @@ const ClosingModal = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // If incoming text includes a leading black tick character, remove it.
+  const displayText =
+    typeof props.text === "string"
+      ? props.text.replace(/^[\s]*[✓✔✅]\s*/u, "")
+      : props.text;
+
 
   return (
     <div className="p-8">
-<div className="h-[90vh] flex items-center justify-center rounded-[24px] " style={{ backgroundColor: '#F8F1E7' }}>
-              <div className=" w-full px-72 bg-[#F8F1E7] rounded-3xl  text-left">
+    <div className="h-[90vh] flex items-center justify-center rounded-[24px] " style={{ backgroundColor: '#F8F1E7' }}>
+      <div className="w-full max-w-[1000px] mx-auto px-8 bg-[#F8F1E7] rounded-3xl">
 
               {/* Module Completion Header */}
-              <div className="flex justify-start items-center gap-6 mb-6">
+              {/* Top row: Circular score + heading */}
+              <div className="flex flex-row items-center justify-center gap-5 mb-6 text-center">
               {/* <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
 <div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
   –
@@ -25,31 +32,26 @@ const ClosingModal = (props) => {
 </div> */}
 { props.module!=1 && (
   <div className="flex-shrink-0">
-    <CircleScore scoreDrop={props.score}/>
+    <CircleScore scoreDrop={props.score} animateFrom={props.animateFrom} />
   </div>
 )}
-                  <div className="text-left flex-1">
-                  <h1 className=" text-[#5F237B] flex justify-center Sitems-center font-semibold text-[60px] leading-[100%] tracking-[0%] mt-4 mb-4">
-                    
-  Module {props.module}: Complete
-</h1>
-
-
-<p className="text-black font-semibold gap-2 flex justify-center items-center text-[20px] leading-[100%] mt-2">
-{/* ✓ 4/4 Likes  |  2/2 saves  */}
- <img src="/check.svg"/> {props.text}
-</p>
-
+                  <div className="text-center">
+                  <h1 className=" text-[#5F237B] flex justify-center items-center font-semibold text-[48px] md:text-[60px] leading-[100%] tracking-[0%] mt-2 mb-2">
+                    Module {props.module}: Complete
+                  </h1>
+                  <p className="text-black font-semibold gap-2 flex justify-center items-center text-[18px] md:text-[20px] leading-[100%] mt-1">
+                    <img src="/check.svg"/> {displayText}
+                  </p>
                   </div>
               </div>
 
               {/* Character Illustration */}
-              <div className="mt-4 mb-4 flex justify-center items-center">
+              <div className="mt-4 mb-4 flex justify-center items-center text-center">
 <img src={"/closing22.png"} className="h-[35vh]" />
 
               </div>
 
-<div className="text-[24px] justify-center font-normal">
+<div className="text-[24px] font-normal text-center">
 
 
 {props.ending}

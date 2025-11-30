@@ -1,14 +1,57 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-const CircleScore = ({ scoreDrop = 5, size = 100, strokeWidth = 10 }) => {
-  // Remaining score (e.g., 100 - drop)
+type CircleScoreProps = {
+  scoreDrop?: number;
+  size?: number;
+  strokeWidth?: number;
+  animateFrom?: number;
+  duration?: number;
+};
+
+const CircleScore = ({ scoreDrop = 5, size = 100, strokeWidth = 10, animateFrom = undefined, duration = 1000 }: CircleScoreProps) => {
+  // target score
   const score = scoreDrop;
+
+  // animated value
+  const [displayScore, setDisplayScore] = useState<number>(
+    typeof animateFrom === "number" ? animateFrom : score
+  );
+  const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (typeof animateFrom !== "number" || animateFrom === score) {
+      setDisplayScore(score);
+      return;
+    }
+
+    const start = performance.now();
+    const from = animateFrom;
+    const to = score;
+
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const t = Math.min(1, elapsed / Math.max(1, duration));
+      const eased = easeOutCubic(t);
+      const value = from + (to - from) * eased;
+      setDisplayScore(value);
+      if (t < 1) {
+        rafRef.current = requestAnimationFrame(tick);
+      }
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [animateFrom, score, duration]);
 
   // SVG layout math
   const center = size / 2;
   const radius = center - strokeWidth / 2; // keep stroke fully inside SVG
   const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (score / 100) * circumference;
+  const offset = circumference - ((displayScore ?? score) / 100) * circumference;
   const offset1 = circumference - 0.90 * circumference;
 
 
@@ -83,7 +126,7 @@ const CircleScore = ({ scoreDrop = 5, size = 100, strokeWidth = 10 }) => {
             lineHeight: 1,
           }}
         >
-          {score}%
+          {Math.round(displayScore)}%
         </span>
       </div>
     </div>

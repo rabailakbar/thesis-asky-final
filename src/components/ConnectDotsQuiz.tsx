@@ -103,7 +103,7 @@ if (isComplete ||done) {
     return (
 
       
-        <ClosingModal module={5} text={"5/5 motivations behind a creator’s mind figured!"} src={"/debate"} ending={ending} score={score} />
+    <ClosingModal module={5} text={"5/5 motivations behind a creator’s mind figured!"} src={"/debate"} ending={ending} score={56} animateFrom={71} />
       
     );
   }
@@ -134,7 +134,7 @@ if (isComplete ||done) {
           
         />
       {/* <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={300}  left={8-currentQuestionIndex} total={8} /> */}
-      <ModuleHeader time={120} src={"/opening15.png"} heading="Behind the buzz" description="Trace the spark that sets your feed on fire"  total={5} setDone={setDone}   left={1-currentIndex} polarizationScore={score} />
+      <ModuleHeader time={120} started={!showIntroModal} src={"/opening15.png"} heading="Behind the buzz" headingColor="#D0193E" description="Trace the spark that sets your feed on fire"  total={5} setDone={setDone}   left={1-currentIndex} polarizationScore={71} />
 
 
         {/* Round/Question Header */}

@@ -16,7 +16,7 @@ const Login = () => {
   return (
     <div className="flex h-[100vh] bg-white overflow-hidden">
       {/* Left Side */}
-      <div className="flex flex-col items-start w-1/2 p-24">
+      <div className="flex flex-col justify-center items-start w-1/2 p-24">
         <div>
           <img src="/logo.svg" className="w-[60%] object-contain" />
           <p className="text-[black] text-[20px] font-normal leading-[100%] mt-1 font-gabarito">
@@ -25,10 +25,10 @@ const Login = () => {
         </div>
 
         {/* Login Section */}
-        <div className="w-full max-w-sm py-16 space-y-6 padding-top-8rem">
+        <div className="w-full max-w-sm mt-12 space-y-6">
           {/* Login Button */}
           <Button
-            className="w-[50%] bg-[#FF8C42] hover:bg-[#ff9f66] flex justify-center items-center text-white text-base py-3 rounded-md"
+            className="w-[60%] bg-[#FF8C42] hover:bg-[#ff9f66] flex justify-center items-center text-white text-base py-4 rounded-md shadow-sm"
             onClick={() => navigate("/dashboard")}
             disabled={loading}
           >

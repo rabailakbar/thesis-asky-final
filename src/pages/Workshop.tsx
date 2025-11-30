@@ -235,13 +235,13 @@ const StatBox = (props: { number: string; label: string; highlight?: boolean; un
         props.highlight ? "border-purple-500 bg-purple-50" : "border-gray-300"
       }`}
     >
-      <div className="flex items-end leading-none">
+      <div className="flex items-baseline leading-none">
         <p className="font-extrabold text-[#D0193E] text-[6vw] leading-none">
           {mainValue}
         </p>
 
         {/* Applying custom font style for the unit, specifically for 'hr' */}
-        <span className={`text-[#D0193E] font-normal text-[2vw] ml-0.5 mb-1 ${props.unitFont ? `font-['${props.unitFont}']` : ''}`}>
+        <span className={`text-[#D0193E] font-normal text-[2vw] ml-0.5 ${props.unitFont ? `font-['${props.unitFont}']` : ''}`}>
           {unit}
         </span>
       </div>

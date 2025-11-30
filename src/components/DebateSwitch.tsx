@@ -20,10 +20,10 @@ interface DebateScenario {
 const sampleScenarios: DebateScenario[] = [
   {
     id: 1,
-    headline: "AI is an insult to life itself. Miyazaki's predictions come true.",
-    imageUrl: "https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Modules/miyazaki.png",
-    description: "Hayao Miyazaki, the legendary animator behind Studio Ghibli, has been vocal about his concerns regarding artificial intelligence. In a 2016 documentary, he expressed strong disapproval of AI-generated Ghibli-style images, calling them 'an insult to life itself.' His comments sparked widespread discussion about the role of AI in creative industries and whether it threatens or enhances human creativity.",
-    debateQuestion: "Was Miyazaki right to call AI an insult to life - or is it actually expanding what life can create?",
+    headline: "\u201CAI is an insult to life itself.\u201D",
+    imageUrl: "/bre.png",
+    description: "Hayao Miyazaki — the legendary Japanese filmmaker once called AI \u201Can insult to life itself.\u201D During a 2016 documentary, after seeing an AI-generated animation that, to him, lacked humanity and soul. Nearly a decade later, AI-generated \u201CGhibli-style\u201D art has gone viral — reviving the same question he raised back then.",
+    debateQuestion: "Was Miyazaki right to call AI an insult to life — or is it actually expanding what life can create?",
     prompts: [
       {
         id: 1,
@@ -91,10 +91,20 @@ const DebateSwitch = () => {
     
     if (prompt?.isCorrect) {
       setScore((prevScore) => prevScore + 1);
-      setPolarizationScore((prevScore) => Math.min(100, prevScore + 10));
+      // Polarization score progression handled globally; no local change
     } else {
-      setPolarizationScore((prevScore) => Math.max(0, prevScore - 5));
+      // Deterministic sequence elsewhere; no local change
     }
+
+    // Move on to the next module immediately after first prompt selection
+    // Show brief feedback then auto-complete the module
+    setTimeout(() => {
+      setCurrentScreen('result');
+      // Optional auto-navigation to dashboard after showing result briefly
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 1200);
+    }, 600);
   };
 
   const handleNext = () => {
@@ -146,7 +156,7 @@ const DebateSwitch = () => {
           className="w-full bg-[#6B46C1] text-white py-3 rounded-lg text-lg font-semibold hover:bg-[#5A3A9E] transition"
           onClick={() => setCurrentScreen('scenario')}
         >
-          Let's begin <ArrowRight className="ml-2 w-5 h-5" />
+          Start <ArrowRight className="ml-2 w-5 h-5" />
         </Button>
       </Card>
     </div>
@@ -160,12 +170,12 @@ const DebateSwitch = () => {
         <Card className="max-w-4xl w-full mx-auto bg-[#FDF8F3] rounded-3xl shadow-sm p-8">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center">
+            <div className="flex items-end">
               <div className="w-10 h-10 bg-cyan-400 rounded-xl flex items-center justify-center mr-3">
                 <span className="text-white font-bold text-lg">M6</span>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-black">Debate Switch</h1>
+                <h1 className="text-2xl font-bold text-[#5F237B]">Debate Switch</h1>
                 <p className="text-sm text-gray-600">One debate, two sides, endless perspectives</p>
               </div>
             </div>
@@ -277,14 +287,21 @@ const DebateSwitch = () => {
                 <Users className="w-8 h-8 text-purple-600" />
               </div>
               <p className="text-sm font-medium">Opponent LLM</p>
-              <p className="text-xs text-gray-500 mt-1">XXXXXXXXXXXXX</p>
+              <p className="text-xs text-gray-700 mt-1">
+                {currentScenario.debateQuestion}
+              </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-purple-200 rounded-lg flex items-center justify-center mb-2">
                 <Users className="w-8 h-8 text-purple-600" />
               </div>
               <p className="text-sm font-medium">You</p>
-              <p className="text-xs text-gray-500 mt-1">XXXXXXXXXXXXX</p>
+              <p className="text-xs text-gray-700 mt-1">
+                {(() => {
+                  const chosen = currentScenario.prompts.find(p => p.id === selectedPrompt);
+                  return chosen?.text || 'Choose a prompt below to argue your stance.';
+                })()}
+              </p>
             </div>
           </div>
 

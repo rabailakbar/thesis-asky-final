@@ -24,7 +24,7 @@ const Debate = () => {
         const { data, error } = await supabase
             .from("debate")
             .select("*")
-            .limit(4);      // ✅ Fetch 4 topics
+            .limit(1);      // ✅ Fetch 1 topic
 
         if (error) {
             console.error("Error fetching debate topics:", error);
@@ -80,7 +80,7 @@ console.log(data)
         }
         src={"/debate/final"}
         module={6}
-        text={"4/4 Debates switch"}
+        text={"1/1 Debates switch"}
         score={score}
       />
     ) : (
@@ -92,10 +92,12 @@ console.log(data)
               module={6}
               src={"/opening16.png"}
               heading={"Debate Switch"}
+              headingColor="#FF9348"
               description={"One debate, two sides, endless perspectives"}
-              time={600}
-              left={4 - currentIndex}
-              polarizationScore={score}
+              time={120}
+              started={!show}
+              left={1}
+              polarizationScore={56}
             />
           </div>
     
