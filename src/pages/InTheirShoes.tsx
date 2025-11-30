@@ -21,7 +21,7 @@ const InTheirShoes = () => {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [roleDetails, setRoleDetails] = useState<any>({});
-  const [round, setRound] = useState(1); // Round 1 → 3
+    const [round, setRound] = useState(1); // Single round with two questions
   const [usedRoles, setUsedRoles] = useState<string[]>([]);
   const [questionStep, setQuestionStep] = useState<1 | 2>(1);
   const [showIntroModal, setShowIntroModal] = useState<boolean>(true);
@@ -111,17 +111,11 @@ insertscore()}
           setTooltipMapping({}); // Clear tooltips when moving on
 
           if (questionStep === 1) {
+              // Move to second question
               setQuestionStep(2);
           } else if (questionStep === 2) {
-              if (round < 3) {
-                  setRound(round + 1);
-                  setQuestionStep(1);
-                  setRoleDetails({});
-                  setSelectedRole("");
-                  setCurrentScreen("roleSelection");
-              } else {
-                  setCurrentScreen("closing");
-              }
+              // End module after answering two questions
+              setCurrentScreen("closing");
           }
       }, 3000); // 1 second delay
   };
@@ -205,7 +199,7 @@ const [done,setDone] = useState(false)
                       src={"/opening17.png"}
                   />        <div className="max-w-7xl mx-auto">
                       {/* Header */}
-                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={4-round}  />
+                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={1}  />
 
                       {/* Role Selection Heading */}
                       <div className="text-center mt-8 mb-16">
@@ -255,7 +249,7 @@ const [done,setDone] = useState(false)
               <main className="h-[90vh] bg-[#F8F1E7] ">
                   <div className="max-w-7xl mx-auto flex flex-col">
                       {/* Header */}
-                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={4-round}  />
+                      <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={1}  />
                       <div className="text-center ">
                           <h2 className="text-lg font-semibold text-[#201E1C] ">Choose Your Role:</h2>
                           <p className="text-lg text-[#201E1C]">
@@ -326,7 +320,7 @@ const [done,setDone] = useState(false)
   >
     <ChevronRight/>
   </button> */}
-                  <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={4-round}  />
+                  <ModuleHeader src={"/opening17.png"} setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={1}  />
 
                       {/* Question Header */}
                       <div className="text-center ">

@@ -289,9 +289,9 @@ calculated={""}
                 <div className="absolute right-8 top-1/2 -translate-y-1/2">
                   <Button 
                     onClick={handleNextQuestion}
-                    className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-white rounded-full p-4 animate-fade-in"
+                    className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-white rounded-full w-16 h-16 flex items-center justify-center animate-fade-in shadow-sm"
                   >
-                    <ChevronRight className="w-6 h-6" />
+                    <ChevronRight className="w-8 h-8" />
                   </Button>
                 </div>
               </div>
@@ -320,9 +320,9 @@ calculated={""}
                 <div className="absolute right-8 top-1/2 -translate-y-1/2">
                   <Button 
                     onClick={handleNextQuestion}
-                    className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-white rounded-full p-4 animate-fade-in"
+                    className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-white rounded-full w-16 h-16 flex items-center justify-center animate-fade-in shadow-sm"
                   >
-                    <ChevronRight className="w-6 h-6" />
+                    <ChevronRight className="w-8 h-8" />
                   </Button>
                 </div>
               </div>

@@ -23,7 +23,7 @@ const Dashboard = () => {
       duration: " 2 min",
       path: "/exercise",
       custom: true,
-      src:"/1.png"
+      src:"/M2.jpg"
     },
     {
       title: "Bias Detection",
@@ -32,7 +32,7 @@ const Dashboard = () => {
       level: " Intermediate Level",
       duration: " 5 min",
       path: "/spotthebias",
-      src:"6.svg"
+      src:"/M4.jpg"
     },
     {
       title: "Social Analysis",
@@ -41,7 +41,16 @@ const Dashboard = () => {
       level: " Advanced Level",
       duration: "3 min",
       path: "/debate/switch",
-      src:"3.svg"
+      src:"/M6.jpg"
+    },
+    {
+      title: "In Their Shoes",
+      description: "Step into another perspective",
+      image: "/images/in-their-shoes.svg",
+      level: " Advanced Level",
+      duration: "3 min",
+      path: "/intheirshoes",
+      src:"/M7.jpg"
     },
     {
       title: "Fake or Fact?",
@@ -50,7 +59,7 @@ const Dashboard = () => {
       level: " Advanced Level",
       duration: "5 min",
       path: "/fakefact",
-      src:"4.svg"
+      src:"/M3.jpg"
     },
     {
       title: "Behind the Buzz",
@@ -59,7 +68,7 @@ const Dashboard = () => {
       level: "Intermediate Level",
       duration: "2 min",
       path: "/behind-the-buzz",
-      src:"5.png"
+      src:"/M5.png"
     },
    
   ];
@@ -137,6 +146,56 @@ User 1
 </Button>
 
           </div>
+        </div>
+
+        {/* Stats Summary Cards (match design) */}
+        <div className="flex flex-wrap gap-4 mb-10">
+          {/* Modules */}
+          <Card className="bg-white px-6 py-4 rounded-xl rounded-bl-none shadow-sm flex flex-col justify-between border border-gray-200 w-[170px]">
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl font-semibold text-[#D0193E]">7</span>
+              <span className="text-xs font-medium text-[#130719]">Total</span>
+            </div>
+            <div className="text-base font-semibold text-[#5F237B] mt-1">Modules</div>
+          </Card>
+          {/* Phases */}
+          <Card className="bg-white px-6 py-4 rounded-xl rounded-bl-none shadow-sm flex flex-col justify-between border border-gray-200 w-[170px]">
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl font-semibold text-[#D0193E]">3</span>
+              <span className="text-xs font-medium text-[#130719]">Total</span>
+            </div>
+            <div className="text-base font-semibold text-[#5F237B] mt-1">Phases</div>
+          </Card>
+          {/* Difficulty Levels */}
+          <Card className="bg-white px-6 py-4 rounded-xl rounded-bl-none shadow-sm flex flex-col justify-between border border-gray-200 w-[170px]">
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl font-semibold text-[#D0193E]">3</span>
+              <span className="text-xs font-medium text-[#130719]">Difficulty</span>
+            </div>
+            <div className="text-base font-semibold text-[#5F237B] mt-1">Levels</div>
+          </Card>
+          {/* Duration */}
+            <Card className="bg-white px-6 py-4 rounded-xl rounded-bl-none shadow-sm flex flex-col justify-between border border-gray-200 w-[170px]">
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl font-semibold text-[#D0193E]">1</span>
+              <span className="text-xs font-semibold text-[#D0193E]">hr</span>
+              <span className="text-xs font-medium text-[#130719]">Total</span>
+            </div>
+            <div className="text-base font-semibold text-[#5F237B] mt-1">Duration</div>
+          </Card>
+          {/* Start Button Card */}
+          <button
+            onClick={() => navigate('/interest')}
+            className="group bg-[#FF9348] px-6 py-4 rounded-xl rounded-bl-none shadow-sm flex flex-col justify-between w-[190px] text-left text-white hover:bg-[#FF7F1F] transition"
+          >
+            <div className="flex items-baseline gap-2">
+              <span className="text-xs font-medium opacity-90">Click here to</span>
+            </div>
+            <div className="flex items-center justify-between mt-1">
+              <span className="text-xl font-semibold">Start</span>
+              <ChevronRight className="w-5 h-5" />
+            </div>
+          </button>
         </div>
 
 

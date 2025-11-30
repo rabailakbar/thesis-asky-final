@@ -73,22 +73,20 @@ interface ModuleHeaderProps {
       <div className="pt-6 mb-2">
         <div className="flex items-center justify-between">
           {/* Left side: Icon + Module Info */}
-          <div className="flex items-end gap-8">
+          <div className="flex items-start gap-8">
             {/* Puzzle Icon */}
             <div className="w-24  rounded-lg flex items-center justify-center relative flex-shrink-0">
               <img src={src} alt="Module 1" className="w-24 object-contain" />
             </div>
   
             {/* Module Info */}
-            <div>
-              <h1 className="font-medium text-[42px] leading-[100%] tracking-[0] mb-2" style={{ color: headingColor }}>
+            <div className="flex flex-col justify-between h-32 py-1">
+              <h1 className="font-medium text-[42px] leading-[100%] tracking-[0]" style={{ color: headingColor }}>
                 {heading}
               </h1>
-  
-              <p className="font-normal text-[24px] leading-[100%] tracking-[0] text-[#130719] mb-2">
-  {description}            </p>
-  
-              {/* Timer moved to right side near the counter */}
+              <p className="font-normal text-[24px] leading-[100%] tracking-[0] text-[#130719]">
+                {description}
+              </p>
             </div>
           </div>
   

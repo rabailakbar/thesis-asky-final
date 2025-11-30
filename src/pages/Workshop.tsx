@@ -28,6 +28,7 @@ const Workshop = () => {
           level: "Beginner Level",
           duration: "5:00",
           locked: false, // UNLOCKED
+          iconSrc: "/m1.2.svg",
         },
         {
           id: "module-2",
@@ -36,6 +37,7 @@ const Workshop = () => {
           level: "Beginner Level",
           duration: "5:00",
           locked: true,
+          iconSrc: "/M2.jpg",
         },
       ],
     },
@@ -51,6 +53,7 @@ const Workshop = () => {
           level: "Intermediate Level",
           duration: "5:00",
           locked: true, // UNLOCKED
+          iconSrc: "/M3.jpg",
         },
         {
           id: "module-4",
@@ -59,6 +62,7 @@ const Workshop = () => {
           level: "Intermediate Level",
           duration: "5:00",
           locked: true,
+          iconSrc: "/M4.jpg",
         },
         {
           id: "module-5",
@@ -67,6 +71,7 @@ const Workshop = () => {
           level: "Intermediate Level",
           duration: "5:00",
           locked: true,
+          iconSrc: "/M5.png",
         },
       ],
     },
@@ -82,6 +87,7 @@ const Workshop = () => {
           level: "Advanced Level",
           duration: "5:00",
           locked: false, // UNLOCKED
+          iconSrc: "/M6.jpg",
         },
         {
           id: "module-2",
@@ -90,6 +96,7 @@ const Workshop = () => {
           level: "Advanced Level",
           duration: "5:00",
           locked: true,
+          iconSrc: "/M2.jpg",
         },
       ],
     },
@@ -274,11 +281,14 @@ const ModuleCard = ({ module }: { module: any }) => {
     // Card container is no longer relative
     <div className={`flex items-center gap-4 p-4 rounded-lg border border-amber-100 hover:shadow-md transition-shadow ${cardBg}`}>
       
-      {/* Icon placeholder (fact.svg) */}
+      {/* Module specific icon (replaces generic fact.svg) */}
       <div className="flex-shrink-0">
-        {/* Adjusted background and border for fact.svg container */}
-        <div className={`w-20 h-20 rounded-lg border-2 flex items-center justify-center ${iconBg}`}>
-          <img src={"/fact.svg"} />
+        <div className={`w-20 h-20 rounded-lg border-2 overflow-hidden ${iconBg}`}>
+          <img
+            src={module.iconSrc || "/fact.svg"}
+            className={`w-full h-full object-cover ${module.locked ? "grayscale opacity-70" : ""}`}
+            alt={module.title}
+          />
         </div>
       </div>
 

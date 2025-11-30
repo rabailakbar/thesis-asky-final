@@ -191,16 +191,15 @@ const dispatch = useDispatch();
     setShowUserOptions(false);
     dispatch(decreaseScore(0.1))
     const chosen = userPrompts[i - 1];
-  
-    setTimeout(async () => {
-      await getLlmArgument([{ role: "user", content: chosen }]);
-  
-      // Switch stance or end topic
-     
-  
-      await generateUserPrompts();
-      setSelectedPrompt(null);
-    }, 1200);
+    // Immediately advance to the next module after first selection
+    try {
+      if (typeof props.goNext === 'function') {
+        props.goNext();
+      }
+      if (typeof props.setIsCompleted === 'function') {
+        props.setIsCompleted(true);
+      }
+    } catch {}
   };
   
 

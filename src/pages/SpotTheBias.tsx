@@ -117,13 +117,13 @@ const ClosingModal = (props) => {
 <div>
 Look at that — your score’s low and your thinking’s leveling out. That’s what real awareness looks like. Stay curious, stay open, and keep the balance strong. </div>
               {/* Next Module Button */}
-              <Button
-                  size="lg"
-                  onClick={() => navigate(`/behind-the-buzz`)}
-                  className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
-              >
-                  Next Module <ChevronRight/>
-              </Button>
+                  <Button
+                    size="lg"
+                    onClick={() => navigate(`/behind-the-buzz`)}
+                    className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
+                  >
+                    Next Module <ChevronRight/>
+                  </Button>
           </div>
       </div>
       </div>
