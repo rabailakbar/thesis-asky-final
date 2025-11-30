@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, Clock, Star, AlarmClock } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { ChevronRight } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import ModuleHeader from "@/components/ModuleHeader";
-type Screen = "intro" | "roleSelection" | "question" | "scenario" | "closing";
+import { supabase } from "@/integrations/supabase/client";
+import { useDispatch, useSelector } from "react-redux";
+import { decreaseScore } from "@/store/topicsSlice";
+import { RootState } from "@/store";
+import CircleScore from "@/components/CircleScore";
+import TooltipCarousel from "@/components/TooltipCarousel";
+import CelebrationScreen from "./Closing";
+import Celebration from "@/components/Celebration";
+// Removed unused imports (BookOpen, Clock, Star, AlarmClock, Card, Progress, Button)
+type Screen = "intro" | "roleSelection" | "question" | "scenario" | "celebration" | "closing";
 type Role = {
   title: string;
   subtitle: string;
@@ -105,19 +109,19 @@ insertscore()}
       // ⭐ END TOOLTIP LOGIC
 
       // Delay before moving to next step
-      setTimeout(() => {
-          // Reset state for next step/round
-          setSelectedAnswer(null);
-          setTooltipMapping({}); // Clear tooltips when moving on
+            setTimeout(() => {
+                // Reset state for next step/round
+                setSelectedAnswer(null);
+                setTooltipMapping({}); // Clear tooltips when moving on
 
-          if (questionStep === 1) {
-              // Move to second question
-              setQuestionStep(2);
-          } else if (questionStep === 2) {
-              // End module after answering two questions
-              setCurrentScreen("closing");
-          }
-      }, 3000); // 1 second delay
+                if (questionStep === 1) {
+                    // Move to second question
+                    setQuestionStep(2);
+                } else if (questionStep === 2) {
+                    // Show celebration screen before final results
+                    setCurrentScreen("celebration");
+                }
+            }, 3000);
   };
 
 
@@ -313,7 +317,7 @@ const [done,setDone] = useState(false)
                 setSelectedRole("");
                 setCurrentScreen("roleSelection");
             } else {
-                setCurrentScreen("closing");
+                setCurrentScreen("celebration");
             }
         }}} // your function to go to the next step
     className="absolute top-1/2 right-0 w-[60] cursor-pointer h-[60] -translate-y-1/2 bg-[#FF9348] text-white px-2 py-2 rounded-full shadow-lg hover:bg-[#7A3ACF] transition-colors"
@@ -374,7 +378,7 @@ const [done,setDone] = useState(false)
                 setSelectedRole("");
                 setCurrentScreen("roleSelection");
             } else {
-                setCurrentScreen("closing");
+                setCurrentScreen("celebration");
             }
         }
     }}
@@ -454,10 +458,15 @@ const ischecked = selectedAnswer==a.label && a.color == "#5F237B"
       );
   }
 
-  // ✅ Closing screen after both Q1 & Q2 done
-  if (currentScreen === "closing") {
-      return <CelebrationScreen />;
-  }
+    // 🎉 Celebration screen (5s confetti) before final closing/results
+    if (currentScreen === "celebration") {
+        return <Celebration onFinish={() => setCurrentScreen("closing")} durationMs={4000} />;
+    }
+
+    // ✅ Final closing/results screen
+    if (currentScreen === "closing") {
+        return <CelebrationScreen />;
+    }
 
 };
 
@@ -470,8 +479,8 @@ export default InTheirShoes;
 function RoleCard({ role, disabled, roleImageMap }: any) {
   return (
     <div
-      className={`bg-white h-[35vh] w-full gap-4 flex flex-col justify-center items-center border-[3px] rounded-xl px-4 py-2 text-center
-                  ${disabled ? "opacity-40 border-gray-400" : "border-black"}`}
+            className={`bg-white h-[35vh] w-full gap-4 flex flex-col justify-center items-center border-[6px] rounded-xl px-4 py-2 text-center
+                                    ${disabled ? "opacity-40 border-gray-400" : "border-black"}`}
     >
       <h2 className="text-[1vw] font-medium  text-[#130719]">{role.subtitle}</h2>
       <div className="flex justify-center ">
@@ -567,13 +576,7 @@ You did it! 🎉 Your polarization score is at its <span className="text-[#5F237
   );
 } 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store";
-import { decreaseScore } from "@/store/topicsSlice";
-import CircleScore from "@/components/CircleScore";
 import Tooltip from "@/components/tooltipp";
-import TooltipCarousel from "@/components/TooltipCarousel";
-import CelebrationScreen from "./Closing";
 const OpeningModal = (props:any)=>{
     
 
@@ -649,8 +652,8 @@ Advanced Level
                     </div>
                   </div>
       
-                  {/* Begin Button */}
-                  <div className="flex justify-center">
+                                    {/* Begin Button */}
+                                    <div className="flex justify-start">
                   <button
   onClick={() => props.setShowIntroModal(false)}
   className="
