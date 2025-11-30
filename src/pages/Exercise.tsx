@@ -43,7 +43,8 @@ const extractCodeFromFilename = (filename: string) => {
 export default function Exercise() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const moduleId = searchParams.get("id") || "M1";
+  // Force Pick & Flick to use Module 2 video unless explicitly overridden
+  const moduleId = searchParams.get("id") || "M2";
   const [isLoading, setIsLoading] = useState(true);
 const [done,setDone] = useState(false)
   const [showIntroModal, setShowIntroModal] = useState(true);

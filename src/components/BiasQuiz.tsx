@@ -457,12 +457,29 @@ const OpeningModal = (props:any)=>{
                     </div>
                   </div>
       
-                  {/* Video Placeholder */}
-                  <div className="bg-gray-100 rounded-lg p-12 mb-6 text-center">
-                    <div className="text-gray-500">
-                      <div className="font-medium mb-1">Walkthrough Video</div>
-                      <div className="text-sm">(small screen recording)</div>
-                    </div>
+                  {/* Walkthrough Video */}
+                  <div className="rounded-lg mb-6 overflow-hidden bg-black flex items-center justify-center h-[280px]">
+                    {(() => {
+                      const id = props.moduleId || "M4"; // default to M4 for this quiz
+                      const videoSrc = id.match(/^M[1-7]$/) ? `/${id}.mp4` : null;
+                      return videoSrc ? (
+                        <video
+                          key={videoSrc}
+                          src={videoSrc}
+                          className="h-full w-full object-cover"
+                          controls
+                          preload="metadata"
+                          playsInline
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                      ) : (
+                        <div className="text-gray-400 text-center p-6">
+                          <div className="font-medium mb-1">Walkthrough Video Unavailable</div>
+                          <div className="text-sm">No video mapped for this module.</div>
+                        </div>
+                      );
+                    })()}
                   </div>
       
                   {/* Description */}
