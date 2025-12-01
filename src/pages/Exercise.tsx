@@ -265,6 +265,9 @@ const score = useSelector((state:RootState)=>state.topics.score)
             style={{
               borderRadius: "12px",
               objectFit: "cover",
+              filter: isHovered ? "blur(3px)" : "none",
+              transition: "filter 0.2s ease",
+              zIndex: 1,
             }}
             whileHover={{ scale: 1.03 }}
             transition={{ duration: 0.3 }}
@@ -283,6 +286,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
               alignItems: "center",
               gap: "1rem",
               pointerEvents: isHovered ? "auto" : "none",
+              zIndex: 2,
             }}
           >
             {/* Like Button */}

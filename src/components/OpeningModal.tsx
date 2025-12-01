@@ -23,6 +23,12 @@ const OpeningModal = (props: any) => {
       ? "justify-end"
       : "justify-start";
 
+  // Adjust Start button size specifically for Module 3
+  const isModule3 = (props.moduleId === "M3") || (typeof props.module === "string" && /Module\s+3/i.test(props.module));
+  const btnSizeClass = isModule3
+    ? "px-14 py-3 text-lg" // wider, shorter height
+    : "px-8 py-6 text-lg"; // default
+
   // 2. DEFINE POSITIONS ON THE CURVE
   // We define 5 slots. offsets determine the number (current - 2, current - 1, etc.)
   // x/y are coordinates on the quadratic curve.
@@ -163,7 +169,7 @@ const OpeningModal = (props: any) => {
           <div className={`flex ${btnJustify}`}>
             <Button
               onClick={() => props.setShowIntroModal(false)}
-              className="bg-[#FF9348] hover:bg-[#e58440] text-white rounded-md px-8 py-6 text-lg font-medium flex items-center gap-2 transition-colors"
+              className={`bg-[#FF9348] hover:bg-[#e58440] text-white rounded-md ${btnSizeClass} font-medium flex items-center gap-2 transition-colors`}
             >
               Start <ChevronRight size={20} />
             </Button>
