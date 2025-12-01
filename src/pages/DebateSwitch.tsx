@@ -12,7 +12,7 @@ const DebateSwitch = (props) => {
   const [selectedPrompt, setSelectedPrompt] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showUserOptions, setShowUserOptions] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(120); // 2 minutes
+  const [timeLeft, setTimeLeft] = useState(90); // 2 minutes
   const [stance, setStance] = useState("against");
   const score= useSelector((state:RootState)=>state.topics.score)
   const DEBATE_TOPIC =props?.debate?.Debate_Question || `"Are Millennials the forgotten generation in the mental health conversation, overshadowed by Gen Z’s
@@ -33,7 +33,7 @@ const DebateSwitch = (props) => {
     }
   
     // Switch stance based on time passed
-    if (timeLeft < 60) {
+    if (timeLeft < 45) {
       // First half (90 sec)
       setStance("against");   // LLM = against, Player = for
     } else {
@@ -216,7 +216,8 @@ console.log("checkstance",stance)
       <div className="pt-8 pb-6 flex flex-col items-center gap-2">
         <p className="text-xl font-medium text-[#130719]">Headline #1</p>
         <p className=" text-xl font-medium text-[#130719] text-center">
-          Argue {stance!="against"&& "in"} <span className="text-[#5F237B] font-bold">{stance=="against"?"against":"favor"}</span> {stance!="against" && "of"} the headline by <span className="font-bold text-[#FF9348]" >choosing</span> the best prompt
+          Argue {stance!="against"&& "in"} <span className="text-[#5F237B] font-bold">{stance=="against"?"against":"favor"}</span> 
+          {stance!="against" && "of"} the headline by <span className="font-bold text-[#FF9348]" >choosing</span> the best prompt
         </p>
       </div>
   
@@ -265,23 +266,23 @@ console.log("checkstance",stance)
           <div className="space-y-4 w-[300px] flex flex-col">
             {userPrompts.map((prompt, index) => (
               <button
-                key={index}
-                onClick={() => handlePromptClick(index + 1)}
-                className={`w-full bg-[#EFE8DD] h-[30%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
-                  
-                    "hover:bg-gray-50 hover:shadow-md"
-                }`}
-              >
-                <p className="text-sm text-gray-800 leading-snug">{prompt}</p>
-                <p className="absolute bottom-2 right-2 text-xs font-medium text-[#201E1C] mb-0.5">
-                  Prompt #{index + 1}
-                </p>
-                {selectedPrompt === index + 1 && (
-                  <div className="absolute top-2 right-2">
-                    <ThumbsUp className="w-4 h-4 text-purple-600" />
-                  </div>
-                )}
-              </button>
+              key={index}
+              onClick={() => handlePromptClick(index + 1)}
+              className={`w-full bg-[#EFE8DD] h-[30%] rounded-tl-[42px] rounded-tr-[42px] rounded-bl-[42px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative
+                hover:bg-[#FFA96D] hover:text-white
+              `}
+            >
+              <p className="text-sm leading-snug">{prompt}</p>
+              <p className="absolute bottom-2 right-2 text-xs font-medium mb-0.5">
+  Prompt {String.fromCharCode(65 + index)}
+</p>
+              {selectedPrompt === index + 1 && (
+                <div className="absolute top-2 right-2">
+                  <ThumbsUp className="w-4 h-4 text-purple-600" />
+                </div>
+              )}
+            </button>
+            
             ))}
           </div>
         )}
@@ -312,23 +313,24 @@ console.log("checkstance",stance)
         {showUserOptions && (
           <div className="space-y-4 w-[300px] flex flex-col">
             {userPrompts.map((prompt, index) => (
-              <button
-                key={index}
-                onClick={() => handlePromptClick(index + 1)}
-                className={`w-full bg-[#EFE8DD] h-[30%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
-                   "hover:bg-gray-50 hover:shadow-md"
-                }`}
-              >
-                <p className="text-sm text-gray-800 leading-snug">{prompt}</p>
-                <p className="absolute bottom-2 right-2 text-xs font-medium text-[#201E1C] mb-0.5">
-                  Prompt #{index + 1}
-                </p>
-                {selectedPrompt === index + 1 && (
-                  <div className="absolute top-2 right-2">
-                    <ThumbsUp className="w-4 h-4 text-purple-600" />
-                  </div>
-                )}
-              </button>
+             <button
+             key={index}
+             onClick={() => handlePromptClick(index + 1)}
+             className={`w-full bg-[#EFE8DD] h-[30%] rounded-tl-[42px] rounded-tr-[42px] rounded-bl-[42px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative
+               hover:bg-[#FFA96D] hover:text-white
+             `}
+           >
+             <p className="text-sm leading-snug">{prompt}</p>
+             <p className="absolute bottom-2 right-2 text-xs font-medium mb-0.5">
+  Prompt {String.fromCharCode(65 + index)}
+</p>
+
+             {selectedPrompt === index + 1 && (
+               <div className="absolute top-2 right-2">
+                 <ThumbsUp className="w-4 h-4 text-purple-600" />
+               </div>
+             )}
+           </button>
             ))}
           </div>
         )}

@@ -41,6 +41,7 @@ interface ModuleHeaderProps {
   }: ModuleHeaderProps) => {
     const [timeLeft, setTimeLeft] = useState(time); // seconds
   console.log(timeLeft)
+  
     useEffect(() => {
       if (!started) return; // don't tick until started
       if (timeLeft <= 0) {

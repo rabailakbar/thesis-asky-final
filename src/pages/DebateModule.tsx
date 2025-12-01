@@ -52,21 +52,21 @@ level="Advanced"
   <div className="max-w-7xl mx-auto">
     {/* Header Section */}
     
-
+    <div className="justify-center items-center text-center pb-8 pt-2 font-medium text-[1.5vw] ">Headline #1</div>
     {/* Main Content - Two Column Layout */}
     <div className="flex justify-center items-stretch gap-10">
        {/* Right Column - Scenario Card */}
-  <div className="bg-white rounded-lg p-4  max-w-[450px] flex flex-col justify-between">
+  <div className="bg-white rounded-lg p-4  w-[25vw] flex flex-col ">
     <div>
-      <p className="text-[#150800] font-normal  mb-2 mx-4 text-[1.25vw]">Scenario 1</p>
-      <h2 className="text-[#150800] text-[1.3vw] mx-2  font-bold  mb-3 leading-snug">
+      <p className="text-[#150800] font-normal  mx-4 text-[1.25vw]">Scenario 1</p>
+      <h2 className="text-[#150800] text-[1.3vw] mx-2  font-bold  my-10 leading-snug">
         "{props.debate?.Heading}"
       </h2>
       
       <p className="text-[#150800] mb-3  leading-relaxed">
     {props.debate?.Scenario?.split(".")[0]}
       </p>
-      <div className="rounded-md bg-[#F8F1E7] p-3 mb-4">
+      <div className="rounded-md bg-[#F8F1E7] p-3 mt-8 mb-10">
         <p className="text-[1.25vw] text-[#5F237B] ">The Debate:</p>
         <p className="text-[#150800] font-normal text-[1.25vw] leading-snug">
 {
@@ -76,7 +76,7 @@ level="Advanced"
     </div>
     <div>
       <button
-        className="w-full py-2.5 rounded-md text-white font-medium text-base bg-[#FF9348] transition-colors"
+        className="w-full py-2.5 rounded-md text-white font-medium text-base bg-[#FF803E] transition-colors"
         onClick={() => props.setShow(false)}
       >
         Start Now
@@ -88,7 +88,7 @@ level="Advanced"
     <img
       src={props.imageUrl}
       alt="AI is an insult to life itself - Miyazaki's predictions come true"
-      className="h-full max-h-[60vh] w-auto object-contain"
+      className="h-full  w-[25vw] object-contain"
     />
   
   </div>
@@ -108,54 +108,7 @@ level="Advanced"
 export default DebateModule;
 
 
-const ModuleHeader = () => {
-  return (
-      <>
-          <div className="  pt-6 mb-2">
-              <div className="flex items-center justify-between">
-                  {/* Left side: Icon + Module Info */}
-                  <div className="flex items-center gap-8">
-                      {/* Puzzle Icon */}
-                      <div className="w-25 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-                          <img
-                              src={"/opening16.png"}
-                              alt="Module 1"
-                              className="w-25  object-contain"
-                          />
-                      </div>
 
-                      {/* Module Info */}
-                      <div>
-                      <h1 className="font-semibold text-[36px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-                      Debate Switch</h1>
-
-<p className="font-normal text-[16px] leading-[100%] tracking-[0] text-[#201E1C] mb-2">
-One debate, two sides, endless perspectives</p>
-
-
-                          <div className="flex items-center gap-4 text-[#201E1C]">
-<img src={"/clocl.svg"} />
-
-                              <span className="font-normal text-[24px] leading-[100%] tracking-[0]">
-02:00
-</span>
-
-                          </div>
-
-                      </div>
-                  </div>
-
-                    {/* Right side: Counter */}
-                    <div className="text-right">
-                      <div className="text-3xl font-bold text-gray-900">1 Left</div>
-                    </div>
-              </div>
-          </div>
-
-          {/* Instructions */}
-          
-      </>)
-}
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import OpeningModal from "@/components/OpeningModal";
