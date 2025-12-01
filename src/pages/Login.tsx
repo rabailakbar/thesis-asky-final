@@ -19,10 +19,10 @@ const Login = () => {
       <div className="flex flex-col justify-start items-start w-1/2 p-24">
         <div>
           <img src="/logo.svg" className="w-[60%] object-contain" />
-          <p className="text-[black] font-bold text-[28px] font-normal leading-[100%] font-gabarito pt-20">
+          <p className="text-[#39154A] font-bold text-[1.5vw]  leading-[100%]  pt-20">
             We are excited to have you here!
           </p>
-          <p className="text-[grey] text-[20px] font-light leading-[100%] font-gabarito mt-[5px]">
+          <p className="text-[#757888] text-[1vw] font-normal leading-[100%]  mt-2">
             Login with shared credentials
           </p>
         </div>
@@ -32,7 +32,7 @@ const Login = () => {
           {/* Credential Inputs (optional / not required) */}
           <div className="space-y-4">
             <div>
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">Enter Email</Label>
+              <Label htmlFor="email" className="text-[1vw] font-normal text-[#32302E]">Enter Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -43,7 +43,7 @@ const Login = () => {
               />
             </div>
             <div>
-              <Label htmlFor="password" className="text-sm font-medium text-gray-700">Enter Password</Label>
+              <Label htmlFor="password" className="text-[1vw] font-normal text-[#32302E]">Enter Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -56,7 +56,7 @@ const Login = () => {
           </div>
           {/* Login Button */}
           <Button
-            className="w-[60%] bg-[#FF8C42] hover:bg-[#ff9f66] flex justify-center items-center text-white text-base py-4 rounded-md shadow-sm"
+            className="w-[100%] bg-[#FF8C42] hover:bg-[#ff9f66] flex justify-center items-center text-white text-base py-4 rounded-md shadow-sm"
             onClick={() => navigate("/dashboard")}
             disabled={loading}
           >
@@ -66,12 +66,14 @@ const Login = () => {
       </div>
 
       {/* Right Side */}
-      <div className="w-1/2 bg-[#F8F1E7] h-[140vh] relative">
+    <div className="py-12 pr-12">
+      <div className=" py-1    rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset]  bg-[#F8F1E7] relative">
         <img
           src="/Group 150.png"
           alt="Login illustration"
-          className="absolute right-0 top-0 h-[140vh] w-[110%] object-cover select-none"
+          className=" w-[100%] object-cover select-none"
         />
+      </div>
       </div>
 </div>
 

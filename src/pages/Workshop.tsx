@@ -120,15 +120,18 @@ const Workshop = () => {
           </div>
         </div>
 
+
+
+
         {/* ================= STATS BAR ================= */}
-        <div className="flex items-center justify-center px-16 py-6">
+        <div className="flex items-center justify-center  py-6">
           <div className="flex gap-8">
             <StatBox number="7" label="Total Modules" />
             <StatBox number="3" label="Total Phases" />
             <StatBox number="3" label="Difficulty Levels" />
             {/* Pass unitFont for 'hr' style */}
             <StatBox number="1 hr" label="Total Duration" unitFont="Gabarito" />
-            <button onClick={()=>navigate("/interest")} className="flex justify-center items-center gap-4 bg-[#FF9348] hover:bg-[#ff7e1a] text-white px-6 py-3 rounded-xl font-semibold shadow-md transition">
+            <div onClick={()=>navigate("/interest")} className="flex justify-center items-center gap-4 bg-[#FF9348] hover:bg-[#ff7e1a] text-white px-6 py-3  rounded-lg rounded-bl-none font-semibold  transition">
               <div>
                 <div className="text-left font-normal">Click here to</div>
                 <div className="text-left font-semibold text-[1.5vw]">
@@ -139,7 +142,7 @@ const Workshop = () => {
               <div>
                 <ChevronRight size={60} />
               </div>
-            </button>
+            </div>
           </div>
         </div>
 
@@ -238,10 +241,12 @@ const StatBox = (props: { number: string; label: string; highlight?: boolean; un
 
   return (
     <div
-      className={`px-6 flex items-center justify-center bg-white gap-4 rounded-lg text-center ${
-        props.highlight ? "border-purple-500 bg-purple-50" : "border-gray-300"
-      }`}
-    >
+    className={`px-6 flex items-center justify-center bg-white gap-4 text-center
+      ${props.highlight ? "border-purple-500 bg-purple-50" : "border-gray-300"}
+      rounded-lg rounded-bl-none
+    `}
+  >
+  
       <div className="flex items-baseline leading-none">
         <p className="font-extrabold text-[#D0193E] text-[6vw] leading-none">
           {mainValue}
