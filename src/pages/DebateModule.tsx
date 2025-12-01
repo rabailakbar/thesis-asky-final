@@ -22,7 +22,11 @@ const DebateModule = (props) => {
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
   const description = <div>
-    Ready. Set. Debate!<br/> 🧠You’ve got 90 seconds to bring your best arguments to the table! Defend your stance like a pro — but wait for it... plot twist! <br/> You’ll have to switch sides and fight for the opposite view. Every round flexes your perspective power, builds empathy, and drops that polarization score. The more open-minded you get, the closer you are to victory! 
+    Ready. Set. Debate!<br/> 
+    🧠You’ve got 90 seconds to bring your best arguments to the table! Defend your stance like a pro — but wait for it... plot twist!
+     <br/> 
+     You’ll have to switch sides and fight for the opposite view. 
+     
     </div>
 const[showIntroModal,setShowIntroModal] = useState(true);
   return (
@@ -52,26 +56,25 @@ level="Advanced"
     {/* Main Content - Two Column Layout */}
     <div className="flex justify-center items-stretch gap-10">
        {/* Right Column - Scenario Card */}
-  <div className="bg-white rounded-lg p-4 shadow-md border border-gray-200 max-w-[450px] flex flex-col justify-between">
+  <div className="bg-white rounded-lg p-4  max-w-[450px] flex flex-col justify-between">
     <div>
-      <p className="text-xs font-medium text-gray-500 mb-2">Scenario 1</p>
-      <h2 className="text-[16px] font-semibold text-gray-900 mb-3 leading-snug">
-        {props.debate?.Heading}
+      <p className="text-[#150800] font-normal  mb-2 mx-4 text-[1.25vw]">Scenario 1</p>
+      <h2 className="text-[#150800] text-[1.3vw] mx-2  font-bold  mb-3 leading-snug">
+        "{props.debate?.Heading}"
       </h2>
       
-      <p className="text-gray-800 mb-3 text-sm leading-relaxed">
-    {props.debate?.Scenario}
+      <p className="text-[#150800] mb-3  leading-relaxed">
+    {props.debate?.Scenario?.split(".")[0]}
       </p>
-      <div className="rounded-md p-3 mb-4">
-        <p className="text-xs text-gray-500 mb-1">🧠 The Debate:</p>
-        <p className="text-gray-900 font-medium text-sm leading-snug">
+      <div className="rounded-md bg-[#F8F1E7] p-3 mb-4">
+        <p className="text-[1.25vw] text-[#5F237B] ">The Debate:</p>
+        <p className="text-[#150800] font-normal text-[1.25vw] leading-snug">
 {
   props.debate?.Debate_Question
 }        </p>
       </div>
     </div>
     <div>
-      <p className="text-gray-900 font-medium text-sm mb-3">🔥 Ready to take a side?</p>
       <button
         className="w-full py-2.5 rounded-md text-white font-medium text-base bg-[#FF9348] transition-colors"
         onClick={() => props.setShow(false)}

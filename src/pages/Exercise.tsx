@@ -265,7 +265,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
             style={{
               borderRadius: "12px",
               objectFit: "cover",
-              filter: isHovered ? "blur(3px)" : "none",
+              filter: isHovered ? "blur(6px)" : "none",
               transition: "filter 0.2s ease",
               zIndex: 1,
             }}
@@ -284,48 +284,38 @@ const score = useSelector((state:RootState)=>state.topics.score)
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              gap: "1rem",
+              gap: "0.5rem",
               pointerEvents: isHovered ? "auto" : "none",
               zIndex: 2,
             }}
           >
-            {/* Like Button */}
-            <Button
-              size="icon"
-              variant="ghost"
-              className={`bg-white shadow-md hover:bg-gray-100 ${
-                liked ? "text-red-500" : "text-black"
-              }`}
+           
+             <Heart
               onClick={(e) => {
                 e.stopPropagation();
                 handlePostAction(Number(photo.key), "like",photo.src);
               }}
-            >
-              <Heart
-                className={`w-5 h-5 transition-colors ${
-                  liked ? "fill-red-500 text-red-500" : ""
-                }`}
-              />
-            </Button>
+  className={`w-8 h-8 transition-colors ${
+    liked
+      ? "fill-red-500 text-red-500"
+      : "stroke-white"
+  }`}
+/>
+
+          
   
             {/* Save Button */}
-            <Button
-              size="icon"
-              variant="ghost"
-              className={`bg-white shadow-md hover:bg-gray-100 ${
-                saved ? "text-purple-500" : "text-black"
-              }`}
-              onClick={(e) => {
+           
+              <Bookmark
+             
+               onClick={(e) => {
                 e.stopPropagation();
                 handlePostAction(Number(photo.key), "save",photo.src);
               }}
-            >
-              <Bookmark
-                className={`w-5 h-5 transition-colors ${
-                  saved ? "fill-purple-500 text-purple-500" : ""
+                className={`w-8 h-8 transition-colors ${
+                  saved ? "fill-purple-500 text-purple-500" : "stroke-white"
                 }`}
               />
-            </Button>
           </motion.div>
         </motion.div>
       </AnimatePresence>
@@ -335,7 +325,9 @@ const score = useSelector((state:RootState)=>state.topics.score)
  // Animated completion transition
  const ending = (
    <div>
-     Yikes, <a className="text-[#5F237B] underline">{score}% polarization!</a> But that’s what we’re here for — to unpack it, learn, and bring the number down together. <span className="text-[#5F237B]">Lower the score, lower the polarization</span>.... and that's how you win!
+     Yikes, <a className="text-[#5F237B] ">{score}%  <span className="text-[#D0193E]">polarization</span></a>! 
+     But that’s what we’re here for — to unpack it, learn, and bring the number down together. 
+     <span className="text-[#5F237B]"> Lower the score, lower the polarization</span>.... and that's how you win!
    </div>
  );
  return(

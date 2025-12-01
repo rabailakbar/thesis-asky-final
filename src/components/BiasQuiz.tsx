@@ -34,6 +34,7 @@ if (question.Keyword2) {
 if (question.Keyword3!="") {
   biasedPhrases[question.Keyword3] = { difficulty: "hard", color: "#FFA96D" };
 }
+console.log(biasedPhrases)
 
 useEffect(() => {
   // Clear selections and building state whenever the question changes
@@ -58,7 +59,7 @@ useEffect(() => {
   const words = question.Image_Text.split(/(\s+)/);
   // Timer effect
   useEffect(() => {
-    if (!gameStarted) return;
+    if (showIntro) return;
   
     const timer = setInterval(() => {
       setTimeLeft(prev => {
@@ -72,7 +73,7 @@ useEffect(() => {
     }, 1000);
   
     return () => clearInterval(timer);
-  }, [gameStarted]);
+  }, []);
 
 console.log(timeLeft)
 const score = useSelector((state:RootState)=>state.topics.score)
@@ -262,6 +263,8 @@ const dispatch = useDispatch();
 const [check,setCheck] = useState(false)
   // When quiz is complete, show the right-side orange button to proceed
   useEffect(() => {
+    console.log(selections.length)
+    console.log(Object.keys(biasedPhrases).length)
     if (selections.length >= Object.keys(biasedPhrases).length) {
       // Switch to green font color for correct answers once completed
       setSelections(prev => prev.map(sel => ({ ...sel, color: "#0D5623", textColor: true })));
@@ -278,16 +281,28 @@ console.log("imagecode",question?.Image_Code)
 
   return (<div className="p-12">
 <div className="min-h-[90vh] px-24 pt-8  bg-[#F8F1E7] rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset]">
-            <ModuleHeader setDone={setDone} module={4} src={"/opening14.svg"} heading={"Spot the bias"} headingColor="#D0193E" description={"What if words echo louder than actions?"}
+            <ModuleHeader started={!showIntroModal} setDone={setDone} module={4} src={"/opening14.svg"} heading={"Spot the bias"} headingColor="#D0193E" description={"What if words echo louder than actions?"}
              time={120}   left={1-currentQuestionIndex}    polarizationScore={87} />
   
 {/* <ModuleHeader  polarizationScore={score} currentQuestionIndex={currentQuestionIndex}  length={length} time={timeLeft}/> */}
-<OpeningModal setGameStarted={setGameStarted}
-src={"/opening14.svg"}
+<OpeningModal
           showIntroModal={showIntroModal}
           moduleId={"M4"}
           setShowIntroModal={setShowIntroModal}
-          buttonAlign="left"
+          src={"/opening14.svg"}
+          phase={"II"}
+          module={"Module 4: Spot the bias"}
+          description={<div>
+                <p className="text-[#1E1E2F] font-lato font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
+                        Let’s step into the shoes of a bias buster 🕵️‍♂️.<br/>
+                        Look closely at headlines, YouTube thumbnails, and titles — can you spot the bias?<br/>Watch how certain words can make things sound bigger, louder, or more one-sided than they really are.
+                        <br/>
+                        For additional reference: The term Bias means when information, opinions, or decisions are influenced by personal feelings or assumptions instead of facts — leading to a slanted or unfair view of reality.
+                      </p>         </div>
+          }
+          time={"2:00"}
+level={"Intermediate"}
+calculated={""}
         />
       
       <div className="   ">
@@ -342,7 +357,7 @@ src={"/opening14.svg"}
  relative p-4 w-[80%] mx-auto bg-[#EFE8DD] flex flex-col items-center  ">
             
           <div className="absolute   z-50" style={{ top: '-80px', left:'-3vh' }}>
- {selections.length >= Object.keys(biasedPhrases).length &&   <TooltipCarousel
+ {selections.length-1 >= Object.keys(biasedPhrases).length &&   <TooltipCarousel
       slides={[
         { heading: question?.Bias_Type, description: question?.Tooltip1 },
         { description: question?.Tooltip2 }
@@ -429,105 +444,9 @@ import { RootState } from "@/store";
 import { decreaseScore } from "@/store/topicsSlice";
 import TooltipCarousel from "./TooltipCarousel";
 import ModuleHeader from "./ModuleHeader";
+import OpeningModal from "./OpeningModal";
 
 
-const OpeningModal = (props:any)=>{
-    
-
-  return (
-      <Dialog open={props.showIntroModal } onOpenChange={props.setShowIntroModal}>
-<DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
-<div className="px-32 py-16">
-                  {/* Header with Icon */}
-                  <div className="flex items-end gap-4 mb-6">
-                    {/* Puzzle Icon */}
-                    <div className="w-16 h-16 rounded-lg flex items-center justify-center relative flex-shrink-0 ">
-        <img
-          src={props.src}
-          alt="Module 1"
-          className="w-16 h-16 object-contain"
-        />
-      </div>
-      
-                    
-                    {/* Title */}
-                    <div>
-                    <div className="text-[#D0193E] text-[24px] font-semibold ">Phase II</div>
-                    <h2 className="text-[24px] font-bold text-black">Module 4: Spot The Bias</h2>
-                    </div>
-                  </div>
-      
-                  {/* Walkthrough Video */}
-                  <div className="rounded-lg mb-6 overflow-hidden bg-black flex items-center justify-center h-[280px]">
-                    {(() => {
-                      const id = props.moduleId || "M4"; // default to M4 for this quiz
-                      const videoSrc = id.match(/^M[1-7]$/) ? `/${id}.mp4` : null;
-                      return videoSrc ? (
-                        <video
-                          key={videoSrc}
-                          src={videoSrc}
-                          className="h-full w-full object-cover"
-                          controls
-                          preload="metadata"
-                          playsInline
-                        >
-                          Your browser does not support the video tag.
-                        </video>
-                      ) : (
-                        <div className="text-gray-400 text-center p-6">
-                          <div className="font-medium mb-1">Walkthrough Video Unavailable</div>
-                          <div className="text-sm">No video mapped for this module.</div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-      
-                  {/* Description */}
-                  <p className="text-[#1E1E2F] font-lato font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
-                  Let’s step into the shoes of a bias buster 🕵️‍♂️.<br/>
-                  Look closely at headlines, YouTube thumbnails, and titles — can you spot the bias?<br/>Watch how certain words can make things sound bigger, louder, or more one-sided than they really are.
-                  <br/>
-                  For additional reference: The term Bias means when information, opinions, or decisions are influenced by personal feelings or assumptions instead of facts — leading to a slanted or unfair view of reality.
-                </p>
-
-      
-                  {/* Info Badges */}
-                  <div className="flex items-center gap-4 mb-6 text-sm">
-                 
-                  <div className="flex items-center gap-2 text-[#1E1E2F]  py-1.5 rounded-full font-[400] text-[18px] leading-[100%] tracking-[0]">
-<img src={"/I_1b.svg"} />
-Intermediate Level
-</div>
-
-                    <div className="flex items-center gap-2 text-[#1E1E2F]-600">
-                      <img src={"/clocl.svg"} className="w-4 h-4 " />
-                      <span>07:00</span>
-                    </div>
-                    <div className=" flex justify-center items-center gap-2 text-[#1E1E2F]-500 ">
-        <img src={"/star.svg"}/>
-                      Score is  calculated in this module
-                    </div>
-                  </div>
-      
-                  {/* Begin Button */}
-                  <div className="flex justify-start">
-                  <Button
-onClick={() => {props.setShowIntroModal(false)
-
-  props.setGameStarted(true)
-}
-
-}
-className="bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px] w-[197px] h-[42px] text-base font-medium flex items-center justify-center gap-[10px]"
->
-          Start <ChevronRight/>
-        </Button>
-      </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-  )
-}
 
 
 

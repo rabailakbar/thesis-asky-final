@@ -39,7 +39,7 @@ const ClosingModal = (props) => {
                   <h1 className=" text-[#5F237B] flex justify-center items-center font-semibold text-[48px] md:text-[60px] leading-[100%] tracking-[0%] mt-2 mb-2">
                     Module {props.module}: Complete
                   </h1>
-                  <p className="text-black font-normal gap-2 flex justify-center text-[18px] md:text-[20px] leading-[100%] mt-1">
+                  <p className="text-black font-normal gap-2 flex  text-[18px] md:text-[20px] leading-[100%] mt-1">
                     <img src="/check.svg"/> {displayText}
                   </p>
                   </div>

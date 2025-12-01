@@ -67,7 +67,7 @@ console.log("checkk",topic)
       );
 
       const newCount = updated.filter(t => t.voted === "interested").length;
-      if (newCount >= 7) {
+      if (newCount >= 5) {
         setTimeout(() => setIsComplete(true), 500);
       } else {
         setIsComplete(false);
@@ -116,7 +116,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
       <div className={` px-4 transition-all duration-300 ${showIntroModal ? "blur-sm pointer-events-none" : ""}`}>
 
         {/* Header - Horizontal Layout */}
-<ModuleHeader polarizationScore={score} setDone={setDone} module={1} src={"/opening11.svg"} heading={"Find your Vibe"} description="Let’s help you build a feed!" time={120} started={!showIntroModal}  left={Math.max(7-selectedCount,0)}/>
+<ModuleHeader polarizationScore={score} setDone={setDone} module={1} src={"/opening11.svg"} heading={"Find your Vibe"} description="Let’s help you build a feed!" time={120} started={!showIntroModal}  left={Math.max(5-selectedCount,0)}/>
 
         <div><h1 className="text-[black] text-center text-[24px]">Pick 7 interests to continue</h1></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
@@ -147,24 +147,32 @@ const score = useSelector((state:RootState)=>state.topics.score)
           <div className="flex w-full items-center justify-center">
             {/* Interested Button */}
             <Button
-              size="sm"
-              onClick={() => handleVote(topic.id, "interested", topic.title)}
-              className={`
-                font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 
-                px-6 py-2 ${topic.voted === "interested" ? "w-full" : "w-auto"}
-                transition-all duration-300 ease-in-out
-                ${topic.voted === "interested"
-                  ? "bg-[#D0193E] text-white"
-                  : "bg-[#F1F5F9] text-[#4C1C62]"}
-              `}
-            >
-              {topic.voted !== "interested" ? (
-                <img src="/love.svg" className="w-1.75 h-1.75 mr-1.5" />
-              ) : (
-                <img src="/whitelove.svg" className="w-1.75 h-1.75" />
-              )}
-              Interested
-            </Button>
+  size="sm"
+  onClick={() => handleVote(topic.id, "interested", topic.title)}
+  className="relative overflow-hidden font-normal text-[12px] leading-[100%] tracking-[0] text-center gap-2 px-0 py-0 bg-transparent"
+  asChild
+>
+  <motion.div
+    animate={{
+      width: topic.voted === "interested" ? "100%" : "auto",
+      backgroundColor: topic.voted === "interested" ? "#D0193E" : "#F1F5F9",
+      color: topic.voted === "interested" ? "#FFFFFF" : "#4C1C62",
+    }}
+    transition={{
+      duration: 0.35,
+      ease: "easeInOut",
+    }}
+    className="flex cursor-pointer items-center justify-center px-6 py-2 rounded-md"
+  >
+    {topic.voted !== "interested" ? (
+      <img src="/love.svg" className="w-1.75 h-1.75 mr-1.5" />
+    ) : (
+      <img src="/whitelove.svg" className="w-1.75 h-1.75 mr-1.5" />
+    )}
+    Interested
+  </motion.div>
+</Button>
+
           </div>
 
         </Card>

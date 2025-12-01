@@ -170,7 +170,7 @@ fetchfact();
     
      
     
-      const totalQuestions = 7; // Reduced to a single question per new requirements
+      const totalQuestions = 4; // Reduced to a single question per new requirements
     
       const [selectedCarouselIndex, setSelectedCarouselIndex] = useState<number | null>(null);
     
@@ -240,7 +240,7 @@ const handlePostClick = (postNumber: string, isCorrect: boolean, tooltip?: strin
   allQuestions1.question0 = pickFactAndFake(allQuestions1.question0)
   console.log(allQuestions)
 const ending=<div>
-Nice! Your <span className=" font-semibold text-[#D0193E]"> polarization</span> just dropped — looks like you’re already making progress.
+Nice! Your <span className=" font-semibold text-[#D0193E]"> polarization just dropped</span> — looks like you’re already making progress.
  Keep on asking why & keep on going: <span className="font-semibold text-[#5F237B]">lower the score, lower the polarization…</span> that’s how you win! 
 </div>
     const [showIntroModal,setShowIntroModal] = useState<boolean>(true)
@@ -271,7 +271,7 @@ level={"Intermediate"}
 calculated={""}
         />
 
-      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact?" headingColor="#D0193E" description="Is everything not real?!" time={120} started={!showIntroModal} left={4-currentQuestionIndex/2} total={4} />
+      <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact?" headingColor="#D0193E" description="Is everything not real?!" time={120} started={!showIntroModal} left={4-currentQuestionIndex} total={4} />
   
       {currentQuestionIndex < totalQuestions && (
         <h2 className="text-2xl text-center my-8  font-normal">Click to identify which one is fake</h2>
@@ -385,7 +385,7 @@ calculated={""}
       />
     </div>
   </div>
-): currentQuestionIndex === 2 ? (
+): currentQuestionIndex === 1 ? (
   <div
     className={cn(
       "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
@@ -409,7 +409,7 @@ calculated={""}
       </div>
     ))}
   </div>
-) : currentQuestionIndex === 4 ? (
+) : currentQuestionIndex === 2 ? (
   <div
     className={cn(
       "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
@@ -433,7 +433,7 @@ calculated={""}
       </div>
     ))}
   </div>
-) : currentQuestionIndex === 6 ? (
+) : currentQuestionIndex === 3 ? (
    <div className={cn("transition-all duration-500", showResult && "opacity-0 pointer-events-none")}>
      <Question3Carousel
       showResult={showResult}
@@ -443,7 +443,7 @@ calculated={""}
     />
    </div>
 ) : null}
- {currentQuestionIndex === 1 && allQuestions.question0 ? (
+ {currentQuestionIndex === 4 && allQuestions.question0 ? (
   <div
     className={cn(
       "flex items-center justify-center gap-24 transition-all duration-500",
@@ -497,7 +497,7 @@ calculated={""}
       />
     </div>
   </div>
-): currentQuestionIndex === 3 ? (
+): currentQuestionIndex === 5 ? (
   <div
     className={cn(
       "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
@@ -521,7 +521,7 @@ calculated={""}
       </div>
     ))}
   </div>
-) : currentQuestionIndex === 5 ? (
+) : currentQuestionIndex === 6 ? (
   <div
     className={cn(
       "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",

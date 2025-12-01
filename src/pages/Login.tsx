@@ -56,18 +56,18 @@ const Login = () => {
           </div>
           {/* Login Button */}
           <Button
-            className="w-[100%] bg-[#FF8C42] hover:bg-[#ff9f66] flex justify-center items-center text-white text-base py-4 rounded-md shadow-sm"
+            className="w-[100%] bg-[#FF8C42] hover:bg-[#ff9f66] flex justify-center items-center text-white text-[1.1vw] rounded-md shadow-sm"
             onClick={() => navigate("/dashboard")}
             disabled={loading}
           >
-            {loading ? "Logging in..." : "Login"} <ChevronRight />
+            {loading ? "Logging in..." : "Login"}
           </Button>
         </div>
       </div>
 
       {/* Right Side */}
-    <div className="py-12 pr-12">
-      <div className=" py-1    rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset]  bg-[#F8F1E7] relative">
+    <div className="py-12 pr-24">
+      <div className=" py-1 rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset]  bg-[#F8F1E7] relative">
         <img
           src="/Group 150.png"
           alt="Login illustration"

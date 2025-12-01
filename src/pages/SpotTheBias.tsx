@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import CircleScore from "@/components/CircleScore";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
+import ClosingModal from "@/components/ClosingModal";
 
 const SpotTheBias = () => {
   const topic = useSelector((state: RootState) => state.topics.topics);
@@ -48,8 +49,10 @@ const score = useSelector((state:RootState)=>state.topics.score)
   console.log("check",questions)
   const imageUrl = "/YTH12.png";
 const[done,setDone] = useState(false)
-  if (biasQuizComplete || done ) return <ClosingModal  ending= {"Look at that — your score’s low and your thinking’s leveling out. That’s what real awareness looks like. Stay curious, stay open, and keep the balance strong"} 
-  src={"/behind-the-buzz"} text={"1/1 Thumbnail spotted!"} score={71} animateFrom={87} />;
+ const ending = <div className="font-normal">Look at that — your <span className="text-[#5F237B]"> score’s low and your thinking’s leveling out.</span> That’s what real awareness looks like. 
+ Stay  <span className="text-[#D0193E]">curious</span>, stay <span className="text-[#D0193E]">open</span>, and keep the <span className="text-[#D0193E]"> balance strong</span>.</div>
+  if (biasQuizComplete || done ) return <ClosingModal  module={4} ending= {ending}
+  src={"/behind-the-buzz"} text={"✓ 1/1 Thumbnail spotted!"} score={71} animateFrom={87} />;
 
   if (questions.length === 0)
     return (
@@ -59,7 +62,6 @@ const[done,setDone] = useState(false)
     );
 
  
-console.log
   return (
     <BiasQuiz
     setCurrentQuestionIndex={setCurrentQuestionIndex}
@@ -78,55 +80,55 @@ console.log
 
 
 
-const ClosingModal = (props) => {
+// const ClosingModal = (props) => {
   
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
 
 
-  return (
-    <div className="p-8">
-<div className="h-[90vh] flex items-center justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
-              <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7]   text-center">
+//   return (
+//     <div className="p-8">
+// <div className="h-[90vh] flex items-center justify-center rounded-[24px] pt-8" style={{ backgroundColor: '#F8F1E7' }}>
+//               <div className="max-w-2xl w-full mx-auto bg-[#F8F1E7]   text-center">
 
-              {/* Module Completion Header */}
-              <div className="flex  justify-center gap-4 mb-6">
-              {/* <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
-<div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
-  –
-</div>
-</div> */}
-  <CircleScore scoreDrop={props.score} animateFrom={props.animateFrom}/>
+//               {/* Module Completion Header */}
+//               <div className="flex  justify-center gap-4 mb-6">
+//               {/* <div className="mx-auto w-24 h-24 rounded-full  p-[12px] bg-[linear-gradient(180deg,#D0193E_0%,#5F237B_100%)]">
+// <div className="w-full h-full bg-[#FDF8F3] rounded-full flex items-center justify-center text-4xl font-semibold text-gray-700">
+//   –
+// </div>
+// </div> */}
+//   <CircleScore scoreDrop={props.score} animateFrom={props.animateFrom}/>
 
-                  <div className="text-left">
-                  <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
-                  Module 4: Complete</h1>
+//                   <div className="text-left">
+//                   <h1 className=" text-[#5F237B] font-bold text-[54px] leading-[100%] tracking-[0%]  mb-2">
+//                   Module 4: Complete</h1>
 
 
-<p className="text-black font-normal text-[18px] leading-[100%] mt-1">
-5/5 Thumbnails spotted!</p>
+// <p className="text-black font-normal text-[18px] leading-[100%] mt-1">
+// 5/5 Thumbnails spotted!</p>
 
-                  </div>
-              </div>
+//                   </div>
+//               </div>
 
-              {/* Score Circle */}
-              <div className="mt-10 mb-10 flex justify-center items-center">
-<img src={"/closingg.svg"} className="h-[35vh]" />
+//               {/* Score Circle */}
+//               <div className="mt-10 mb-10 flex justify-center items-center">
+// <img src={"/closingg.svg"} className="h-[35vh]" />
 
-              </div>
+//               </div>
 
-<div>
-Look at that — your score’s low and your thinking’s leveling out. That’s what real awareness looks like. Stay curious, stay open, and keep the balance strong. </div>
-              {/* Next Module Button */}
-                  <Button
-                    size="lg"
-                    onClick={() => navigate(`/behind-the-buzz`)}
-                    className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
-                  >
-                    Next Module <ChevronRight/>
-                  </Button>
-          </div>
-      </div>
-      </div>
-  );
-} 
+// <div>
+// Look at that — your score’s low and your thinking’s leveling out. That’s what real awareness looks like. Stay curious, stay open, and keep the balance strong. </div>
+//               {/* Next Module Button */}
+//                   <Button
+//                     size="lg"
+//                     onClick={() => navigate(`/behind-the-buzz`)}
+//                     className="mt-6 px-8 py-2 rounded-md bg-[#FF9348]  text-white text-base"
+//                   >
+//                     Next Module <ChevronRight/>
+//                   </Button>
+//           </div>
+//       </div>
+//       </div>
+//   );
+// } 
 export default SpotTheBias;

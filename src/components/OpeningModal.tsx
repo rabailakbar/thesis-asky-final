@@ -106,21 +106,22 @@ const OpeningModal = (props: any) => {
         {/* --- RIGHT COLUMN: Content Area (Unchanged) --- */}
         <div className="p-12 pl-4 flex flex-col justify-center h-full">
           <div className="flex items-end gap-4 mb-6">
-            <div className="w-16 h-16 rounded-lg flex items-center justify-center">
+            <div className="w-16 h-18 rounded-lg flex items-center justify-center">
               <img
                 src={props.src}
                 alt="Module Icon"
                 className="w-full h-full object-contain"
               />
             </div>
-            <div>
+
+            <div className="h-[100%] flex flex-col justify-between">
               <div
                 style={{ color: phaseColor }}
-                className="text-[24px] font-semibold leading-tight"
+                className="text-[36px] font-semibold leading-tight"
               >
                 Phase {props.phase}
               </div>
-              <h2 className="text-[32px] font-bold text-black leading-tight">
+              <h2 className="text-[36px] font-semibold text-black leading-tight">
                 {props.module}
               </h2>
             </div>
@@ -169,7 +170,7 @@ const OpeningModal = (props: any) => {
           <div className={`flex ${btnJustify}`}>
             <Button
               onClick={() => props.setShowIntroModal(false)}
-              className={`bg-[#FF9348] hover:bg-[#e58440] text-white rounded-md ${btnSizeClass} font-medium flex items-center gap-2 transition-colors`}
+              className={`bg-[#FF803E] hover:bg-[#e58440] text-white rounded-md px-12 py-0 text-[1vw]  font-medium flex justify-center items-center gap-2 transition-colors`}
             >
               Start <ChevronRight size={20} />
             </Button>

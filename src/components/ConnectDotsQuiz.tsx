@@ -168,7 +168,8 @@ if (isComplete ||done) {
     py-5 px-2
     font-semibold text-[1.75vw]
   "
->      {behind?.Reach.split(" ")[0]} <span className="font-normal text-[1vw]">{behind?.Reach.split(" ")[1]}</span>
+>     
+ {behind?.Reach.split(" ")[0]} <span className="font-normal text-[1vw]">{behind?.Reach.split(" ")[1]}</span>
     </div>
 
     {/* <img
