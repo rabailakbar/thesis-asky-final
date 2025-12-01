@@ -215,22 +215,27 @@ if (isComplete ||done) {
               <div
                 key={answer.id}
                 className={`rounded-tl-3xl h-[20vh] rounded-tr-3xl rounded-br-3xl 
-                  p-2 cursor-pointer transition-all bg-[##EFE8DD] px-4 hover:bg-[#FFA96D]
+                  p-2 cursor-pointer transition-all bg-[#EFE8DD] px-4 hover:bg-[#FFA96D]
+                  
                 `}
                 onClick={() => handleSelect(answer.Word, isCorrect)}
               >
-             {!isSelected &&   <div>
-                <div className="flex items-center gap-4 mb-1">
-                  <h3 className=" font-normal text-black bg-white px-4 rounded-[33px] inline-block">
-                    {optionLabel}
-                  </h3>
-                  <h3 className="font-medium hover:text-[#FFA96D]">{answer.Word}</h3>
-                </div>
+             {!isSelected &&  <div className="group">
+  <div className="flex items-center gap-4 mb-1">
+    <h3 className="font-normal text-black text-[24px] bg-white rounded-full w-10 h-10 flex items-center justify-center group-hover:text-[#FFA96D]">
+      {optionLabel}
+    </h3>
 
-                <p className="text-[#130719] text-sm hover:text-[#FFA96D]">
-                  {answer.Description}
-                </p>
-                </div>}
+    <h3 className="font-medium text-[24px] text-black group-hover:text-white">
+      {answer.Word}
+    </h3>
+  </div>
+
+  <p className="text-[#130719] text-sm group-hover:text-white">
+    {answer.Description}
+  </p>
+</div>
+}
                 {
                   isSelected && isCorrect &&
                   <div className="flex h-full justify-center items-center">

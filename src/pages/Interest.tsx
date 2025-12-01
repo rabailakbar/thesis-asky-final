@@ -103,8 +103,8 @@ const score = useSelector((state:RootState)=>state.topics.score)
   </motion.div>):
   
   
-  <div className="p-8 ">
-    <div className="h-[90vh] px-24 rounded-[24px] overflow-auto py-2 " style={{ backgroundColor: '#F8F1E7' }}>
+  <div className="p-12 ">
+    <div className="h-[90vh] px-24 rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset] overflow-auto py-2 " style={{ backgroundColor: '#F8F1E7' }}>
       <OpeningModal 
       phase="I"  
       module="Module 1: Find your vibe" 

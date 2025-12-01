@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Timer, ThumbsUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
+const GROQ_API_KEY = "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";
 
 
 const DebateSwitch = (props) => {
@@ -33,7 +33,7 @@ const DebateSwitch = (props) => {
     }
   
     // Switch stance based on time passed
-    if (timeLeft < 90) {
+    if (timeLeft < 60) {
       // First half (90 sec)
       setStance("against");   // LLM = against, Player = for
     } else {
@@ -146,9 +146,9 @@ const DebateSwitch = (props) => {
     const SYSTEM_MESSAGE =
   stance === "against"
     ? `You are arguing AGAINST the topic: ${DEBATE_TOPIC}. Respond in 1 short, powerful, persuasive sentence. 
-       Make the argument concrete, impactful, and convincing. Keep it simple but strong.use easy words`
+       Make the argument concrete, impactful, and convincing. Keep it simple but strong.use easy words at maximum 20 words`
     : `You are arguing IN FAVOR of the topic: ${DEBATE_TOPIC}. Respond in 1 short, powerful, persuasive sentence. 
-       Make the argument concrete, impactful, and convincing. Keep it simple but strong. use easy words`;
+       Make the argument concrete, impactful, and convincing. Keep it simple but strong. use easy words at maximum 20 words`;
 
   
     try {
@@ -187,20 +187,21 @@ const DebateSwitch = (props) => {
   console.log(score)
 const dispatch = useDispatch();
   const handlePromptClick = async (i: number) => {
+    dispatch(decreaseScore(0.1))
+
     setSelectedPrompt(i);
     setShowUserOptions(false);
-    dispatch(decreaseScore(0.1))
     const chosen = userPrompts[i - 1];
     // Immediately advance to the next module after first selection
-    try {
-      if (typeof props.goNext === 'function') {
-        props.goNext();
-      }
-      if (typeof props.setIsCompleted === 'function') {
-        props.setIsCompleted(true);
-      }
-    } catch {}
+   
+ await  getLlmArgument([]);
+   await generateUserPrompts()
   };
+
+  useEffect(()=>{
+    if(timeLeft==0)   props.setIsCompleted(true);
+console.log(timeLeft)
+  },[timeLeft])
   
 
  
@@ -212,7 +213,7 @@ console.log("checkstance",stance)
     
   
       {/* Header (no duplicate timer/left) */}
-      <div className="pt-8 pb-12 flex flex-col items-center gap-2">
+      <div className="pt-8 pb-6 flex flex-col items-center gap-2">
         <p className="text-xl font-medium text-[#130719]">Headline #1</p>
         <p className=" text-xl font-medium text-[#130719] text-center">
           Argue {stance!="against"&& "in"} <span className="text-[#5F237B] font-bold">{stance=="against"?"against":"favor"}</span> {stance!="against" && "of"} the headline by <span className="font-bold text-[#FF9348]" >choosing</span> the best prompt
@@ -220,7 +221,7 @@ console.log("checkstance",stance)
       </div>
   
       {/* Red Banner */}
-      <div className="bg-[#5F237B] rounded-tl-3xl text-white text-center py-2 ml-16 px-6 mb-4 ">
+      <div className="bg-[#5F237B] rounded-tl-3xl text-white text-center  ml-16 px-6 mb-8 p-2 ">
         <p className="text-xl font-medium">{DEBATE_TOPIC}</p>
       </div>
   
@@ -235,7 +236,6 @@ console.log("checkstance",stance)
       {/* Opponent Side */}
       <motion.div className="flex items-stretch gap-6 text-center" layout>
         <div className="flex flex-col justify-end">
-          <p className="text-sm text-gray-700 font-medium">Opponent LLM</p>
           <img
             src="/opponent.svg"
             alt="Opponent"
@@ -243,11 +243,20 @@ console.log("checkstance",stance)
           />
         </div>
 
-        <div className="bg-[#EDE1D0] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[240px] flex items-center justify-center shadow-sm p-4 h-[100%]">
-          <p className="text-gray-900 text-center text-base break-words overflow-hidden">
-            {isLoading ? "Thinking..." : llmArgument}
-          </p>
-        </div>
+        <div className="relative flex flex-col bg-[#EFE8DD] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[240px] shadow-sm p-6 h-[100%]">
+
+  {/* Top paragraph */}
+  <p className="text-black text-[1.25vw]  font-normal text-left  break-words overflow-hidden mb-4">
+    {isLoading ? "Thinking..." : llmArgument}
+  </p>
+
+  {/* Bottom-left Opponent */}
+  <p className="absolute bottom-2 text-[1vw]  text-left  font-normal text-black">
+    Opponent
+  </p>
+
+</div>
+
       </motion.div>
 
       {/* User Side */}
@@ -258,10 +267,9 @@ console.log("checkstance",stance)
               <button
                 key={index}
                 onClick={() => handlePromptClick(index + 1)}
-                className={`w-full bg-[#EDE1D0] h-[30%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
-                  selectedPrompt === index + 1
-                    ? "ring-2 ring-purple-500 shadow-md scale-[1.02]"
-                    : "hover:bg-gray-50 hover:shadow-md"
+                className={`w-full bg-[#EFE8DD] h-[30%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
+                  
+                    "hover:bg-gray-50 hover:shadow-md"
                 }`}
               >
                 <p className="text-sm text-gray-800 leading-snug">{prompt}</p>
@@ -279,7 +287,7 @@ console.log("checkstance",stance)
         )}
 
         <div className="flex flex-col justify-end items-center h-full">
-          <p className="text-sm text-gray-700 font-medium">You</p>
+          <p className="text-sm text-gray-700 font-medium"></p>
           <img
             src="/user.svg"
             alt="You"
@@ -307,10 +315,8 @@ console.log("checkstance",stance)
               <button
                 key={index}
                 onClick={() => handlePromptClick(index + 1)}
-                className={`w-full bg-[#EDE1D0] h-[30%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
-                  selectedPrompt === index + 1
-                    ? "ring-2 ring-purple-500 shadow-md scale-[1.02]"
-                    : "hover:bg-gray-50 hover:shadow-md"
+                className={`w-full bg-[#EFE8DD] h-[30%] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] pl-4 pr-4 pt-2 pb-2 text-left transition-all duration-200 shadow-sm border border-gray-200 relative ${
+                   "hover:bg-gray-50 hover:shadow-md"
                 }`}
               >
                 <p className="text-sm text-gray-800 leading-snug">{prompt}</p>
@@ -332,13 +338,15 @@ console.log("checkstance",stance)
 
       {/* Opponent Side */}
       <motion.div className="flex items-stretch gap-6 text-center" layout>
-      <div className="bg-[#EDE1D0] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[240px] flex items-center justify-center shadow-sm p-4 h-[100%]">
-          <p className="text-gray-900 text-center text-base break-words overflow-hidden">
-            {isLoading ? "Thinking..." : llmArgument}
+      <div className="relative flex flex-col bg-[#EFE8DD] rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px] w-[240px] shadow-sm p-6 h-[100%]">
+      <p className="text-black text-[1.25vw]  font-normal text-left  break-words overflow-hidden mb-4">
+      {isLoading ? "Thinking..." : llmArgument}
           </p>
+          <p className="absolute bottom-2   text-left text-xs font-medium text-black">
+    Opponent
+  </p>
         </div>
         <div className="flex flex-col justify-end">
-          <p className="text-sm text-gray-700 font-medium">Opponent LLM</p>
           <img
             src="/user.svg"
             alt="Opponent"

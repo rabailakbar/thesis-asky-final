@@ -41,13 +41,18 @@ const topicsSlice = createSlice({
       localStorage.setItem("score", JSON.stringify(state.score));
     },
     decreaseScore: (state, action: PayloadAction<number>) => {
-      // No-op: polarization path is fixed; ignore dynamic decrements
+      const newScore = state.score - action.payload;
+    
+      // Round to 2 decimal places
+      state.score = Math.round(newScore * 100) / 100;
+    
       localStorage.setItem("score", JSON.stringify(state.score));
     },
+    
     nextModule: (state) => {
       if (state.currentModule < POLARIZATION_SEQUENCE.length - 1) {
         state.currentModule += 1;
-        state.score = POLARIZATION_SEQUENCE[state.currentModule];
+        state.score = POLARIZATION_SEQUENCE[state.currentModule]<state.score?POLARIZATION_SEQUENCE[state.currentModule]:state.score;
         localStorage.setItem("score", JSON.stringify(state.score));
       }
     },

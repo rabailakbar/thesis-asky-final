@@ -23,7 +23,7 @@ const Celebration = ({ onFinish, durationMs = 4000 }: CelebrationProps) => {
 
   return (
     <div className="p-8">
-      <main className="h-[90vh] bg-[#F8F1E7] rounded-[24px] flex items-center justify-center relative overflow-hidden">
+      <main className="h-[90vh] bg-[#F8F1E7] rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset] flex items-center justify-center relative overflow-hidden">
         {/* Foreground celebration image */}
         <div className="relative z-10 flex flex-col items-center">
           <img src="/celeb.png" alt="Celebration" className="w-[320px]" />

@@ -40,7 +40,7 @@ module="Module 6: Debate Switch"
 description={description}
 time="2:00"
 calculated=""
-level="Advanced Level"
+level="Advanced"
 />
 
 }

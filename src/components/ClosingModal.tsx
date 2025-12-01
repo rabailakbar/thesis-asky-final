@@ -18,8 +18,8 @@ const ClosingModal = (props) => {
 
 
   return (
-    <div className="p-8">
-    <div className="h-[90vh] flex items-center justify-center rounded-[24px] " style={{ backgroundColor: '#F8F1E7' }}>
+    <div className="p-12">
+    <div className="h-[90vh] flex items-center justify-center rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset] " style={{ backgroundColor: '#F8F1E7' }}>
       <div className="w-full max-w-[1000px] mx-auto px-8 bg-[#F8F1E7] rounded-3xl">
 
               {/* Module Completion Header */}

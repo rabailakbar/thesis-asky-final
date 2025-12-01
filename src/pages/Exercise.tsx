@@ -357,9 +357,9 @@ const score = useSelector((state:RootState)=>state.topics.score)
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
     >
-      <div className="p-8">
+      <div className="p-12">
       {/* Your existing gallery content goes here */}
-      <div className="min-h-screen bg-[#F8F1E7] flex overflow-auto py-8 px-32 rounded-[24px] shadow-sm">
+      <div className="min-h-screen bg-[#F8F1E7] flex overflow-auto py-8 px-32 rounded-[24px] shadow-sm rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset]">
       <OpeningModal
           showIntroModal={showIntroModal}
           moduleId={moduleId}

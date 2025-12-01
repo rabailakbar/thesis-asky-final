@@ -1,122 +1,177 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button"; // Fixed import path
 import { ChevronRight } from "lucide-react";
 
+const OpeningModal = (props: any) => {
+  // 1. EXTRACT MODULE NUMBER ROBUSTLY
+  // This regex finds the first number in the string "Module X..."
+  const match = props.module && props.module.match(/Module\s+(\d+)/i);
+  const currentModuleNum = match ? parseInt(match[1]) : 1;
+  const maxModuleNum = 7; // Maximum number of modules allowed
 
+  const phaseColor =
+    props.phase === "I"
+      ? "#5F237B"
+      : props.phase === "II"
+      ? "#D0193E"
+      : "#FF9348";
 
+  const btnJustify =
+    props.buttonAlign === "left"
+      ? "justify-start"
+      : props.buttonAlign === "right"
+      ? "justify-end"
+      : "justify-start";
 
+  // 2. DEFINE POSITIONS ON THE CURVE
+  // We define 5 slots. offsets determine the number (current - 2, current - 1, etc.)
+  // x/y are coordinates on the quadratic curve.
+  const slots = [
+    { offset: -2, y: 130, x: 95, size: 32, opacity: 0.4 }, // Top
+    { offset: -1, y: 240, x: 145, size: 40, opacity: 0.7 }, // Upper Mid
+    { offset: 0, y: 350, x: 160, size: 64, opacity: 1.0 },  // Center (Active)
+    { offset: 1, y: 460, x: 145, size: 40, opacity: 0.7 },  // Lower Mid
+    { offset: 2, y: 570, x: 95, size: 32, opacity: 0.4 },  // Bottom
+  ];
 
-
-const OpeningModal = (props:any)=>{
-    const phase1= props.phase=='I'?'#5F237B':(props.phase=='II'?'#D0193E':'#FF9348')
-  const btnJustify = props.buttonAlign === 'left'
-    ? 'justify-start'
-    : props.buttonAlign === 'right'
-    ? 'justify-end'
-    : 'justify-start'
-
-    return (
-        <Dialog open={props.showIntroModal } onOpenChange={props.setShowIntroModal}>
-<DialogContent className="max-w-[1000px] aspect-[1253/703] rounded-[12px] p-0 gap-0 bg-white">
-<div className="px-32 py-16">
-                    {/* Header with Icon */}
-                    <div className="flex items-end  gap-4 mb-6">
-                      {/* Puzzle Icon */}
-                      <div className="w-18 h-18 rounded-lg flex items-center justify-center">
-  <img
-    src={props.src}
-    alt="Module 1"
-    className="w-16 object-contain"
-  />
-</div>
-
+  return (
+    <Dialog open={props.showIntroModal} onOpenChange={props.setShowIntroModal}>
+      <DialogContent className="max-w-[1100px] p-0 overflow-hidden bg-white grid grid-cols-[320px_1fr] gap-0 rounded-[12px] border-none">
         
-                      
-                      {/* Title */}
-                      <div>
-                      <div className={`text-[${phase1}] text-[36px] font-semibold`}>
-                        Phase {props.phase}
-                        
-                        </div>
-                      <h2 className="text-[36px] font-semibold text-black">
-                        
-{props.module}
+        {/* --- LEFT COLUMN: Dynamic SVG Area --- */}
+        <div className="relative h-full w-full bg-white select-none">
+          <svg
+            className="absolute left-0 top-0 h-full w-full"
+            viewBox="0 0 320 700"
+            fill="none"
+            preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {/* The Background Curve */}
+            <path
+              d="M 0,0 Q 320,350 0,700"
+              stroke="#E5E7EB"
+              strokeWidth="1.5"
+              fill="none"
+            />
 
-                        </h2>
-                      </div>
-                    </div>
-        
-                    {/* Walkthrough Video */}
-                    <div className="rounded-lg mb-6 overflow-hidden bg-black flex items-center justify-center h-[280px]">
-                      {(() => {
-                        const id = props.moduleId || "";
-                        const videoSrc = id.match(/^M[1-7]$/) ? `/${id}.mp4` : null;
-                        return videoSrc ? (
-                          <video
-                            key={videoSrc}
-                            src={videoSrc}
-                            className="h-full w-full object-cover"
-                            controls
-                            preload="metadata"
-                            playsInline
-                          >
-                            Your browser does not support the video tag.
-                          </video>
-                        ) : (
-                          <div className="text-gray-400 text-center p-6">
-                            <div className="font-medium mb-1">Walkthrough Video Unavailable</div>
-                            <div className="text-sm">No video mapped for this module.</div>
-                          </div>
-                        );
-                      })()}
-                    </div>
-        
-                    {/* Description */}
-                    <p className="text-[#1E1E2F]  font-normal text-[16px] leading-[100%] tracking-[0] mb-6">
-{props.description}
-                  </p>
+            {/* Render the 5 slots dynamically */}
+            {slots.map((slot, index) => {
+              const displayNum = currentModuleNum + slot.offset;
+              
+              // CONSTRAINT CHECK:
+              // 1. Don't render if less than 1 (start of list)
+              // 2. Don't render if greater than 7 (end of list)
+              if (displayNum < 1 || displayNum > maxModuleNum) return null;
 
-        
-                    {/* Info Badges */}
-                    <div className="flex items-center gap-8 mb-6 text-sm ">
-                   
-                    <div className="flex items-center gap-2 text-[#130719]  py-1.5 rounded-full font-[400] text-[20px] leading-[100%] tracking-[0]">
-  <img src={"/I_1b.svg"} className="w-6 h-6" />
-  {props.level} Level
-</div>
+              // Formatting the number (add leading zero if < 10)
+              const formattedNum = displayNum < 10 ? `0${displayNum}` : displayNum;
 
-                      <div  className="flex items-center gap-2 text-[#130719] font-[400] text-[20px]">
-                        <img src={"/clocl.svg"} className="w-6 h-6" />
-                        <span>{"2:00"}</span>
-                      </div>
-                      <div className=" flex justify-center items-center gap-2 text-[#130719] font-[400] text-[20px] ">
-          <img src={"/star.svg"} className="w-6 h-6"/>
-                        Score is {props.calculated} calculated in this module
-                      </div>
-                    </div>
-        
-                    {/* Begin Button */}
-                    <div className={`flex ${btnJustify}`}>
-                    <Button
-  onClick={() => props.setShowIntroModal(false)}
-  className="
-  bg-[#FF9348] text-white rounded-[6px] px-[10px] py-[8px]
-  w-[197px] h-[42px] text-base font-[400] text-[18px]
-  flex items-center justify-center gap-[10px]
+              const isCenter = slot.offset === 0;
 
-  border-none outline-none ring-0 ring-offset-0
-  focus:border-none focus:outline-none focus:ring-0 focus:ring-offset-0
-  active:border-none
-  
-">
-            Start <ChevronRight 
-             />
-          </Button>
+              return (
+                <g key={index} opacity={slot.opacity}>
+                  {/* The Dot */}
+                  <circle 
+                    cx={slot.x} 
+                    cy={slot.y} 
+                    r={isCenter ? 6 : 5} // Active dot slightly bigger
+                    fill={isCenter ? phaseColor : "#D1D5DB"} 
+                  />
+                  
+                  {/* The Number */}
+                  <text
+                    x={slot.x + (isCenter ? 20 : 15)} // Offset text slightly right of dot
+                    y={slot.y + (isCenter ? 20 : 12)} // Vertically center text
+                    fill={isCenter ? phaseColor : "#D1D5DB"}
+                    fontSize={`${slot.size}px`}
+                    fontWeight={isCenter ? "700" : "600"}
+                    fontFamily="sans-serif"
+                    style={{ transition: 'all 0.3s ease' }}
+                  >
+                    {formattedNum}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
         </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-    )
-}
+
+        {/* --- RIGHT COLUMN: Content Area (Unchanged) --- */}
+        <div className="p-12 pl-4 flex flex-col justify-center h-full">
+          <div className="flex items-end gap-4 mb-6">
+            <div className="w-16 h-16 rounded-lg flex items-center justify-center">
+              <img
+                src={props.src}
+                alt="Module Icon"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div>
+              <div
+                style={{ color: phaseColor }}
+                className="text-[24px] font-semibold leading-tight"
+              >
+                Phase {props.phase}
+              </div>
+              <h2 className="text-[32px] font-bold text-black leading-tight">
+                {props.module}
+              </h2>
+            </div>
+          </div>
+
+          <div className="rounded-xl mb-6 overflow-hidden bg-gray-50 border border-gray-100 flex items-center justify-center h-[260px] w-full">
+            {(() => {
+              const id = props.moduleId || "";
+              const videoSrc = id.match(/^M[1-7]$/) ? `/${id}.mp4` : null;
+              return videoSrc ? (
+                <video
+                  src={videoSrc}
+                  className="h-full w-full object-cover"
+                  controls
+                  preload="metadata"
+                  playsInline
+                />
+              ) : (
+                <div className="text-gray-400 text-center flex flex-col items-center">
+                  <span className="text-lg font-medium text-gray-900">Walkthrough Video</span>
+                  <span className="text-sm">(small screen recording)</span>
+                </div>
+              );
+            })()}
+          </div>
+
+          <p className="text-[#1E1E2F] text-[16px] leading-relaxed mb-8 max-w-[90%]">
+            {props.description}
+          </p>
+
+          <div className="flex items-center gap-6 mb-8 text-sm text-[#130719]">
+            <div className="flex items-center gap-2 text-[16px]">
+              <img src="/I_1b.svg" className="w-5 h-5" alt="" />
+              <span>{props.level} Level</span>
+            </div>
+            <div className="flex items-center gap-2 text-[16px]">
+              <img src="/clocl.svg" className="w-5 h-5" alt="" />
+              <span>02:00</span>
+            </div>
+            <div className="flex items-center gap-2 text-[16px]">
+              <img src="/star.svg" className="w-5 h-5" alt="" />
+              <span>Score is {props.calculated} calculated</span>
+            </div>
+          </div>
+
+          <div className={`flex ${btnJustify}`}>
+            <Button
+              onClick={() => props.setShowIntroModal(false)}
+              className="bg-[#FF9348] hover:bg-[#e58440] text-white rounded-md px-8 py-6 text-lg font-medium flex items-center gap-2 transition-colors"
+            >
+              Start <ChevronRight size={20} />
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 export default OpeningModal;
