@@ -124,14 +124,14 @@ const Workshop = () => {
 
 
         {/* ================= STATS BAR ================= */}
-        <div className="flex items-center justify-center  py-6">
+        <div className="flex items-center justify-center px-16  py-6">
           <div className="flex gap-8">
             <StatBox number="7" label="Total Modules" />
             <StatBox number="3" label="Total Phases" />
             <StatBox number="3" label="Difficulty Levels" />
             {/* Pass unitFont for 'hr' style */}
             <StatBox number="1 hr" label="Total Duration" unitFont="Gabarito" />
-            <div onClick={()=>navigate("/interest")} className="flex justify-center items-center gap-4 bg-[#FF9348] hover:bg-[#ff7e1a] text-white px-6 py-3  rounded-lg rounded-bl-none font-semibold  transition">
+            <div onClick={()=>navigate("/interest")} className="flex w-[15vw] justify-center items-center gap-4 bg-[#FF9348] hover:bg-[#ff7e1a] text-white px-6 py-3  rounded-[16px]  rounded-bl-none font-semibold  transition">
               <div>
                 <div className="text-left font-normal">Click here to</div>
                 <div className="text-left font-semibold text-[1.5vw]">
@@ -241,9 +241,9 @@ const StatBox = (props: { number: string; label: string; highlight?: boolean; un
 
   return (
     <div
-    className={`px-6 flex items-center justify-center bg-white gap-4 text-center
+    className={`px-6 py-2 flex items-center justify-center bg-white gap-4 text-center
       ${props.highlight ? "border-purple-500 bg-purple-50" : "border-gray-300"}
-      rounded-lg rounded-bl-none
+      rounded-[16px] rounded-bl-none w-[15vw]
     `}
   >
   
@@ -253,7 +253,7 @@ const StatBox = (props: { number: string; label: string; highlight?: boolean; un
         </p>
 
         {/* Applying custom font style for the unit, specifically for 'hr' */}
-        <span className={`text-[#D0193E] font-normal text-[2vw] ml-0.5 ${props.unitFont ? `font-['${props.unitFont}']` : ''}`}>
+        <span className={`text-[#D0193E] font-extrabold text-[1.25vw] ml-0.5 ${props.unitFont ? `font-['${props.unitFont}']` : ''}`}>
           {unit}
         </span>
       </div>

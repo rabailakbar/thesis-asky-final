@@ -35,11 +35,11 @@ const ClosingModal = (props) => {
     <CircleScore scoreDrop={props.score} animateFrom={props.animateFrom} />
   </div>
 )}
-                  <div className="text-center flex flex-col w-full items-center">
-                  <h1 className=" text-[#5F237B] w-full text-center font-semibold text-[48px] md:text-[60px] leading-[100%] tracking-[0%] mt-2 mb-2">
+                  <div className="text-center flex flex-col ">
+                  <h1 className=" text-[#5F237B]  font-semibold text-[48px] md:text-[60px] leading-[100%] tracking-[0%] mt-2 mb-2">
                     Module {props.module}: Complete
                   </h1>
-                  <p className="text-black font-normal gap-2 flex justify-center items-center text-[18px] md:text-[20px] leading-[100%] mt-1 w-full">
+                  <p className="text-black font-normal gap-2 flex  items-center text-[18px] md:text-[20px] leading-[100%] mt-1 w-full">
                     <img src="/check.svg" className="inline-block"/> {displayText}
                   </p>
                   </div>

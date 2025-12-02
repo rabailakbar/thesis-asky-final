@@ -50,16 +50,16 @@ const topicsSlice = createSlice({
     },
     
     nextModule: (state) => {
-      if (state.currentModule < POLARIZATION_SEQUENCE.length - 1) {
-        state.currentModule += 1;
-        state.score = POLARIZATION_SEQUENCE[state.currentModule]<state.score?POLARIZATION_SEQUENCE[state.currentModule]:state.score;
-        localStorage.setItem("score", JSON.stringify(state.score));
-      }
+      // if (state.currentModule < POLARIZATION_SEQUENCE.length - 1) {
+      //   state.currentModule += 1;
+      //   state.score = POLARIZATION_SEQUENCE[state.currentModule]<state.score?POLARIZATION_SEQUENCE[state.currentModule]:state.score;
+      //   localStorage.setItem("score", JSON.stringify(state.score));
+      // }
     },
     resetModules: (state) => {
-      state.currentModule = 0;
-      state.score = POLARIZATION_SEQUENCE[0];
-      localStorage.setItem("score", JSON.stringify(state.score));
+      // state.currentModule = 0;
+      // state.score = POLARIZATION_SEQUENCE[0];
+      // localStorage.setItem("score", JSON.stringify(state.score));
     }
   },
 });

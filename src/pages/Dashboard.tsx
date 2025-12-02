@@ -114,7 +114,7 @@ const Dashboard = () => {
             <img src={"/logo.svg"} className="w-[10vw]"/>
             </div>
             <div>
-User 1
+              User 1
             </div>
         </div>
 

@@ -101,13 +101,13 @@ const dispatch = useDispatch();
       const color = biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].color;
 
   if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="easy"){
-  dispatch(decreaseScore(0.7))
+  dispatch(decreaseScore(3.5))
   }
   if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="medium"){
-  dispatch(decreaseScore(1))
+  dispatch(decreaseScore(5))
   }
   if(biasedPhrases[matchedPhrase as keyof typeof biasedPhrases].difficulty=="difficult"){
-  dispatch(decreaseScore(1.5))
+  dispatch(decreaseScore(7.5))
   }
 
       setSelections(prev => [...prev, { indices: allIndices, phrase, color, textColor: false }]);
@@ -265,7 +265,7 @@ const [check,setCheck] = useState(false)
   useEffect(() => {
     console.log(selections.length)
     console.log(Object.keys(biasedPhrases).length)
-    if (selections.length >= Object.keys(biasedPhrases).length) {
+    if (selections.length -1 >= Object.keys(biasedPhrases).length) {
       // Switch to green font color for correct answers once completed
       setSelections(prev => prev.map(sel => ({ ...sel, color: "#0D5623", textColor: true })));
       setCheck(true); // reveal the orange next button on the right
@@ -278,11 +278,10 @@ const [check,setCheck] = useState(false)
   const [showIntroModal,setShowIntroModal] = useState<boolean>(true)
 
 console.log("imagecode",question?.Image_Code)
-
   return (<div className="p-12">
 <div className="min-h-[90vh] px-24 pt-8  bg-[#F8F1E7] rounded-[24px] shadow-[0px_0px_25px_0px_#0000001A_inset]">
             <ModuleHeader started={!showIntroModal} setDone={setDone} module={4} src={"/opening14.svg"} heading={"Spot the bias"} headingColor="#D0193E" description={"What if words echo louder than actions?"}
-             time={120}   left={1-currentQuestionIndex}    polarizationScore={87} />
+             time={120}   left={1-currentQuestionIndex}    polarizationScore={score} />
   
 {/* <ModuleHeader  polarizationScore={score} currentQuestionIndex={currentQuestionIndex}  length={length} time={timeLeft}/> */}
 <OpeningModal

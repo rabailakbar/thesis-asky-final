@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 // Supabase not needed for single-question static content
 import BiasQuiz from "@/components/BiasQuiz";
@@ -8,6 +8,8 @@ import CircleScore from "@/components/CircleScore";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import ClosingModal from "@/components/ClosingModal";
+import { supabase } from "@/integrations/supabase/client";
+import { decreaseScore } from "@/store/topicsSlice";
 
 const SpotTheBias = () => {
   const topic = useSelector((state: RootState) => state.topics.topics);
@@ -16,6 +18,33 @@ const score = useSelector((state:RootState)=>state.topics.score)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [biasQuizComplete, setBiasQuizComplete] = useState(false);
 
+  const fetchSpotTheBiass = useCallback(async () => {
+    const { data, error } = await supabase.from("spotthebias").select("*");
+    if (error) {
+      console.error("Error fetching spotthebias:", error);
+      return;
+    }
+
+    if (!data || data.length === 0) return;
+console.log("checkkk",data)
+    // Pick 5 random questions
+     const selectedQuestions = data?.filter(d=>d.Topic==7)
+//     const firstTopicOne = data.find(q => q.Topic === 1);
+
+// // Filter out all other questions (except the one we already picked)
+// const remaining = data.filter(q => q !== firstTopicOne);
+
+// // Shuffle the remaining questions
+// const shuffled = remaining.sort(() => Math.random() - 0.5);
+
+// // Pick 4 random questions from remaining
+// const randomFour = shuffled.slice(0, 4);
+
+// // Final list of 5 questions
+// const selectedQuestions = [firstTopicOne, ...randomFour]
+
+    setQuestions(selectedQuestions);
+  }, []);
   // Use a single predefined question and attached image/text
   const fetchSpotTheBias = useCallback(async () => {
     const singleQuestion: any = {
@@ -35,24 +64,26 @@ const score = useSelector((state:RootState)=>state.topics.score)
   }, []);
 
   useEffect(() => {
-    fetchSpotTheBias();
+    fetchSpotTheBiass();
+    // fetchSpotTheBias();
   }, [fetchSpotTheBias]);
-
+const dispatch = useDispatch()
   const handleComplete = () => {
     if (currentQuestionIndex + 1 < questions.length) {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
+
       setBiasQuizComplete(true);
     }
   };
   const currentQuestion = questions[currentQuestionIndex];
   console.log("check",questions)
-  const imageUrl = "/YTH12.png";
+  const imageUrl = "https://wlneuhivxmpiasjmmryi.supabase.co/storage/v1/object/public/Thesis/Modules/YTH_7b.png";
 const[done,setDone] = useState(false)
  const ending = <div className="font-normal">Look at that — your <span className="text-[#5F237B]"> score’s low and your thinking’s leveling out.</span> That’s what real awareness looks like. 
  Stay  <span className="text-[#D0193E]">curious</span>, stay <span className="text-[#D0193E]">open</span>, and keep the <span className="text-[#D0193E]"> balance strong</span>.</div>
   if (biasQuizComplete || done ) return <ClosingModal  module={4} ending= {ending}
-  src={"/behind-the-buzz"} text={"✓ 1/1 Thumbnail spotted!"} score={71} animateFrom={87} />;
+  src={"/behind-the-buzz"} text={"✓ 1/1 Thumbnail spotted!"} score={score} animateFrom={87} />;
 
   if (questions.length === 0)
     return (

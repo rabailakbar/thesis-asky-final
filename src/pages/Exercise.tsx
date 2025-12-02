@@ -217,7 +217,7 @@ const score = useSelector((state:RootState)=>state.topics.score)
   useEffect(() => {
     // Complete when user reaches 4 likes AND 2 saves, or when timer ends
     if ((likesCount >= MAX_LIKES && savesCount >= MAX_SAVES) || done) {
-      dispatch(decreaseScore(getScoreDrop(code)));
+      dispatch(decreaseScore(5));
       const delay = setTimeout(() => setIsComplete(true), 1500);
       return () => clearTimeout(delay);
     }

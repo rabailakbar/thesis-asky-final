@@ -34,9 +34,7 @@ const FakeFact = ()=> {
   const uniqueTopics = Array.from(new Set(topic));
   const [tooltips,setToolTips] = useState([]);
 const score = useSelector((state:RootState)=> state.topics.score)
-  const topics = uniqueTopics
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 8);
+  const topics = [1,2,3,4,5,6,7,8,9]
   const[game,setGames] = useState<any>([]);
   function buildAllQuestions(topics) {
     // Each topic gives one question
@@ -234,7 +232,8 @@ const handlePostClick = (postNumber: string, isCorrect: boolean, tooltip?: strin
       return null;
     }
   }
-  const allQuestions = buildAllQuestions([game[0],game[1],game[2],game[3]]);
+  console.log("check game",game)
+  const allQuestions = buildAllQuestions([game?.filter(g=>g.topic==1)[0],game?.filter(g=>g.topic==7)[0],game?.filter(g=>g.topic==9)[0],game?.filter(g=>g.topic==7)[0]]);
   const allQuestions1= buildAllQuestions([game[3],game[2],game[0],game[1]])
   allQuestions.question0 = pickFactAndFake(allQuestions.question0);
   allQuestions1.question0 = pickFactAndFake(allQuestions1.question0)
