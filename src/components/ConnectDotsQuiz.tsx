@@ -154,7 +154,7 @@ if (isComplete ||done) {
   )}
 </div>
 {/* Views badge graphic placed next to image (bottom-aligned) */}
-<img src="/m5tt.svg" alt="views badge" className="-ml-[5.5vw] h-[43vh] self-end z-10" />
+<img src="/m5tt.svg" alt="views badge" className="-ml-[5.75vw] h-[43vh] self-end z-10" />
 </div>
 
 
