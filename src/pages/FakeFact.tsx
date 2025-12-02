@@ -302,7 +302,7 @@ const FakeFact = () => {
 
         {currentQuestionIndex < totalQuestions && (
           <h2 className="text-2xl text-center my-8  font-normal">
-            Click to identify which one is fake
+            Click to identify which one is Fact
           </h2>
         )}
 
