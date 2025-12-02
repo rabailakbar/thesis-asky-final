@@ -90,7 +90,7 @@ export default function Onboarding() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2, duration: 1.1 }}
       >
-        divided in two
+        divided in two?
       </motion.h1>
     </motion.div>
   </div>
