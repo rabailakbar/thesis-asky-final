@@ -1,9 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { useSearchParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { cn } from "@/lib/utils";
-import { Bookmark, Check, ChevronRight, Heart, X } from "lucide-react";
+import ClosingModal from "@/components/ClosingModal";
+import ModuleHeader from "@/components/ModuleHeader";
+import OpeningModal from "@/components/OpeningModal";
+import Tooltip from "@/components/tooltipp";
 import {
   Carousel,
   CarouselContent,
@@ -11,16 +13,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { MessageCircle, Share2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useDispatch, useSelector } from "react-redux";
+import { cn } from "@/lib/utils";
 import { RootState } from "@/store";
 import { decreaseScore } from "@/store/topicsSlice";
-import OpeningModal from "@/components/OpeningModal";
-import ClosingModal from "@/components/ClosingModal";
-import ModuleHeader from "@/components/ModuleHeader";
-import { useState, useEffect } from "react";
-import Tooltip from "@/components/tooltipp";
+import { Bookmark, ChevronRight, Heart, MessageCircle, Share2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const FakeFact = () => {
   const dispatch = useDispatch();
@@ -105,11 +103,11 @@ const FakeFact = () => {
 
     setToolTips(tooltip.data);
 
-    console.log(data);
+    console.log("Fetched data from supabase:", data);
     console.log(filterByTopic(data, topics));
     setGames(filterByTopic(data, topics));
     if (error) {
-      console.error("Error fetching spotthebias:", error);
+      console.error("Error fetching fake fact:", error);
       return;
     }
   };
@@ -153,9 +151,7 @@ const FakeFact = () => {
 
   const totalQuestions = 4; // Reduced to a single question per new requirements
 
-  const [selectedCarouselIndex, setSelectedCarouselIndex] = useState<
-    number | null
-  >(null);
+  const [selectedCarouselIndex, setSelectedCarouselIndex] = useState<number | null>(null);
 
   const handlePostClick = (
     postNumber: string,
@@ -307,7 +303,7 @@ const FakeFact = () => {
         )}
         {currentQuestionIndex < totalQuestions && (currentQuestionIndex === 2  ) && (
           <h2 className="text-2xl text-center my-8  font-normal">
-            Click to identify which one is <span className="text-[#D0193E] font-semibold" >Fake</span>
+            Click to identify which one is real
           </h2>
         )}
 
@@ -341,7 +337,7 @@ const FakeFact = () => {
                         <img
                           src={selectedIncorrectImage}
                           alt="Selected incorrect image"
-                          className="h-[70vh] w-auto object-contain rounded-lg border-2 border-red-300"
+                          className="h-[70vh] w-auto object-contain rounded-lg"
                         />
                       </div>
                     )}
@@ -728,8 +724,8 @@ function Question3Carousel({
               )}
             </CarouselContent>
 
-            <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-md text-black rounded-full p-2 z-10" />
-            <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-md text-black rounded-full p-2 z-10" />
+            <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-[#FF803E] hover:bg-[#FFA96D] shadow-md text-white rounded-full p-2 z-10" />
+            <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#FF803E] hover:bg-[#FFA96D] shadow-md text-white rounded-full p-2 z-10" />
           </Carousel>
 
           {/* Bottom Overlay Caption */}
