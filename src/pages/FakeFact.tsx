@@ -621,7 +621,7 @@ console.log("check",selectedIncorrectImage)
                             "object-cover  w-full h-full cursor-pointer transition-all duration-300",
                             !showResult && !src.intro && "hover:scale-[1.02]",
                             src.intro && "cursor-default",
-                            selectedIncorrectImage?"w-[80%]":""
+                            selectedIncorrectImage?"w-[60%]":""
                             
                           )}
                           onClick={() => {
