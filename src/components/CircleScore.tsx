@@ -35,7 +35,7 @@ const CircleScore = ({ scoreDrop = 5, size = 100, strokeWidth = 10, animateFrom 
       const t = Math.min(1, elapsed / Math.max(1, duration));
       const eased = easeOutCubic(t);
       const value = from + (to - from) * eased;
-      setDisplayScore(value);
+      setDisplayScore(Math.round(value * 100) / 100);
       if (t < 1) {
         rafRef.current = requestAnimationFrame(tick);
       }

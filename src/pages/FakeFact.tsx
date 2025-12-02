@@ -16,7 +16,13 @@ import {
 import { cn } from "@/lib/utils";
 import { RootState } from "@/store";
 import { decreaseScore } from "@/store/topicsSlice";
-import { Bookmark, ChevronRight, Heart, MessageCircle, Share2 } from "lucide-react";
+import {
+  Bookmark,
+  ChevronRight,
+  Heart,
+  MessageCircle,
+  Share2,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -151,7 +157,9 @@ const FakeFact = () => {
 
   const totalQuestions = 4; // Reduced to a single question per new requirements
 
-  const [selectedCarouselIndex, setSelectedCarouselIndex] = useState<number | null>(null);
+  const [selectedCarouselIndex, setSelectedCarouselIndex] = useState<
+    number | null
+  >(null);
 
   const handlePostClick = (
     postNumber: string,
@@ -296,16 +304,21 @@ const FakeFact = () => {
           total={4}
         />
 
-        {currentQuestionIndex < totalQuestions && (currentQuestionIndex === 0 ||currentQuestionIndex === 1 ||currentQuestionIndex === 3 ) && (
-          <h2 className="text-2xl text-center my-8  font-normal">
-            Click to identify which one is <span className="text-[#5F237B] font-semibold" >Fact</span>
-          </h2>
-        )}
-        {currentQuestionIndex < totalQuestions && (currentQuestionIndex === 2  ) && (
-          <h2 className="text-2xl text-center my-8  font-normal">
-            Click to identify which one is real
-          </h2>
-        )}
+        {currentQuestionIndex < totalQuestions &&
+          (currentQuestionIndex === 0 ||
+            currentQuestionIndex === 1 ||
+            currentQuestionIndex === 3) && (
+            <h2 className="text-2xl text-center my-8  font-normal">
+              Click to identify which one is{" "}
+              <span className="text-[#5F237B] font-semibold">Fact</span>
+            </h2>
+          )}
+        {currentQuestionIndex < totalQuestions &&
+          currentQuestionIndex === 2 && (
+            <h2 className="text-2xl text-center my-8  font-normal">
+              Click to identify which one is real
+            </h2>
+          )}
 
         <div className="flex-1 flex items-start justify-center relative">
           {/* Feedback overlay that shows after images fade out */}
@@ -334,20 +347,27 @@ const FakeFact = () => {
                     {/* Show the incorrect image that was clicked */}
                     {selectedIncorrectImage && (
                       <div className="animate-fade-in">
-                        <img
-                          src={selectedIncorrectImage}
-                          alt="Selected incorrect image"
-                          className="h-[70vh] w-auto object-contain rounded-lg"
-                        />
+                        <div className="relative" id="imageContainer">
+                          <img
+                            src={selectedIncorrectImage}
+                            alt="Selected incorrect image"
+                            className="h-[70vh] w-auto max-w-2xl object-contain rounded-lg"
+                          />
+                          {selectedImageTooltip && (
+                            <div className="animate-fade-in absolute left-0 -top-10">
+                              <Tooltip description={selectedImageTooltip} />
+                            </div>
+                          )}
+                        </div>
                       </div>
                     )}
 
                     {/* Show tooltip for wrong answers next to the image */}
-                    {selectedImageTooltip && (
+                    {/* {selectedImageTooltip && (
                       <div className="animate-fade-in absolute left-[40%] top-0">
                         <Tooltip description={selectedImageTooltip} />
                       </div>
-                    )}
+                    )} */}
                     <div className="relative">
                       <div className="absolute -inset-4 rounded-xl bg-black/5 pointer-events-none" />
                       <img
