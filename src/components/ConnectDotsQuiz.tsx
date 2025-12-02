@@ -174,7 +174,7 @@ if (isComplete ||done) {
             return (
               <div
                 key={answer.id}
-                className={`rounded-tl-[42px] h-[20vh] rounded-tr-[42px] rounded-br-[42px] 
+                className={`rounded-tl-[42px] h-[16vh] rounded-tr-[42px] rounded-br-[42px] 
                   p-2 cursor-pointer transition-all bg-[#EFE8DD] px-4 hover:bg-[#FFA96D]
                   
                 `}
@@ -182,16 +182,16 @@ if (isComplete ||done) {
               >
              {!isSelected &&  <div className="group">
   <div className="flex items-center gap-4 mb-1">
-    <h3 className="font-normal text-black text-[1.5vw] bg-white rounded-full w-10 h-10 flex items-center justify-center group-hover:text-[#FFA96D]">
+    <h3 className="font-normal text-black text-[1.25vw] bg-white rounded-full w-10 h-10 flex items-center justify-center group-hover:text-[#FFA96D]">
       {optionLabel}
     </h3>
 
-    <h3 className="font-medium text-[1.5vw] text-black group-hover:text-white">
+    <h3 className="font-medium text-[1.25vw] text-black group-hover:text-white">
       {answer.Word}
     </h3>
   </div>
 
-  <p className="text-[#130719] text-[0.9vw] group-hover:text-white">
+  <p className="text-[#130719] text-[0.75vw] group-hover:text-white">
     {answer.Description}
   </p>
 </div>
