@@ -132,14 +132,14 @@ if (isComplete ||done) {
           
         />
       {/* <ModuleHeader src={"/opening13.png"} setDone={setDone} polarizationScore={score} module={3} heading="Fake or fact" description="Is everything not real?!" time={300}  left={8-currentQuestionIndex} total={8} /> */}
-      <ModuleHeader time={120} started={!showIntroModal} src={"/opening15.png"} heading="Behind the buzz" headingColor="#D0193E" description="Trace the spark that sets your feed on fire"  total={5} setDone={setDone}   left={1-currentIndex} polarizationScore={score} />
+      <ModuleHeader time={60} started={!showIntroModal} src={"/opening15.png"} heading="Behind the buzz" headingColor="#D0193E" description="Trace the spark that sets your feed on fire"  total={5} setDone={setDone}   left={1-currentIndex} polarizationScore={score} />
 
 
         {/* Round/Question Header */}
        
 
         {/* Image */}
-        <p className=" font-normal text-[24px] leading-[100%] tracking-normal text-center py-8 text-gray-800">
+        <p className=" font-normal text-[24px] leading-[100%] tracking-normal text-center py-6 text-gray-800">
   What might have made the creator post something that got so much attention?
 </p>
 <div className="w-full flex justify-center items-end mb-8 md:mb-10" >
@@ -154,7 +154,7 @@ if (isComplete ||done) {
   )}
 </div>
 {/* Views badge graphic placed next to image (bottom-aligned) */}
-<img src="/Group181.svg" alt="views badge" className="-ml-20 h-[43vh] self-end z-10" />
+<img src="/m5tt.svg" alt="views badge" className="-ml-20 h-[43vh] self-end z-10" />
 </div>
 
 

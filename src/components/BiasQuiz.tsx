@@ -359,7 +359,7 @@ calculated={""}
           <div className=" rounded-tl-[50px] rounded-tr-[50px] rounded-br-[50px]
  relative p-4 w-[80%] mx-auto bg-[#EFE8DD] flex flex-col items-center  ">
             
-          <div className="absolute   z-50" style={{ top: '-16vh', left:'-3vh' }}>
+          <div className="absolute   z-50" style={{ top: '-18vh', left:'-16vh' }}>
  { selections.length >= Object.keys(biasedPhrases).length &&
   <TooltipCarousel
       slides={[
@@ -370,8 +370,7 @@ calculated={""}
       header={true}
     />}
   </div>
-         
-          <div 
+        <div 
   ref={headlineRef}
   className="text-xl font-medium leading-relaxed text-center select-none"
   onMouseUp={handleMouseUp}
@@ -449,6 +448,7 @@ import { decreaseScore } from "@/store/topicsSlice";
 import TooltipCarousel from "./TooltipCarousel";
 import ModuleHeader from "./ModuleHeader";
 import OpeningModal from "./OpeningModal";
+import { truncateSync } from "fs";
 
 
 

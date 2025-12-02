@@ -339,7 +339,7 @@ const FakeFact = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-52">
+                  <div className="flex items-center gap-24">
                     {/* Show the incorrect image that was clicked */}
                     {selectedIncorrectImage && currentQuestionIndex != 2 &&(
                       <div className="animate-fade-in">
@@ -350,7 +350,7 @@ const FakeFact = () => {
                             className="h-[75vh] w-auto max-w-2xl object-contain rounded-lg"
                           />
                           {selectedImageTooltip && (
-                            <div className="animate-fade-in absolute left-0 -top-10">
+                            <div className="animate-fade-in absolute -left-48 top-8">
                               <Tooltip description={selectedImageTooltip} />
                             </div>
                           )}
@@ -364,8 +364,8 @@ const FakeFact = () => {
                         <Tooltip description={selectedImageTooltip} />
                       </div>
                     )} */}
-              {  currentQuestionIndex != 2 &&    <div className=" bg-[#EFE8DD] relative">
-                      <div className="absolute bg-[#EFE8DD] rounded-xl  pointer-events-none" />
+              {  currentQuestionIndex != 2 &&    <div className=" rounded-[14px]   bg-[#EFE8DD] relative">
+                      <div className="absolute bg-[#EFE8DD] pointer-events-none " />
                       <img
                         src="/trynot.svg"
                         alt="Try Again"
@@ -477,34 +477,88 @@ const FakeFact = () => {
           ) : currentQuestionIndex === 3 ? (
             <div
               className={cn(
-                "flex items-center justify-center gap-24 transition-all duration-500 overflow-hidden",
+                "flex items-center justify-center gap-16 transition-all duration-500 overflow-hidden",
                 showResult && "opacity-0 pointer-events-none"
               )}
             >
               {allQuestions?.question2 &&
-                allQuestions?.question2?.map((post, i) => (
+                // allQuestions?.question2?.map((post, i) => (
+                <>
                   <div
-                    key={i}
+                    key={1}
                     className="relative flex justify-center max-w-[30%]"
                   >
                     <img
-                      src={post.src}
-                      alt={`Post ${i + 1}`}
+                      src={allQuestions?.question2[0].src}
+                      alt={`Post ${1 + 1}`}
                       className={cn(
                         "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
                         !showResult && "hover:scale-105 hover:shadow-lg"
                       )}
                       onClick={() =>
                         handlePostClick(
-                          `post2-${i}`,
-                          post.correct,
-                          post.tooltip,
-                          post.src
+                          `post2-${1}`,
+                          allQuestions?.question2[0].correct,
+                          allQuestions?.question2[0].tooltip,
+                          allQuestions?.question2[0].src
                         )
                       }
                     />
                   </div>
-                ))}
+                  <div className="flex items-center justify-center">
+                <span className="font-semibold text-[24px] leading-[100%] tracking-[0] text-center">
+                  VS
+                </span>
+              </div>
+                   <div
+                   key={1}
+                   className="relative flex justify-center max-w-[30%]"
+                 >
+                   <img
+                     src={allQuestions?.question2[1].src}
+                     alt={`Post ${2 + 1}`}
+                     className={cn(
+                       "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+                       !showResult && "hover:scale-105 hover:shadow-lg"
+                     )}
+                     onClick={() =>
+                       handlePostClick(
+                         `post2-${2}`,
+                         allQuestions?.question2[1].correct,
+                         allQuestions?.question2[1].tooltip,
+                         allQuestions?.question2[1].src
+                       )
+                     }
+                   />
+                 </div>
+                 <div className="flex items-center justify-center">
+                <span className="font-semibold text-[24px] leading-[100%] tracking-[0] text-center">
+                  VS
+                </span>
+              </div>
+                  <div
+                  key={1}
+                  className="relative flex justify-center max-w-[30%]"
+                >
+                  <img
+                    src={allQuestions?.question2[2].src}
+                    alt={`Post ${1 + 1}`}
+                    className={cn(
+                      "h-[75vh] w-auto object-contain rounded-lg cursor-pointer transition-all duration-300",
+                      !showResult && "hover:scale-105 hover:shadow-lg"
+                    )}
+                    onClick={() =>
+                      handlePostClick(
+                        `post2-${2}`,
+                        allQuestions?.question2[2].correct,
+                        allQuestions?.question2[2].tooltip,
+                        allQuestions?.question2[2].src
+                      )
+                    }
+                  />
+                </div>
+                </>
+                }
             </div>
           ) : currentQuestionIndex === 2 ? (
             <div
