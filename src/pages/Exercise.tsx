@@ -108,7 +108,7 @@ const [done,setDone] = useState(false)
       const shuffled = filtered.sort(() => Math.random() - 0.5);
       setAllPosts(shuffled);
       setVisiblePosts(shuffled.slice(0, MAX_VISIBLE));
-      setIsLoading(true);
+      setIsLoading(false);
     };
   
     fetchImages();
