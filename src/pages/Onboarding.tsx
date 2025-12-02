@@ -137,7 +137,7 @@ export default function Onboarding() {
               onClick={() => navigate("/login")}
               className="bg-[#FF7A00] text-white text-lg flex justify-center items-center px-6 py-2 rounded-md hover:bg-[#e86a00] transition"
             >
-              Click here to start <ChevronRight/>
+              Click here to start TEST <ChevronRight/>
             </button>
           </div>
         </div>
