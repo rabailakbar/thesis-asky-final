@@ -206,7 +206,8 @@ const [done,setDone] = useState(false)
 //   level="Advanced"
 //   />
 
-  
+  const description =
+  <div className=" text-[1.25vw] font-normal leading-tight">Time to see the world from someone else’s point of view! Swipe the cards to get your role, then use your best mix facts and emotions to explain or defend the scenario like it’s your own. The stronger (and more empathetic) your case, the more your polarization score drops. Ready to play your way into someone else’s perspective? 🎭💡</div>
   if (currentScreen === "roleSelection") {
       return (
           <div className="p-12">
@@ -216,6 +217,10 @@ const [done,setDone] = useState(false)
                       moduleId={"M7"}
                       setShowIntroModal={setShowIntroModal}
                       src={"/opening17.png"}
+                      phase="III"
+                      module="Module 7: In their shoes"
+                      description={description}
+                      level={"Advanced"}
                   />        <div className="max-w-7xl mx-auto">
                       {/* Header */}
                       <ModuleHeader src={"/opening17.png"} headingColor="#FF803E"  setDone={setDone} polarizationScore={score} module={7} heading="In their shoes" description="Step into another role, and make their world make sense." time={120} started={!showIntroModal} left={1}  />

@@ -613,7 +613,7 @@ console.log("check",selectedIncorrectImage)
                 (src, i) =>
                   src && (
                     <CarouselItem key={i}>
-                      <div className={`bg-[#EFE8DD] ${selectedIncorrectImage?"p-5":""}  relative flex items-center justify-center h-full   `}>
+                      <div className={`bg-[#EFE8DD] ${selectedIncorrectImage?"p-8":""}  relative flex items-center justify-center h-[50vh]   `}>
                         <img
                           src={isCorrectAnswer?"/try.svg":(!selectedIncorrectImage?src.src:"/trynot.svg")}
                           alt={`Carousel image ${i + 1}`}
@@ -621,6 +621,7 @@ console.log("check",selectedIncorrectImage)
                             "object-cover  w-full h-full cursor-pointer transition-all duration-300",
                             !showResult && !src.intro && "hover:scale-[1.02]",
                             src.intro && "cursor-default",
+                            selectedIncorrectImage?"w-[80%]":""
                             
                           )}
                           onClick={() => {
